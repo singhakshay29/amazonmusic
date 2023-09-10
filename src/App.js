@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import Home from "./Components/Home";
@@ -15,9 +15,9 @@ import SignUp from "./SignUp";
 function App() {
   const [songPlayId, setSongPlayId] = useState("");
 
-  function updateSongPlayId(id) {
+  const updateSongPlayId = useCallback((id) => {
     setSongPlayId(id);
-  }
+  }, [songPlayId]);
 
   return (
     <div className="App">

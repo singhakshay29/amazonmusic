@@ -15,13 +15,15 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CardContent from "@mui/material/CardContent";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
-import { useRef } from "react";
+import { useRef, memo } from "react";
 
-export default function MusicPlayerComponents({ songPlayId }) {
+export default memo(function MusicPlayerComponents({ songPlayId }) {
+
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [isMute, setIsMute] = useState(false);
   const [song, setSong] = useState([]);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
+  const audioRef = useRef(null);
 
   async function getTheDeatails(sid, sIndex = null) {
     try {
@@ -51,20 +53,26 @@ export default function MusicPlayerComponents({ songPlayId }) {
     }
   }
 
+  // useEffect(() => {
+  //   getTheDeatails(songPlayId);
+  // }, [songPlayId]);
+
+  
+
   useEffect(() => {
     getTheDeatails(songPlayId);
-  }, [songPlayId]);
-
-  const audioRef = useRef(null);
-
-  useEffect(() => {
     if (audioRef?.current && songPlayId) {
       audioRef.current.src = `https://newton-project-resume-backend.s3.amazonaws.com/audio/${songPlayId}.mp3`;
-      audioRef.current.play().then(() => {
+      const isPlaying = audioRef.current.currentTime > 0 && !audioRef.current.paused && !audioRef.current.ended 
+    && audioRef.current.readyState > audioRef.current.HAVE_CURRENT_DATA;
+    setTimeout(()=> {
+      !isPlaying && audioRef.current.play().then(() => {
         setIsPlaying(true);
       });
+    }, 0);
+    
     }
-  }, [songPlayId]);
+  }, []);
 
   // const playPauseToggle = () => {
   //   if (audioRef.current) {
@@ -77,16 +85,16 @@ export default function MusicPlayerComponents({ songPlayId }) {
   //   setIsPlaying((prevState) => !prevState);
   // };
   const playPauseToggle = () => {
-    if (audioRef.current) {
-      if (audioRef.current.paused) {
-        audioRef.current.src = song[0]?.audio_url; // Set the new audio source
-        audioRef.current.load(); // Load the new audio
-        audioRef.current.play(); // Play the new audio
-      } else {
-        audioRef.current.pause();
-      }
-    }
-    setIsPlaying((prevState) => !prevState);
+    // if (audioRef.current) {
+    //   if (audioRef.current.paused) {
+    //     audioRef.current.src = song[0]?.audio_url; // Set the new audio source
+    //     audioRef.current.load(); // Load the new audio
+    //     audioRef.current.play(); // Play the new audio
+    //   } else {
+    //     audioRef.current.pause();
+    //   }
+    // }
+    // setIsPlaying((prevState) => !prevState);
   };
 
   // const handletimeUpdate = () => {
@@ -221,4 +229,4 @@ export default function MusicPlayerComponents({ songPlayId }) {
       </div>
     </>
   );
-}
+});
