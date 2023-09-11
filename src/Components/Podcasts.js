@@ -19,6 +19,7 @@ export default function Podcasts() {
   const [songs, setSong] = useState([]);
   const theme = useTheme();
   const [page, setPage] = useState(1);
+  const [activeIndex, setActiveSongIndex] = useState();
   const cardsPerPage = 9;
 
   async function getTheDeatails() {
@@ -38,32 +39,26 @@ export default function Podcasts() {
 
   useEffect(() => {
     getTheDeatails();
-  }, []);
-  useEffect(() => {
-    // Add an event listener to detect when the user scrolls down
     window.addEventListener("scroll", loadMoreCards);
     return () => {
-      // Remove the event listener when the component unmounts
       window.removeEventListener("scroll", loadMoreCards);
     };
   }, []);
   const loadMoreCards = () => {
-    // Check if the user has scrolled to the bottom of the page
     if (
       window.innerHeight + window.scrollY >=
       document.documentElement.scrollHeight
     ) {
-      // Calculate the index of the last card to be displayed
       const endIndex = page * cardsPerPage;
-      // Increment the page number
       setPage(page + 1);
-      // Slice the songs array to get the next set of cards
       const nextCards = songs.slice(page * cardsPerPage, endIndex);
       setSong((prevSongs) => [...prevSongs, ...nextCards]);
     }
   };
 
-  const handlePlayPause = () => {
+  const handlePlayPause = (index) => {
+    console.log(index);
+    setActiveSongIndex(index);
     setIsPlaying((prevState) => !prevState);
   };
 
@@ -115,8 +110,8 @@ export default function Podcasts() {
                 <Button
                   aria-label="play/pause"
                   style={{ color: "white" }}
-                  onClick={handlePlayPause}>
-                  {isPlaying ? (
+                  onClick={() => handlePlayPause(index)}>
+                  {activeIndex === index && isPlaying ? (
                     <PauseIcon sx={{ height: 38, width: 38 }} />
                   ) : (
                     <PlayArrowIcon sx={{ height: 38, width: 38 }} />

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import Home from "./Components/Home";
@@ -14,10 +14,14 @@ import SignIn from "./Components/SignIn";
 import SignUp from "./SignUp";
 function App() {
   const [songPlayId, setSongPlayId] = useState("");
+  const [isPlaying, setIsPlaying] = useState(false);
 
-  const updateSongPlayId = useCallback((id) => {
+  function updateSongPlayId(id) {
     setSongPlayId(id);
-  }, [songPlayId]);
+  }
+  const togglePlayPause = () => {
+    setIsPlaying(!isPlaying);
+  };
 
   return (
     <div className="App">
@@ -27,7 +31,12 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={<Home updateSongPlayCallback={updateSongPlayId} />}
+            element={
+              <Home
+                updateSongPlayCallback={updateSongPlayId}
+                togglePlayPause={togglePlayPause}
+              />
+            }
           />
           <Route path="/podcasts" element={<Podcasts />} />
           <Route path="/library" element={<Library />} />

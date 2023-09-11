@@ -11,14 +11,13 @@ import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import PlaylistPlayIcon from "@mui/icons-material/PlaylistPlay";
 import CardActions from "@mui/material/CardActions";
 import PauseIcon from "@mui/icons-material/Pause";
-import { useParams } from "react-router-dom";
+//import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CardContent from "@mui/material/CardContent";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import { useRef, memo } from "react";
 
 export default memo(function MusicPlayerComponents({ songPlayId }) {
-
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [isMute, setIsMute] = useState(false);
   const [song, setSong] = useState([]);
@@ -41,61 +40,81 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
               setCurrentSongIndex(index);
               return true;
             }
+            return false;
           });
         }
 
         setSong(filterDataRomantic);
+        setIsPlaying(false);
         console.log(filterDataRomantic);
         console.log(filterDataRomantic[0]?.title);
+        console.log(filterDataRomantic[0]?.audio_url);
       }
     } catch (error) {
       console.error("Something went Wrong");
     }
   }
 
-  // useEffect(() => {
-  //   getTheDeatails(songPlayId);
-  // }, [songPlayId]);
-
-  
-
   useEffect(() => {
     getTheDeatails(songPlayId);
-    if (audioRef?.current && songPlayId) {
-      audioRef.current.src = `https://newton-project-resume-backend.s3.amazonaws.com/audio/${songPlayId}.mp3`;
-      const isPlaying = audioRef.current.currentTime > 0 && !audioRef.current.paused && !audioRef.current.ended 
-    && audioRef.current.readyState > audioRef.current.HAVE_CURRENT_DATA;
-    setTimeout(()=> {
-      !isPlaying && audioRef.current.play().then(() => {
-        setIsPlaying(true);
-      });
-    }, 0);
-    
-    }
-  }, []);
+    // if (audioRef?.current && songPlayId) {
+    //   // (async () => {
 
+    //   //   const one = await Promise.resolve(1)
+
+    //   //   console.log(one)
+
+    //   //   const two = await delay(1000, 2)
+
+    //   //   console.log(two)
+
+    //   //   const three = await Promise.resolve(3)
+
+    //   //   console.log(three)
+
+    //   //   })()
+
+    //   setTimeout(() => {
+    //     audioRef.current.pause();
+    //   }, 0);
+
+    //   setTimeout(() => {
+    //     audioRef.current.src = `https://newton-project-resume-backend.s3.amazonaws.com/audio/${songPlayId}.mp3`;
+    //     const isPlaying =
+    //       audioRef.current.currentTime > 0 &&
+    //       !audioRef.current.paused &&
+    //       !audioRef.current.ended &&
+    //       audioRef.current.readyState > audioRef.current.HAVE_CURRENT_DATA;
+    //     !isPlaying &&
+    //       audioRef.current.play().then(() => {
+    //         setIsPlaying(true);
+    //       });
+    //   }, 1);
+    // }
+  }, [songPlayId]);
+
+  const playPauseToggle = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+    }
+    setIsPlaying((prevState) => !prevState);
+  };
   // const playPauseToggle = () => {
   //   if (audioRef.current) {
-  //     if (isPlaying) {
-  //       audioRef.current.play();
+  //     if (audioRef.current.paused) {
+  //       audioRef.current.src = song[0]?.audio_url; // Set the new audio source
+  //       audioRef.current.load(); // Load the new audio
+  //       audioRef.current.play(); // Play the new audio
   //     } else {
   //       audioRef.current.pause();
   //     }
   //   }
   //   setIsPlaying((prevState) => !prevState);
   // };
-  const playPauseToggle = () => {
-    // if (audioRef.current) {
-    //   if (audioRef.current.paused) {
-    //     audioRef.current.src = song[0]?.audio_url; // Set the new audio source
-    //     audioRef.current.load(); // Load the new audio
-    //     audioRef.current.play(); // Play the new audio
-    //   } else {
-    //     audioRef.current.pause();
-    //   }
-    // }
-    // setIsPlaying((prevState) => !prevState);
-  };
 
   // const handletimeUpdate = () => {
   //   const currentTime = audioRef.current.currentTime;
@@ -113,13 +132,13 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
   const playNextSong = () => {
     audioRef.current.pause();
     getTheDeatails("", currentSongIndex + 1);
-    setIsPlaying(true);
+    setIsPlaying(false);
   };
 
   const playPreviousSong = () => {
     audioRef.current.pause();
     getTheDeatails("", currentSongIndex - 1);
-    setIsPlaying(true);
+    setIsPlaying(false);
   };
 
   const playLoopSong = () => {
@@ -185,7 +204,7 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
             }}
             onClick={playPauseToggle}>
             <audio ref={audioRef} src={song[0]?.audio_url} />
-            {isPlaying ? <PlayArrowIcon /> : <PauseIcon />}
+            {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
           </Button>
           <Button
             sx={{

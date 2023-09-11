@@ -10,8 +10,9 @@ import Button from "@mui/material/Button";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import AddIcon from "@mui/icons-material/Add";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import PauseIcon from "@mui/icons-material/Pause";
 
-const Home = ({ updateSongPlayCallback }) => {
+const Home = ({ updateSongPlayCallback, togglePlayPause }) => {
   const [romanticData, setromanticData] = useState([]);
   const [happyData, setHappyData] = useState([]);
   const [excitedData, setExcitedData] = useState([]);
@@ -21,6 +22,7 @@ const Home = ({ updateSongPlayCallback }) => {
   const [hoverStates, setHoverStates] = useState(
     Array(trendingSongs.length).fill(false)
   );
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const handleMouseEnter = (index) => {
     const newHoverStates = [...hoverStates];
@@ -168,75 +170,79 @@ const Home = ({ updateSongPlayCallback }) => {
           trendingSongs.map((album, index) => (
             <Card key={album.id} sx={{ width: 190, margin: "10px 20px" }}>
               <CardActionArea>
-                <Link to={`musicplayer/${album._id}`}>
-                  <CardMedia
-                    component="img"
-                    height="200"
-                    image={album.thumbnail}
-                    alt={album.title}
-                    onMouseOver={() => handleMouseEnter(index)}
-                    onMouseLeave={() => handleMouseLeave(index)}
-                    style={{
-                      transition: "opacity 0.1s ease",
-                      opacity: hoverStates[index] ? "0.9" : "1",
-                      cursor: "pointer",
-                    }}></CardMedia>
-                  {hoverStates[index] && (
-                    <>
-                      <Button
-                        variant="contained"
-                        style={{
-                          position: "absolute",
-                          top: "35%",
-                          left: "50%",
-                          transform: "translate(-50%, -50%)",
-                          zIndex: 1,
-                          background: "transparent",
-                          color: "white",
-                          borderRadius: "80%",
-                          backgroundColor: "rgba(0, 0, 0, 0.5)",
-                        }}
-                        onMouseEnter={() => handleMouseEnter(index)}
-                        onMouseLeave={() => handleMouseLeave(index)}
-                        onClick={() => {
-                          updateSongPlayCallback(album._id);
-                        }}>
+                <CardMedia
+                  component="img"
+                  height="200"
+                  image={album.thumbnail}
+                  alt={album.title}
+                  onMouseOver={() => handleMouseEnter(index)}
+                  onMouseLeave={() => handleMouseLeave(index)}
+                  style={{
+                    transition: "opacity 0.1s ease",
+                    opacity: hoverStates[index] ? "0.6" : "1",
+                    cursor: "pointer",
+                  }}></CardMedia>
+                {hoverStates[index] && (
+                  <>
+                    <Button
+                      variant="contained"
+                      style={{
+                        position: "absolute",
+                        top: "35%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        zIndex: 1,
+                        background: "FFFFFF26",
+                        color: "white",
+                        borderRadius: "81%",
+                        backgroundColor: "rgba(0, 0, 0, 0.5)",
+                      }}
+                      onMouseEnter={() => handleMouseEnter(index)}
+                      onMouseLeave={() => handleMouseLeave(index)}
+                      onClick={() => {
+                        updateSongPlayCallback(album._id);
+                        togglePlayPause();
+                        setIsPlaying(!isPlaying);
+                      }}>
+                      {isPlaying ? (
+                        <PauseIcon style={{ fontSize: "2.5rem" }} />
+                      ) : (
                         <PlayArrowIcon style={{ fontSize: "2.5rem" }} />
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        style={{
-                          position: "absolute",
-                          top: "35%",
-                          left: "20%",
-                          transform: "translate(-50%, -50%)",
-                          zIndex: 1,
-                          background: "transparent",
-                        }}
-                        onMouseEnter={() => handleMouseEnter(index)}
-                        onMouseLeave={() => handleMouseLeave(index)}>
-                        <AddIcon />
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        style={{
-                          position: "absolute",
-                          top: "35%",
-                          left: "80%",
-                          transform: "translate(-50%, -50%)",
-                          zIndex: 1,
-                          background: "transparent",
-                          border: "none",
-                        }}
-                        onMouseEnter={() => handleMouseEnter(index)}
-                        onMouseLeave={() => handleMouseLeave(index)}>
-                        <MoreHorizIcon />
-                      </Button>
-                    </>
-                  )}
-                </Link>
+                      )}
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      style={{
+                        position: "absolute",
+                        top: "35%",
+                        left: "20%",
+                        transform: "translate(-50%, -50%)",
+                        zIndex: 1,
+                        background: "transparent",
+                      }}
+                      onMouseEnter={() => handleMouseEnter(index)}
+                      onMouseLeave={() => handleMouseLeave(index)}>
+                      <AddIcon />
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      style={{
+                        position: "absolute",
+                        top: "35%",
+                        left: "80%",
+                        transform: "translate(-50%, -50%)",
+                        zIndex: 1,
+                        background: "transparent",
+                        border: "none",
+                      }}
+                      onMouseEnter={() => handleMouseEnter(index)}
+                      onMouseLeave={() => handleMouseLeave(index)}>
+                      <MoreHorizIcon />
+                    </Button>
+                  </>
+                )}
                 <CardContent
                   style={{
                     height: "100px",

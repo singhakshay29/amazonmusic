@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
-//import IconButton from "@mui/material/IconButton";
+import IconButton from "@mui/material/IconButton";
 // import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 //import AccountCircle from "@mui/icons-material/AccountCircle";
@@ -35,29 +35,32 @@ function Navbar() {
   const handleInputValue = () => {
     console.log(searchItem);
     setSearchItem("");
+    getTheDeatails();
   };
   async function getTheDeatails() {
-    const storedsongs = localStorage.getItem("musicData");
-    // const storedalbum = localStorage.getItem("albumData");
+    //const storedsongs = localStorage.getItem("musicData");
+    const storedalbum = localStorage.getItem("albumData");
 
-    const parsedDatasongs = JSON.parse(storedsongs);
-    // const parsedDataalbum = JSON.parse(storedalbum);
+    //const parsedDatasongs = JSON.parse(storedsongs);
+    const parsedDataalbum = JSON.parse(storedalbum);
 
-    const songsArray = parsedDatasongs.musicData;
-    // const songsSecondArray = parsedDataalbum.albumData;
+    // const songsArray = parsedDatasongs.musicData;
+    const songsSecondArray = parsedDataalbum.albumData;
+    console.log(songsSecondArray);
 
-    // const filterArray = songsArray.filter(
-    //   (item) => item.artist.map((artist) => console.log(artist.name))
-    //   // item.artist((artist) =>
-    //   //   artist.name.toLowerCase().includes(searchItem.toLocaleLowerCase())
-    //   // )
-    // );
+    const filterArray = songsSecondArray.filter((item) => {
+      const filterArraysArtist = item.artists.filter((artist) => {
+        if (
+          artist.name.toLowerCase().includes(searchItem.toLocaleLowerCase())
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      console.log(filterArraysArtist);
+    });
   }
-
-  useEffect(() => {
-    getTheDeatails();
-  }, []);
-
   return (
     <AppBar position="static">
       <Toolbar
@@ -122,18 +125,33 @@ function Navbar() {
             width: "256px",
             borderRadius: "50px",
             cursor: "pointer",
-            display: "block",
-            paddingInlineEnd: "60px",
-            paddingiInlineStart: "24px",
-            border: "none",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "4px 6px",
+            border: "1px solid white",
+            backgroundColor: "#fff",
             fontSize: "14px",
             outline: "none",
           }}>
           <InputBase
+            onChange={handleSearchItem}
             placeholder="Search..."
             value={searchItem}
-            onChange={handleSearchItem}></InputBase>
-          <SearchIcon onClick={handleInputValue} />
+            style={{
+              flex: 1,
+              marginRight: "8px",
+              border: "none",
+              outline: "none",
+            }}
+          />
+          <IconButton
+            style={{
+              padding: "6px",
+              background: "none",
+            }}>
+            <SearchIcon onClick={handleInputValue} />
+          </IconButton>
         </Card>
         <NavLink to="signin">
           <AccountCircleIcon sx={{ fontSize: "2rem" }} />
