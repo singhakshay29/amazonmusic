@@ -43,7 +43,7 @@ export default function Podcasts() {
     return () => {
       window.removeEventListener("scroll", loadMoreCards);
     };
-  }, []);
+  });
   const loadMoreCards = () => {
     if (
       window.innerHeight + window.scrollY >=

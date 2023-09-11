@@ -11,6 +11,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import AddIcon from "@mui/icons-material/Add";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import PauseIcon from "@mui/icons-material/Pause";
+import CardComponent from "./CardComponent";
 
 const Home = ({ updateSongPlayCallback, togglePlayPause }) => {
   const [romanticData, setromanticData] = useState([]);
@@ -45,14 +46,12 @@ const Home = ({ updateSongPlayCallback, togglePlayPause }) => {
         const filterDataRomantic = songsArray.filter(
           (songs) => songs.mood === "romantic"
         );
-        // console.log(filterDataRomantic);
         setromanticData(filterDataRomantic);
 
         const filterDataExcited = songsArray.filter(
           (songs) => songs.mood === "excited"
         );
         setExcitedData(filterDataExcited);
-
         const filterDataHappy = songsArray.filter(
           (songs) => songs.mood === "happy"
         );
@@ -150,10 +149,6 @@ const Home = ({ updateSongPlayCallback, togglePlayPause }) => {
   useEffect(() => {
     getThedataRomantic();
     getThedataAlbum();
-
-    return () => {
-      console.log("unmount");
-    };
   }, []);
 
   return (
@@ -318,40 +313,17 @@ const Home = ({ updateSongPlayCallback, togglePlayPause }) => {
           marginTop: "1rem", // Enable horizontal scrolling
         }}>
         {romanticData.length > 0 &&
-          romanticData.map((album) => (
-            <Card key={album.id} sx={{ minWidth: 190, margin: "10px 20px" }}>
-              <CardActionArea>
-                <Link to={`/playlist/${album._id}`}>
-                  <CardMedia
-                    component="img"
-                    height="200"
-                    image={album.thumbnail}
-                    alt={album.title}
-                  />
-                </Link>
-                <CardContent
-                  style={{
-                    height: "100px",
-                    width: "12em",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                    background: "black",
-                    color: "white",
-                  }}>
-                  <Typography
-                    gutterBottom
-                    variant="h6"
-                    component="div"
-                    style={{ overflow: "scroll" }}>
-                    {album.title}
-                  </Typography>
-                  <Typography variant="body2" color="rgba(255, 255, 255, 0.6)">
-                    {album.artist[0].name}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
+          romanticData.map((album, index) => (
+            <CardComponent
+              album={album}
+              index={index}
+              handleMouseEnter={handleMouseEnter}
+              handleMouseLeave={handleMouseLeave}
+              hoverStates={hoverStates}
+              updateSongPlayCallback={updateSongPlayCallback}
+              togglePlayPause={togglePlayPause}
+              isPlaying={isPlaying} // Pass isPlaying as a prop
+            />
           ))}
       </div>
       <Typography variant="h4">Happy Songs</Typography>
@@ -363,40 +335,17 @@ const Home = ({ updateSongPlayCallback, togglePlayPause }) => {
           marginTop: "1rem", // Enable horizontal scrolling
         }}>
         {happyData.length > 0 &&
-          happyData.map((album) => (
-            <Card key={album.id} sx={{ minWidth: 190, margin: "10px 20px" }}>
-              <CardActionArea>
-                <Link to={`/playlist/${album._id}`}>
-                  <CardMedia
-                    component="img"
-                    height="200"
-                    image={album.thumbnail}
-                    alt={album.title}
-                  />
-                </Link>
-                <CardContent
-                  style={{
-                    height: "100px",
-                    width: "12em",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                    background: "black",
-                    color: "white",
-                  }}>
-                  <Typography
-                    gutterBottom
-                    variant="h6"
-                    component="div"
-                    style={{ overflow: "scroll" }}>
-                    {album.title}
-                  </Typography>
-                  <Typography variant="body2" color="rgba(255, 255, 255, 0.6)">
-                    {album.artist[0].name}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
+          happyData.map((album, index) => (
+            <CardComponent
+              album={album}
+              index={index}
+              handleMouseEnter={handleMouseEnter}
+              handleMouseLeave={handleMouseLeave}
+              hoverStates={hoverStates}
+              updateSongPlayCallback={updateSongPlayCallback}
+              togglePlayPause={togglePlayPause}
+              isPlaying={isPlaying} // Pass isPlaying as a prop
+            />
           ))}
       </div>
       <Typography variant="h4">Excited Songs</Typography>
@@ -408,40 +357,17 @@ const Home = ({ updateSongPlayCallback, togglePlayPause }) => {
           marginTop: "1rem", // Enable horizontal scrolling
         }}>
         {excitedData.length > 0 &&
-          excitedData.map((album) => (
-            <Card key={album.id} sx={{ minWidth: 190, margin: "10px 20px" }}>
-              <CardActionArea>
-                <Link to={`/playlist/${album._id}`}>
-                  <CardMedia
-                    component="img"
-                    height="200"
-                    image={album.thumbnail}
-                    alt={album.title}
-                  />
-                </Link>
-                <CardContent
-                  style={{
-                    height: "100px",
-                    width: "12em",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                    background: "black",
-                    color: "white",
-                  }}>
-                  <Typography
-                    gutterBottom
-                    variant="h6"
-                    component="div"
-                    style={{ overflow: "scroll" }}>
-                    {album.title}
-                  </Typography>
-                  <Typography variant="body2" color="rgba(255, 255, 255, 0.6)">
-                    {album.artist[0].name}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
+          excitedData.map((album, index) => (
+            <CardComponent
+              album={album}
+              index={index}
+              handleMouseEnter={handleMouseEnter}
+              handleMouseLeave={handleMouseLeave}
+              hoverStates={hoverStates}
+              updateSongPlayCallback={updateSongPlayCallback}
+              togglePlayPause={togglePlayPause}
+              isPlaying={isPlaying} // Pass isPlaying as a prop
+            />
           ))}
       </div>
       <Typography variant="h4">Sad Songs</Typography>
@@ -453,40 +379,17 @@ const Home = ({ updateSongPlayCallback, togglePlayPause }) => {
           marginTop: "1rem", // Enable horizontal scrolling
         }}>
         {sadData.length > 0 &&
-          sadData.map((album) => (
-            <Card key={album.id} sx={{ minWidth: 190, margin: "10px 20px" }}>
-              <CardActionArea>
-                <Link to={`/playlist/${album._id}`}>
-                  <CardMedia
-                    component="img"
-                    height="200"
-                    image={album.thumbnail}
-                    alt={album.title}
-                  />
-                </Link>
-                <CardContent
-                  style={{
-                    height: "100px",
-                    width: "12em",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                    background: "black",
-                    color: "white",
-                  }}>
-                  <Typography
-                    gutterBottom
-                    variant="h6"
-                    component="div"
-                    style={{ overflow: "scroll" }}>
-                    {album.title}
-                  </Typography>
-                  <Typography variant="body2" color="rgba(255, 255, 255, 0.6)">
-                    {album.artist[0]?.name}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
+          sadData.map((album, index) => (
+            <CardComponent
+              album={album}
+              index={index}
+              handleMouseEnter={handleMouseEnter}
+              handleMouseLeave={handleMouseLeave}
+              hoverStates={hoverStates}
+              updateSongPlayCallback={updateSongPlayCallback}
+              togglePlayPause={togglePlayPause}
+              isPlaying={isPlaying} // Pass isPlaying as a prop
+            />
           ))}
       </div>
     </Container>

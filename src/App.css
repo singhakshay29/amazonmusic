@@ -2,16 +2,36 @@ body {
   color: white;
   background-color: #000;
 }
-/* .row-poster {
-  width: 100%;
-  object-fit: contain;
-  margin-right: 10px;
-  max-height: 150px;
-  transition: transform 550ms;
+/* .container {
+  position: relative;
 }
-.row-posterLarge:hover {
-  transform: scale(1.09);
+.container:hover .overlay {
+  background: #d10a0a;
 }
-.row-posterLarge {
-  max-height: 250px;
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.7);
 } */
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.7),
+    rgba(0, 0, 0, 0.7)
+  );
+  opacity: 0; /* Initially hidden */
+  transition: opacity 0.3s ease; /* Smooth transition for opacity */
+  pointer-events: none;
+  /* Allow mouse events to pass through the overlay */
+
+  border: "10px solid red";
+}
+
+.container:hover .overlay {
+  opacity: 1; /* Show the overlay on hover */
+}
