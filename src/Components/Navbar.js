@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
 // import MenuIcon from "@mui/icons-material/Menu";
@@ -11,56 +10,37 @@ import SearchIcon from "@mui/icons-material/Search";
 // import MenuItem from '@mui/material/MenuItem';
 //import Menu from "@mui/material/Menu";
 import Card from "@mui/material/Card";
-import { CardMedia } from "@mui/material";
+import { CardMedia, ListItem } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import PodcastsIcon from "@mui/icons-material/Podcasts";
 import HeadphonesIcon from "@mui/icons-material/Headphones";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+//import { useLocation } from "react-router-dom";
 
-function Navbar() {
-  const [searchItem, setSearchItem] = useState("");
+function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
+  //const location = useLocation();
+  // const [searchItem, setSearchItem] = useState("");
+  const [isDropdownOpen, setIsDropDownOpen] = useState(false);
 
   const navLinkStyle = ({ isActive }) => {
     return {
-      color: isActive ? "red" : "normal",
-      TextDecoration: isActive ? "none" : "underline",
+      color: isActive ? "rgb(37, 209, 218)" : "white",
     };
   };
 
-  const handleSearchItem = (e) => {
-    setSearchItem(e.target.value);
+  const toggleDropDown = () => {
+    setIsDropDownOpen(!isDropdownOpen);
   };
 
-  const handleInputValue = () => {
-    console.log(searchItem);
-    setSearchItem("");
-    getTheDeatails();
+  const handleMouseEnter = () => {
+    setIsDropDownOpen(true);
   };
-  async function getTheDeatails() {
-    //const storedsongs = localStorage.getItem("musicData");
-    const storedalbum = localStorage.getItem("albumData");
 
-    //const parsedDatasongs = JSON.parse(storedsongs);
-    const parsedDataalbum = JSON.parse(storedalbum);
+  const handleMouseLeave = () => {
+    setIsDropDownOpen(false);
+  };
 
-    // const songsArray = parsedDatasongs.musicData;
-    const songsSecondArray = parsedDataalbum.albumData;
-    console.log(songsSecondArray);
-
-    const filterArray = songsSecondArray.filter((item) => {
-      const filterArraysArtist = item.artists.filter((artist) => {
-        if (
-          artist.name.toLowerCase().includes(searchItem.toLocaleLowerCase())
-        ) {
-          return true;
-        } else {
-          return false;
-        }
-      });
-      console.log(filterArraysArtist);
-    });
-  }
   return (
     <AppBar position="static">
       <Toolbar
@@ -69,59 +49,85 @@ function Navbar() {
           display: "flex",
           justifyContent: "space-between",
           borderBottom: "1px solid grey",
+          alignItems: "center",
         }}>
+        <NavLink to="/">
+          <CardMedia
+            component="img"
+            style={{
+              backgroundColor: "black",
+              width: "150px",
+            }}
+            src="https://d5fx445wy2wpk.cloudfront.net/static/logo.svg"
+            alt="amazon music"
+          />
+        </NavLink>
         <Card
           style={{
             display: "flex",
             flexDirection: "row",
             backgroundColor: "black",
           }}>
-          <NavLink to="/" style={navLinkStyle}>
-            <CardMedia
-              component="img"
-              style={{
-                backgroundColor: "black",
-                width: "180px",
-                margin: "1rem",
-              }}
-              src="https://d5fx445wy2wpk.cloudfront.net/static/logo.svg"
-              alt="amazon music"
-            />
-          </NavLink>
-          <Typography
-            variant="h6"
-            style={{ flexGrow: 1 }}
-            sx={{ backgroundColor: "black", color: "white", margin: "1rem" }}>
-            <NavLink to="/">
-              <HomeIcon sx={{ mx: "1rem" }} />
-              Home
+          <ListItem style={{ marginRight: "1rem", fontSize: "1.1rem" }}>
+            <NavLink to="/" style={navLinkStyle}>
+              <HomeIcon sx={{ mx: "0.5rem", fontSize: "1.8rem" }} />
+              HOME
             </NavLink>
-          </Typography>
-          <Typography
-            variant="h6"
-            style={{ flexGrow: 1 }}
-            sx={{ backgroundColor: "black", color: "white", margin: "1rem" }}>
-            <NavLink to="/podcasts">
-              <PodcastsIcon sx={{ mx: "1rem" }} />
-              Podcasts
+          </ListItem>
+          <ListItem
+            style={{
+              fontSize: "1.2rem",
+              marginRight: "1rem",
+            }}>
+            <NavLink to="/podcasts" style={navLinkStyle}>
+              <PodcastsIcon sx={{ mx: "0.5rem", fontSize: "1.6rem" }} />
+              PODCASTS
             </NavLink>
-          </Typography>
-          <Typography
-            variant="h6"
-            style={{ flexGrow: 1 }}
-            sx={{ backgroundColor: "black", color: "white", margin: "1rem" }}>
-            <NavLink to="/">
-              <HeadphonesIcon sx={{ mx: "1rem" }} />
-              Library
-              <KeyboardArrowDownIcon sx={{ mx: "0.5rem" }} />
-            </NavLink>
-          </Typography>
+          </ListItem>
+          <ListItem
+            style={{ fontSize: "1.2rem", color: "white", cursor: "pointer" }}
+            onClick={toggleDropDown}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}>
+            <HeadphonesIcon sx={{ mx: "0.5rem" }} />
+            LIBRARY
+            <KeyboardArrowDownIcon sx={{ mx: "0.5rem" }} />
+            {isDropdownOpen && (
+              <Card
+                style={{
+                  backgroundColor: "red",
+                }}
+                sx={{
+                  mt: "3rem",
+                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.9)",
+                  borderBottom: "4px solid green",
+                  position: "absolute",
+                  top: "40%",
+                  left: 80,
+                  zIndex: 1,
+                }}>
+                <ul style={{ listStyleType: "none", position: "fixed" }}>
+                  <NavLink
+                    to="/trendingplaylist"
+                    style={{ color: "white", textDecoration: "none" }}
+                    onClick={toggleDropDown}>
+                    <li>Music</li>
+                  </NavLink>
+                  <br />
+                  <NavLink
+                    to="/podcasts"
+                    style={{ color: "white", textDecoration: "none" }}>
+                    <li>Podcasts</li>
+                  </NavLink>
+                  <br />
+                </ul>
+              </Card>
+            )}
+          </ListItem>
         </Card>
-        <Card sx={{ minWidth: 130 }}></Card>
-
         <Card
           style={{
-            margin: "auto",
+            marginLeft: "15rem",
             width: "256px",
             borderRadius: "50px",
             cursor: "pointer",
@@ -135,7 +141,7 @@ function Navbar() {
             outline: "none",
           }}>
           <InputBase
-            onChange={handleSearchItem}
+            onChange={handleTextToSearch}
             placeholder="Search..."
             value={searchItem}
             style={{
@@ -150,10 +156,10 @@ function Navbar() {
               padding: "6px",
               background: "none",
             }}>
-            <SearchIcon onClick={handleInputValue} />
+            <SearchIcon onClick={handleInputValueToSearch} />
           </IconButton>
         </Card>
-        <NavLink to="signin">
+        <NavLink to="/noresultfound">
           <AccountCircleIcon sx={{ fontSize: "2rem" }} />
         </NavLink>
 

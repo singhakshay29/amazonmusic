@@ -12,7 +12,6 @@ import PauseIcon from "@mui/icons-material/Pause";
 
 export default function CardComponent({
   album,
-  index,
   handleMouseEnter,
   handleMouseLeave,
   hoverStates,
@@ -24,7 +23,7 @@ export default function CardComponent({
     <>
       <Card
         className="container"
-        key={album.id}
+        key={album._id}
         sx={{ minWidth: 190, margin: "10px 20px" }}>
         <CardActionArea>
           <div className="overlay"></div>
@@ -33,9 +32,9 @@ export default function CardComponent({
             height="200"
             image={album.thumbnail}
             alt={album.title}
-            onMouseEnter={() => handleMouseEnter(index)}
-            onMouseLeave={() => handleMouseLeave(index)}></CardMedia>
-          {hoverStates[index] && (
+            onMouseOver={() => handleMouseEnter(album._id)}
+            onMouseLeave={() => handleMouseLeave(album._id)}></CardMedia>
+          {hoverStates[album._id] && (
             <>
               <Button
                 variant="contained"
@@ -44,19 +43,19 @@ export default function CardComponent({
                   top: "35%",
                   left: "50%",
                   transform: "translate(-50%, -50%)",
-                  zIndex: 1,
+                  zIndex: 8,
                   background: "FFFFFF26",
                   color: "white",
                   borderRadius: "81%",
                   backgroundColor: "rgba(0, 0, 0, 0.5)",
                 }}
-                onMouseOver={() => handleMouseEnter(index)}
-                onMouseLeave={() => handleMouseLeave(index)}
+                onMouseEnter={() => handleMouseEnter(album._id)}
+                onMouseLeave={() => handleMouseLeave(album._id)}
                 onClick={() => {
                   updateSongPlayCallback(album._id);
                   togglePlayPause(!isPlaying);
                 }}>
-                {isPlaying ? (
+                {isPlaying[album._id] ? (
                   <PauseIcon style={{ fontSize: "2.5rem" }} />
                 ) : (
                   <PlayArrowIcon style={{ fontSize: "2.5rem" }} />
@@ -73,8 +72,8 @@ export default function CardComponent({
                   zIndex: 1,
                   background: "transparent",
                 }}
-                onMouseEnter={() => handleMouseEnter(index)}
-                onMouseLeave={() => handleMouseLeave(index)}>
+                onMouseEnter={() => handleMouseEnter(album._id)}
+                onMouseLeave={() => handleMouseLeave(album._id)}>
                 <AddIcon />
               </Button>
               <Button
@@ -89,8 +88,8 @@ export default function CardComponent({
                   background: "transparent",
                   border: "none",
                 }}
-                onMouseEnter={() => handleMouseEnter(index)}
-                onMouseLeave={() => handleMouseLeave(index)}>
+                onMouseEnter={() => handleMouseEnter(album._id)}
+                onMouseLeave={() => handleMouseLeave(album._id)}>
                 <MoreHorizIcon />
               </Button>
             </>

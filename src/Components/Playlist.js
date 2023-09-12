@@ -86,137 +86,136 @@ function Playlist() {
   );
 
   return (
-    <div
-      style={{
-        backgroundImage: `url(${songsList.image})`,
-        height: "690px",
-        backgroundRepeat: "repeat-y",
-        transition: "background-image 0s ease-in-out",
-        backgroundSize: "cover",
-        backgroundAttachment: "fixed",
-        position: "fixed !important",
-        backgroundPosition: "center top",
-        width: "100%",
-        backdropFilter: "blur(10px)",
-        //bacckgroundfilter: "blur(8px)",
-        background: "blur(2px)",
-        zIndex: "-1",
-      }}>
-      {loader ? (
-        <p className="loader">Loading...</p>
-      ) : (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            marginLeft: "5rem",
-          }}>
-          <div style={{ marginTop: "6rem" }}>
-            <Card sx={{ maxWidth: 295, mx: "4rem" }}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image={songsList.image}
-                  alt="green iguana"
-                />
-              </CardActionArea>
-            </Card>
-          </div>
+    <>
+      <div className="overlay"></div>
+      <Card
+        style={{
+          backgroundImage: `url(${songsList.image})`,
+          backgroundColor: "repeat-y",
+          backgroundSize: "cover",
+          backgroundPosition: "center top",
+          width: "100%",
+          transition: "background-image 0s ease-in-out",
+          backgroundAttachment: "fixed",
+          position: "fixed !important",
+          zIndex: -1,
+        }}>
+        {loader ? (
+          <p className="loader">Loading...</p>
+        ) : (
           <div
             style={{
-              height: "140",
-              marginTop: "6rem",
+              display: "flex",
+              flexDirection: "row",
+              marginLeft: "5rem",
             }}>
-            <Box sx={{ minWidth: 475 }}>
-              <Card
-                variant="outlined"
-                sx={{
-                  background: "transparent",
-                  border: "none",
-                  fontFamily:
-                    "Sharp Grotesk Bold 20, Helvetica, Arial, sans-serif",
-                }}>
-                {card}
-              </Card>
-            </Box>
-          </div>
-        </div>
-      )}
-      <div>
-        {playlistsongs.length > 0 &&
-          playlistsongs.map((songs, index) => (
-            <div
-              style={{
-                width: "100vw",
-                height: "15vh",
-                backgroundColor: "rgba(0,0,0, 0.4)",
-                display: "flex",
-                flexDirection: "row",
-                margin: "1rem 0 0 0",
-                borderBottom: "2px solid grey",
-              }}>
-              <Typography
-                style={{
-                  paddingTop: "30px",
-                  width: "50px",
-                  paddingLeft: "20px",
-                  fontSize: "20px",
-                  color: "gray",
-                }}>
-                {index + 1}
-              </Typography>
-              <Card sx={{ maxWidth: 100 }}>
+            <div style={{ marginTop: "6rem" }}>
+              <Card sx={{ maxWidth: 295, mx: "4rem" }}>
                 <CardActionArea>
                   <CardMedia
                     component="img"
-                    image={songs.thumbnail}
-                    alt={songs.title}
+                    height="140"
+                    image={songsList.image}
+                    alt="green iguana"
                   />
                 </CardActionArea>
               </Card>
-              <Card
-                sx={{
-                  width: "200px",
-                  background: "transparent",
-                  color: "white",
-                  fontSize: "20px",
-                }}>
-                <CardContent>
-                  <Typography>{songs.title}</Typography>
-                  <Typography>{songs.mood.toUpperCase()}</Typography>
-                </CardContent>
-              </Card>
-              <Card
-                sx={{
-                  marginLeft: "42rem",
-                  paddingTop: "30px",
-                  background: "transparent",
-                }}>
-                <CardActions>
-                  <Button
-                    sx={{
-                      background: "transparent",
-                      borderRadius: "20px",
-                      width: "80px",
-                      color: "white",
-                    }}>
-                    <Link to={`/musicplayer/${songs._id}`}>
-                      <PlayArrowIcon /> Play
-                    </Link>
-                  </Button>
-                  <Button>
-                    <AddIcon style={{ color: "white" }} />
-                  </Button>
-                  <Button>
-                    <ShareIcon style={{ color: "white" }} />
-                  </Button>
-                </CardActions>
-              </Card>
             </div>
-          ))}
-      </div>
-    </div>
+            <div
+              style={{
+                height: "140",
+                marginTop: "6rem",
+              }}>
+              <Box sx={{ minWidth: 475 }}>
+                <Card
+                  variant="outlined"
+                  sx={{
+                    background: "transparent",
+                    border: "none",
+                    fontFamily:
+                      "Sharp Grotesk Bold 20, Helvetica, Arial, sans-serif",
+                  }}>
+                  {card}
+                </Card>
+              </Box>
+            </div>
+          </div>
+        )}
+        <div>
+          {playlistsongs.length > 0 &&
+            playlistsongs.map((songs, index) => (
+              <div
+                style={{
+                  width: "100vw",
+                  height: "15vh",
+                  backgroundColor: "rgba(0,0,0, 0.4)",
+                  display: "flex",
+                  flexDirection: "row",
+                  margin: "1rem 0 0 0",
+                  borderBottom: "2px solid grey",
+                }}>
+                <Typography
+                  style={{
+                    paddingTop: "30px",
+                    width: "50px",
+                    paddingLeft: "20px",
+                    fontSize: "20px",
+                    color: "gray",
+                  }}>
+                  {index + 1}
+                </Typography>
+                <Card sx={{ maxWidth: 100 }}>
+                  <CardActionArea>
+                    <CardMedia
+                      component="img"
+                      image={songs.thumbnail}
+                      alt={songs.title}
+                    />
+                  </CardActionArea>
+                </Card>
+                <Card
+                  sx={{
+                    width: "200px",
+                    background: "transparent",
+                    color: "white",
+                    fontSize: "20px",
+                  }}>
+                  <CardContent>
+                    <Typography>{songs.title}</Typography>
+                    <Typography>{songs.mood.toUpperCase()}</Typography>
+                  </CardContent>
+                </Card>
+                <Card
+                  sx={{
+                    marginLeft: "42rem",
+                    paddingTop: "30px",
+                    background: "transparent",
+                  }}>
+                  <CardActions>
+                    <Button
+                      sx={{
+                        background: "transparent",
+                        borderRadius: "20px",
+                        width: "80px",
+                        color: "white",
+                      }}>
+                      <Link to={`/musicplayer/${songs._id}`}>
+                        <PlayArrowIcon /> Play
+                      </Link>
+                    </Button>
+                    <Button>
+                      <AddIcon style={{ color: "white" }} />
+                    </Button>
+                    <Button>
+                      <ShareIcon style={{ color: "white" }} />
+                    </Button>
+                  </CardActions>
+                </Card>
+              </div>
+            ))}
+        </div>
+      </Card>
+    </>
   );
 }
 

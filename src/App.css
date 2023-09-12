@@ -2,17 +2,6 @@ body {
   color: white;
   background-color: #000;
 }
-/* .container {
-  position: relative;
-}
-.container:hover .overlay {
-  background: #d10a0a;
-}
-
-.overlay {
-  background-color: rgba(0, 0, 0, 0.7);
-} */
-
 .overlay {
   position: absolute;
   top: 0;
@@ -28,10 +17,38 @@ body {
   transition: opacity 0.3s ease; /* Smooth transition for opacity */
   pointer-events: none;
   /* Allow mouse events to pass through the overlay */
-
-  border: "10px solid red";
 }
 
 .container:hover .overlay {
   opacity: 1; /* Show the overlay on hover */
+}
+
+.overlayLibrary {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.7),
+    rgba(0, 0, 0, 0.7)
+  );
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.overlayLibrary:hover {
+  opacity: 1;
+}
+
+.noresult {
+  width: 100%;
+  height: 89vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: "red";
+  border: "2px solid green";
 }
