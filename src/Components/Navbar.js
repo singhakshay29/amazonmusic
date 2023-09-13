@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import InputBase from "@mui/material/InputBase";
@@ -10,7 +10,7 @@ import SearchIcon from "@mui/icons-material/Search";
 // import MenuItem from '@mui/material/MenuItem';
 //import Menu from "@mui/material/Menu";
 import Card from "@mui/material/Card";
-import { CardMedia, ListItem } from "@mui/material";
+import { CardMedia, ListItem, List } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import PodcastsIcon from "@mui/icons-material/Podcasts";
 import HeadphonesIcon from "@mui/icons-material/Headphones";
@@ -19,7 +19,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 //import { useLocation } from "react-router-dom";
 
 function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
-  //const location = useLocation();
+  // const location = useLocation();
   // const [searchItem, setSearchItem] = useState("");
   const [isDropdownOpen, setIsDropDownOpen] = useState(false);
 
@@ -45,18 +45,24 @@ function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
     <AppBar position="static">
       <Toolbar
         style={{
-          backgroundColor: "black",
           display: "flex",
           justifyContent: "space-between",
           borderBottom: "1px solid grey",
           alignItems: "center",
+          position: "fixed",
+          backgroundColor: "black",
+          // backgroundColor: "rgba(15,17,17,.6);",
+          zIndex: 1000,
+          backdropFilter: "blur(30px)",
+          width: "100%",
         }}>
         <NavLink to="/">
           <CardMedia
             component="img"
             style={{
-              backgroundColor: "black",
+              backgroundColor: "transparent",
               width: "150px",
+              marginTop: "10px",
             }}
             src="https://d5fx445wy2wpk.cloudfront.net/static/logo.svg"
             alt="amazon music"
@@ -66,26 +72,30 @@ function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
           style={{
             display: "flex",
             flexDirection: "row",
-            backgroundColor: "black",
+            backgroundColor: "transparent",
+            width: "482px",
+
+            outline: "none",
+            height: "80px",
           }}>
-          <ListItem style={{ marginRight: "1rem", fontSize: "1.1rem" }}>
+          <ListItem style={{ fontSize: "1rem", padding: "0" }}>
             <NavLink to="/" style={navLinkStyle}>
-              <HomeIcon sx={{ mx: "0.5rem", fontSize: "1.8rem" }} />
+              <HomeIcon sx={{ mx: "0.5rem" }} />
               HOME
             </NavLink>
           </ListItem>
           <ListItem
             style={{
-              fontSize: "1.2rem",
+              fontSize: "1rem",
               marginRight: "1rem",
             }}>
             <NavLink to="/podcasts" style={navLinkStyle}>
-              <PodcastsIcon sx={{ mx: "0.5rem", fontSize: "1.6rem" }} />
+              <PodcastsIcon sx={{ mx: "0.5rem" }} />
               PODCASTS
             </NavLink>
           </ListItem>
           <ListItem
-            style={{ fontSize: "1.2rem", color: "white", cursor: "pointer" }}
+            style={{ fontSize: "1rem", color: "white", cursor: "pointer" }}
             onClick={toggleDropDown}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}>
@@ -94,33 +104,43 @@ function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
             <KeyboardArrowDownIcon sx={{ mx: "0.5rem" }} />
             {isDropdownOpen && (
               <Card
-                style={{
-                  backgroundColor: "red",
-                }}
                 sx={{
                   mt: "3rem",
-                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.9)",
-                  borderBottom: "4px solid green",
                   position: "absolute",
-                  top: "40%",
-                  left: 80,
+                  top: "-10",
+                  left: 30,
                   zIndex: 1,
                 }}>
-                <ul style={{ listStyleType: "none", position: "fixed" }}>
+                <List
+                  style={{
+                    listStyleType: "none",
+                    position: "fixed",
+                    border: "0.5px solid grey",
+                    width: "280px",
+                    borderRadius: "10px",
+                    background: "transparent",
+                    backdropFilter: "blur(8px)",
+                  }}>
                   <NavLink
                     to="/trendingplaylist"
-                    style={{ color: "white", textDecoration: "none" }}
+                    style={{
+                      color: "white",
+                    }}
                     onClick={toggleDropDown}>
-                    <li>Music</li>
+                    <ListItem
+                      style={{
+                        borderBottom: "1px solid grey",
+                        height: "50px",
+                      }}>
+                      Music
+                    </ListItem>
                   </NavLink>
-                  <br />
-                  <NavLink
-                    to="/podcasts"
-                    style={{ color: "white", textDecoration: "none" }}>
-                    <li>Podcasts</li>
+                  <NavLink to="/podcasts" style={{ color: "white" }}>
+                    <ListItem style={{ marginBottom: "20px" }}>
+                      Podcasts
+                    </ListItem>
                   </NavLink>
-                  <br />
-                </ul>
+                </List>
               </Card>
             )}
           </ListItem>
@@ -139,27 +159,33 @@ function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
             backgroundColor: "#fff",
             fontSize: "14px",
             outline: "none",
+            height: "35px",
           }}>
-          <InputBase
-            onChange={handleTextToSearch}
-            placeholder="Search..."
-            value={searchItem}
-            style={{
-              flex: 1,
-              marginRight: "8px",
-              border: "none",
-              outline: "none",
-            }}
-          />
+          <Link to="/searchcomponents">
+            <InputBase
+              onChange={handleTextToSearch}
+              placeholder="Search..."
+              value={searchItem}
+              style={{
+                flex: 1,
+                marginRight: "8px",
+                border: "none",
+                outline: "none",
+                height: "10px",
+              }}
+            />
+          </Link>
           <IconButton
             style={{
               padding: "6px",
               background: "none",
             }}>
-            <SearchIcon onClick={handleInputValueToSearch} />
+            <Link to="/searchcomponents">
+              <SearchIcon onSubmit={handleInputValueToSearch} />
+            </Link>
           </IconButton>
         </Card>
-        <NavLink to="/noresultfound">
+        <NavLink to="/searchcomponents">
           <AccountCircleIcon sx={{ fontSize: "2rem" }} />
         </NavLink>
 

@@ -1,3 +1,5 @@
+/* @import url(https://db.onlinewebfonts.com/c/629ed6829f706958b9bdf4f6300dfca0?family=Sharp+Grotesk+SmBold+20+Regular); */
+
 body {
   color: white;
   background-color: #000;
@@ -45,10 +47,19 @@ body {
 
 .noresult {
   width: 100%;
-  height: 89vh;
+  height: 80vh;
   display: flex;
   justify-content: center;
   align-items: center;
   color: "red";
   border: "2px solid green";
 }
+/* .background-container::before {
+  content: "";
+  filter: blur(10px);
+  z-index: -1;
+} */
+
+/* .heading {
+   font-family: "Sharp Grotesk SmBold 20"; 
+} */

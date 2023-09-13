@@ -17,6 +17,8 @@ import SignIn from "./Components/SignIn";
 import SignUp from "./SignUp";
 import TrendingPlaylist from "./Components/TrendingPlaylist";
 import NoResultsFound from "./Components/NoResultsFound";
+import SearchComponents from "./Components/SearchComponents";
+import ShowSearchResults from "./Components/ShowSearchResults";
 
 function App() {
   const [songPlayId, setSongPlayId] = useState("");
@@ -90,6 +92,10 @@ function App() {
             element={<NoResultsFound searchItem={searchItem} />}
           />
           <Route
+            path="searchcomponents"
+            element={<SearchComponents searchItem={searchItem} />}
+          />
+          <Route
             path="trendingplaylist"
             element={
               <TrendingPlaylist
@@ -101,6 +107,10 @@ function App() {
                 hoverStates={hoverStates}
               />
             }
+          />
+          <Route
+            path="showsearchresults"
+            element={<ShowSearchResults searchItem={searchItem} />}
           />
         </Routes>
       </Router>

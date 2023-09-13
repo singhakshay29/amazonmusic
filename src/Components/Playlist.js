@@ -87,18 +87,10 @@ function Playlist() {
 
   return (
     <>
-      <div className="overlay"></div>
       <Card
         style={{
           backgroundImage: `url(${songsList.image})`,
-          backgroundColor: "repeat-y",
           backgroundSize: "cover",
-          backgroundPosition: "center top",
-          width: "100%",
-          transition: "background-image 0s ease-in-out",
-          backgroundAttachment: "fixed",
-          position: "fixed !important",
-          zIndex: -1,
         }}>
         {loader ? (
           <p className="loader">Loading...</p>

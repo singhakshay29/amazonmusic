@@ -128,7 +128,9 @@ const Home = ({
 
   return (
     <Container sx={{ mt: "2rem" }}>
-      <Typography variant="h4">Popular Albums</Typography>
+      <Typography className="heading" variant="h4">
+        Popular Albums
+      </Typography>
       <div
         style={{
           display: "flex",
@@ -173,7 +175,9 @@ const Home = ({
             </Card>
           ))}
       </div>
-      <Typography variant="h4">Featured Romantic Songs</Typography>
+      <Typography className="heading" variant="h4">
+        Featured Romantic Songs
+      </Typography>
       <div
         style={{
           display: "flex",
@@ -195,7 +199,9 @@ const Home = ({
             />
           ))}
       </div>
-      <Typography variant="h4">Happy Songs</Typography>
+      <Typography className="heading" variant="h4">
+        Happy Songs
+      </Typography>
       <div
         style={{
           display: "flex",
