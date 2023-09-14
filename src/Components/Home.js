@@ -127,8 +127,8 @@ const Home = ({
   }, []);
 
   return (
-    <Container sx={{ mt: "2rem" }}>
-      <Typography className="heading" variant="h4">
+    <Container sx={{ mt: "7rem" }}>
+      <Typography sx={{ fontWeight: "bold", fontSize: "30px" }} variant="h4">
         Popular Albums
       </Typography>
       <div
@@ -140,25 +140,36 @@ const Home = ({
         }}>
         {albumData.length > 0 &&
           albumData.map((album) => (
-            <Card key={album.id} sx={{ minWidth: 190, margin: "10px 20px" }}>
+            <Card
+              key={album.id}
+              sx={{
+                minWidth: 166,
+                margin: "8px 20px",
+              }}
+              style={{ backgroundColor: "black" }}>
               <CardActionArea>
                 <Link to={`/playlist/${album._id}`}>
                   <CardMedia
                     component="img"
-                    height="200"
                     image={album.image}
                     alt={album.title}
+                    style={{
+                      borderRadius: "8px",
+                      height: "160px",
+                      width: "160px",
+                    }}
                   />
                 </Link>
                 <CardContent
                   style={{
                     height: "100px",
-                    width: "12em",
+                    width: "10em",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
                     whiteSpace: "nowrap",
                     background: "black",
                     color: "white",
+                    padding: "16px 8px",
                   }}>
                   <Typography
                     gutterBottom
@@ -175,7 +186,7 @@ const Home = ({
             </Card>
           ))}
       </div>
-      <Typography className="heading" variant="h4">
+      <Typography sx={{ fontWeight: "bold", fontSize: "30px" }} variant="h4">
         Featured Romantic Songs
       </Typography>
       <div
@@ -199,7 +210,7 @@ const Home = ({
             />
           ))}
       </div>
-      <Typography className="heading" variant="h4">
+      <Typography sx={{ fontWeight: "bold", fontSize: "30px" }} variant="h4">
         Happy Songs
       </Typography>
       <div
@@ -223,7 +234,9 @@ const Home = ({
             />
           ))}
       </div>
-      <Typography variant="h4">Excited Songs</Typography>
+      <Typography variant="h4" sx={{ fontWeight: "bold", fontSize: "30px" }}>
+        Excited Songs
+      </Typography>
       <div
         style={{
           display: "flex",
@@ -245,7 +258,9 @@ const Home = ({
             />
           ))}
       </div>
-      <Typography variant="h4">Sad Songs</Typography>
+      <Typography variant="h4" sx={{ fontWeight: "bold", fontSize: "30px" }}>
+        Sad Songs
+      </Typography>
       <div
         style={{
           display: "flex",

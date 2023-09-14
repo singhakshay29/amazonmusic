@@ -1,39 +1,33 @@
-import { Box, List, Typography } from "@mui/material";
+import { Box, Container, List, ListItem, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 //import { useLocation } from "react-router-dom";
 
 export default function SearchComponents({ searchItem }) {
-  // const location = useLocation();
-  // const queryParams = new URLSearchParams(location.search);
-  // const query = queryParams.get("query");
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResultsSongs, setSearchResultsSongs] = useState([]);
+  const [searchResultsAlbum, setSearchResultsAlbum] = useState([]);
   //const [searchHistory, setSearchHistory] = useState([]);
 
   useEffect(() => {
     async function getTheDetails() {
-      //const storedAlbum = localStorage.getItem("albumData");
+      const storedAlbum = localStorage.getItem("albumData");
       const storedSongs = localStorage.getItem("musicData");
       const parsedDataSongs = JSON.parse(storedSongs);
-      //const parsedDataAlbum = JSON.parse(storedAlbum);
-      console.log(parsedDataSongs);
-      //console.log(parsedDataAlbum);
-      //   const filteredResults = parsedDataAlbum.albumData.filter((item) => {
-      //     const filterArraysArtist = item.artists.filter((artistItem) => {
-      //       return artistItem.name
-      //         .toLowerCase()
-      //         .includes(searchItem.toLowerCase());
-      //     });
-      //     // console.log(filterArraysArtist);
-      //     return filterArraysArtist.length > 0;
-      //   });
+      const parsedDataAlbum = JSON.parse(storedAlbum);
+      const filteredResultsAlbum = parsedDataAlbum.albumData.filter((item) => {
+        const filterArraysArtist = item.artists.filter((artistItem) => {
+          return artistItem.name
+            .toLowerCase()
+            .includes(searchItem.toLowerCase());
+        });
+        return filterArraysArtist.length > 0;
+      });
       const filteredResultsSongs = parsedDataSongs.musicData.filter((item) => {
         return item.title.toLowerCase().includes(searchItem.toLowerCase());
       });
 
-      console.log(filteredResultsSongs);
-      //   console.log(filteredResults);
-      setSearchResults(filteredResultsSongs);
-      console.log(searchItem);
+      setSearchResultsAlbum(filteredResultsAlbum);
+      setSearchResultsSongs(filteredResultsSongs);
     }
     if (searchItem) {
       getTheDetails();
@@ -47,7 +41,7 @@ export default function SearchComponents({ searchItem }) {
   }, [searchItem]);
 
   return (
-    <div>
+    <Container sx={{ mt: "6rem" }}>
       {/* {searchHistory.length > 0 && (
         <div>
           <h3>Search History:</h3>
@@ -58,21 +52,46 @@ export default function SearchComponents({ searchItem }) {
           </ul>
         </div>
       )} */}
-      <Box sx={{ width: "100%", maxWidth: 150, m: "1rem 2rem" }}>
+      <Box sx={{ width: "100%", maxWidth: 150, m: "0.2rem 0.2rem" }}>
         <Typography style={{ fontSize: "24px", lineHeight: "88px" }}>
           Suggestions
         </Typography>
       </Box>
-
-      <ul>
-        {searchResults.map((result, index) => (
-          <List style={{ margin: "1rem 2rem" }} key={index}>
-            {/* {result.artists} */}
-            {/* {result.artist} */}
-            {result.title}
+      <ListItem
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-start",
+        }}>
+        {searchResultsSongs.map((result) => (
+          <List
+            className="listItem"
+            style={{
+              margin: "0.8rem 0rem",
+              cursor: "pointer",
+              width: "100%",
+            }}
+            key={result._id}>
+            <Link to="/showsearchresults" state={{ data: result }}>
+              {result.title}
+            </Link>
           </List>
         ))}
-      </ul>
-    </div>
+        {searchResultsAlbum.map((result) => (
+          <List
+            className="listItem"
+            style={{
+              margin: "0.8rem 0rem",
+              cursor: "pointer",
+              width: "100%",
+            }}
+            key={result._id}>
+            <Link to="/showsearchresults" state={{ data: result }}>
+              {result.artists[0]?.name}
+            </Link>
+          </List>
+        ))}
+      </ListItem>
+    </Container>
   );
 }

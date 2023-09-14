@@ -24,7 +24,11 @@ export default function CardComponent({
       <Card
         className="container"
         key={album._id}
-        sx={{ minWidth: 190, margin: "10px 20px" }}>
+        sx={{
+          minWidth: 166,
+          margin: "8px 20px",
+        }}
+        style={{ backgroundColor: "black" }}>
         <CardActionArea>
           <div className="overlay"></div>
           <CardMedia
@@ -32,6 +36,11 @@ export default function CardComponent({
             height="200"
             image={album.thumbnail}
             alt={album.title}
+            style={{
+              borderRadius: "8px",
+              height: "160px",
+              width: "160px",
+            }}
             onMouseOver={() => handleMouseEnter(album._id)}
             onMouseLeave={() => handleMouseLeave(album._id)}></CardMedia>
           {hoverStates[album._id] && (
@@ -103,6 +112,7 @@ export default function CardComponent({
               whiteSpace: "nowrap",
               background: "black",
               color: "white",
+              padding: "16px 8px",
             }}>
             <Typography gutterBottom variant="h6" component="div">
               {album.title}

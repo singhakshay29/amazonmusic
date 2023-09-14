@@ -1,4 +1,4 @@
-/* @import url(https://db.onlinewebfonts.com/c/629ed6829f706958b9bdf4f6300dfca0?family=Sharp+Grotesk+SmBold+20+Regular); */
+@import url(https://db.onlinewebfonts.com/c/629ed6829f706958b9bdf4f6300dfca0?family=Sharp+Grotesk+SmBold+20+Regular);
 
 body {
   color: white;
@@ -60,6 +60,10 @@ body {
   z-index: -1;
 } */
 
-/* .heading {
-   font-family: "Sharp Grotesk SmBold 20"; 
-} */
+.heading {
+  font-family: "Sharp Grotesk SmBold 40 ";
+}
+
+.listItem:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}

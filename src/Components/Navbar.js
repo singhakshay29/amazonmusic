@@ -50,8 +50,8 @@ function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
           borderBottom: "1px solid grey",
           alignItems: "center",
           position: "fixed",
-          backgroundColor: "black",
-          // backgroundColor: "rgba(15,17,17,.6);",
+          // backgroundColor: "black",
+          backgroundColor: "rgba(15,17,17,.6)",
           zIndex: 1000,
           backdropFilter: "blur(30px)",
           width: "100%",
@@ -113,13 +113,13 @@ function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
                 }}>
                 <List
                   style={{
-                    listStyleType: "none",
                     position: "fixed",
                     border: "0.5px solid grey",
                     width: "280px",
                     borderRadius: "10px",
-                    background: "transparent",
-                    backdropFilter: "blur(8px)",
+                    backgroundColor: "rgba(15,17,17,.7)",
+                    zIndex: 1000,
+                    backdropFilter: "blur(30px)",
                   }}>
                   <NavLink
                     to="/trendingplaylist"
@@ -180,7 +180,7 @@ function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
               padding: "6px",
               background: "none",
             }}>
-            <Link to="/searchcomponents">
+            <Link to="/showsearchresults">
               <SearchIcon onSubmit={handleInputValueToSearch} />
             </Link>
           </IconButton>

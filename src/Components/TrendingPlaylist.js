@@ -64,7 +64,7 @@ export default function TrendingPlaylist({
   }, []);
   return (
     <>
-      <Container sx={{ mt: "2rem" }}>
+      <Container sx={{ mt: "7rem" }}>
         <Typography variant="h4">Trending Playlists</Typography>
         <div
           style={{
