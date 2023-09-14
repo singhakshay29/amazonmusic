@@ -4,11 +4,11 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
-// import MenuIcon from "@mui/icons-material/Menu";
+//import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-//import AccountCircle from "@mui/icons-material/AccountCircle";
-// import MenuItem from '@mui/material/MenuItem';
-//import Menu from "@mui/material/Menu";
+// import AccountCircle from "@mui/icons-material/AccountCircle";
+// import MenuItem from "@mui/material/MenuItem";
+// import Menu from "@mui/material/Menu";
 import Card from "@mui/material/Card";
 import { CardMedia, ListItem, List } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
@@ -181,17 +181,17 @@ function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
               background: "none",
             }}>
             <Link to="/showsearchresults">
-              <SearchIcon onSubmit={handleInputValueToSearch} />
+              <SearchIcon onClick={handleInputValueToSearch} />
             </Link>
           </IconButton>
         </Card>
-        <NavLink to="/searchcomponents">
+        <NavLink to="/signin">
           <AccountCircleIcon sx={{ fontSize: "2rem" }} />
         </NavLink>
 
         {/* <Menu
           id="menu-appbar"
-          // anchorEl={anchorEl}
+          anchorEl={anchorEl}
           anchorOrigin={{
             vertical: "top",
             horizontal: "right",
@@ -201,17 +201,25 @@ function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
             horizontal: "right",
           }}
           open={open}
-          onClose={handleClose}
-        >
+          onClose={handleClose}>
           Conditionally render Login or Logout based on user authentication
           {userAuthenticated ? (
-              <div>
-                <MenuItem onClick={handleClose} component={Link} to="/logout">Logout</MenuItem>
-                <MenuItem onClick={handleClose} component={Link} to="/subscription">Subscription</MenuItem>
-              </div>
-            ) : (
-              <MenuItem onClick={handleClose} component={Link} to="/login">Login</MenuItem>
-            )}
+            <div>
+              <MenuItem onClick={handleClose} component={Link} to="/logout">
+                Logout
+              </MenuItem>
+              <MenuItem
+                onClick={handleClose}
+                component={Link}
+                to="/subscription">
+                Subscription
+              </MenuItem>
+            </div>
+          ) : (
+            <MenuItem onClick={handleClose} component={Link} to="/login">
+              Login
+            </MenuItem>
+          )}
         </Menu> */}
       </Toolbar>
     </AppBar>

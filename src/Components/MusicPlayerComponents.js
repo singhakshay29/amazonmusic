@@ -151,13 +151,14 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
         style={{
           width: "100vw",
           height: "15vh",
-          backgroundColor: "rgba(0,0,0, 0.4)",
+          backgroundColor: "rgba(15,17,17,.6)",
           display: "flex",
           flexDirection: "row",
           margin: "1rem 0 0 0",
-          marginTop: "41%",
+          marginTop: "46%",
           position: "fixed",
           zIndex: 9,
+          backdropFilter: "blur(30px)",
         }}>
         <CardMedia
           component="img"

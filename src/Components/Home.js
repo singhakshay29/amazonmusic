@@ -7,6 +7,12 @@ import CardMedia from "@mui/material/CardMedia";
 import { CardActionArea } from "@mui/material";
 import { Link } from "react-router-dom";
 import CardComponent from "./CardComponent";
+import Button from "@mui/material/Button";
+import PauseIcon from "@mui/icons-material/Pause";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import AddIcon from "@mui/icons-material/Add";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import { ListItem, List } from "@mui/material";
 
 const Home = ({
   updateSongPlayCallback,
@@ -21,6 +27,7 @@ const Home = ({
   const [excitedData, setExcitedData] = useState([]);
   const [sadData, setsadData] = useState([]);
   const [albumData, setAlbum] = useState([]);
+  const [isDropdownOpen, setIsDropDownOpen] = useState(false);
 
   async function getThedataRomantic() {
     try {
@@ -120,6 +127,9 @@ const Home = ({
       console.error("Something went Wrong");
     }
   }
+  const toggleDropDown = () => {
+    setIsDropDownOpen(!isDropdownOpen);
+  };
 
   useEffect(() => {
     getThedataRomantic();
@@ -139,27 +149,130 @@ const Home = ({
           marginTop: "1rem",
         }}>
         {albumData.length > 0 &&
-          albumData.map((album) => (
+          albumData.map((data) => (
             <Card
-              key={album.id}
+              className="container"
+              key={data.id}
               sx={{
                 minWidth: 166,
                 margin: "8px 20px",
               }}
               style={{ backgroundColor: "black" }}>
               <CardActionArea>
-                <Link to={`/playlist/${album._id}`}>
+                <div className="overlay"></div>
+                <Link to={`/playlist/${data._id}`}>
                   <CardMedia
                     component="img"
-                    image={album.image}
-                    alt={album.title}
+                    image={data.image}
+                    alt={data.title}
                     style={{
                       borderRadius: "8px",
                       height: "160px",
                       width: "160px",
                     }}
+                    onMouseOver={() => handleMouseEnter(data._id)}
+                    onMouseLeave={() => handleMouseLeave(data._id)}
                   />
                 </Link>
+                {hoverStates[data._id] && (
+                  <>
+                    {/* <Button
+                      variant="contained"
+                      style={{
+                        position: "absolute",
+                        top: "35%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        zIndex: 8,
+                        background: "FFFFFF26",
+                        color: "white",
+                        borderRadius: "81%",
+                        backgroundColor: "rgba(0, 0, 0, 0.5)",
+                      }}
+                      onMouseEnter={() => handleMouseEnter(data._id)}
+                      onMouseLeave={() => handleMouseLeave(data._id)}
+                      onClick={() => {
+                        updateSongPlayCallback(data._id);
+                        togglePlayPause(!isPlaying);
+                      }}>
+                      {isPlaying[data._id] ? (
+                        <PauseIcon style={{ fontSize: "2.5rem" }} />
+                      ) : (
+                        <PlayArrowIcon style={{ fontSize: "2.5rem" }} />
+                      )}
+                    </Button> */}
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      style={{
+                        position: "absolute",
+                        top: "35%",
+                        left: "20%",
+                        transform: "translate(-50%, -50%)",
+                        zIndex: 1,
+                        background: "transparent",
+                      }}
+                      onMouseEnter={() => handleMouseEnter(data._id)}
+                      onMouseLeave={() => handleMouseLeave(data._id)}>
+                      <AddIcon />
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      style={{
+                        position: "absolute",
+                        top: "35%",
+                        left: "80%",
+                        transform: "translate(-50%, -50%)",
+                        zIndex: 1,
+                        background: "transparent",
+                        border: "none",
+                      }}
+                      onClick={toggleDropDown}
+                      onMouseEnter={() => {
+                        handleMouseEnter(data._id);
+                        setIsDropDownOpen(true);
+                      }}
+                      onMouseLeave={() => {
+                        handleMouseLeave(data._id);
+                        setIsDropDownOpen(false);
+                      }}>
+                      <MoreHorizIcon />
+                      {isDropdownOpen && (
+                        <Card
+                          sx={{
+                            mt: "3rem",
+                            position: "absolute",
+                            left: 15,
+                            zIndex: 10,
+                          }}>
+                          <List
+                            style={{
+                              position: "fixed",
+                              border: "0.5px solid grey",
+                              width: "280px",
+                              borderRadius: "10px",
+                              backgroundColor: "rgba(15,17,17,.7)",
+                              backdropFilter: "blur(30px)",
+                            }}
+                            onMouseEnter={() => setIsDropDownOpen(true)}>
+                            <Link
+                              to="/favorites"
+                              style={{
+                                color: "white",
+                              }}
+                              onClick={toggleDropDown}>
+                              <ListItem
+                                onMouseEnter={() => setIsDropDownOpen(true)}>
+                                Add to Favorites
+                              </ListItem>
+                            </Link>
+                          </List>
+                        </Card>
+                      )}
+                    </Button>
+                  </>
+                )}
                 <CardContent
                   style={{
                     height: "100px",
@@ -176,10 +289,10 @@ const Home = ({
                     variant="h6"
                     component="div"
                     style={{ overflow: "scroll" }}>
-                    {album.title}
+                    {data.title}
                   </Typography>
                   <Typography variant="body2" color="rgba(255, 255, 255, 0.6)">
-                    {album.artists[0].name}
+                    {data.artists[0].name}
                   </Typography>
                 </CardContent>
               </CardActionArea>

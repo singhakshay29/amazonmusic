@@ -4,13 +4,58 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import { CardMedia, TextField, Typography } from "@mui/material";
+import { useState } from "react";
 
 export default function SignUp() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [finalpassword, setfinalPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [errorColor, setErrorColor] = useState("");
+
+  const handleSignUp = (e) => {
+    e.preventDefault();
+    if (!username || !password || !email) {
+      setErrorMessage("All Fields must be filled");
+      setErrorColor("red");
+    } else if (!email.includes("@")) {
+      setErrorMessage("Email is invalid");
+      setErrorColor("red");
+    } else if (password !== finalpassword) {
+      setErrorMessage("Password does not match");
+      setErrorColor("red");
+    } else {
+      (async function () {
+        const response = await fetch(
+          "https://academics.newtonschool.co/api/v1/user/signup",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              projectId: "8jf3b15onzua",
+            },
+            body: JSON.stringify({
+              name: `${username}`,
+              email: `${email}`,
+              password: `${password}`,
+              appType: "music",
+            }),
+          }
+        );
+      })();
+      //console.log(response);
+      // setErrorMessage("No Error Found Congrats the user is logged in.");
+      // setErrorColor("green");
+    }
+  };
+
   return (
     <Card
       style={{
         backgroundColor: "white",
-        height: "100vh",
+        height: "110vh",
+        marginTop: "5rem",
       }}>
       <CardMedia
         sx={{ height: "100px", width: "220px", marginLeft: "39%" }}
@@ -35,6 +80,8 @@ export default function SignUp() {
             placeholder="First and last name"
             variant="outlined"
             fullWidth
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
           <Typography
             variant="body2"
@@ -43,7 +90,15 @@ export default function SignUp() {
             gutterBottom>
             Email
           </Typography>
-          <TextField type="email" size="small" variant="outlined" fullWidth />
+          <TextField
+            type="email"
+            size="small"
+            variant="outlined"
+            fullWidth
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
           <Typography
             variant="body2"
             fontWeight="bold"
@@ -57,12 +112,15 @@ export default function SignUp() {
             variant="outlined"
             fullWidth
             placeholder="At least 6 characters"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <Typography
             variant="body2"
             fontWeight="bold"
             marginBottom="5px"
-            marginTop="10px">
+            marginTop="10px"
+            value={finalpassword}>
             Re-enter password
           </Typography>
           <TextField
@@ -70,7 +128,12 @@ export default function SignUp() {
             size="small"
             variant="outlined"
             fullWidth
+            placeholder="At least 6 characters"
+            onChange={(e) => setfinalPassword(e.target.value)}
           />
+          <Typography className="error" style={{ color: errorColor }}>
+            {errorMessage}
+          </Typography>
           <CardActions>
             <Button
               variant="contained"
@@ -79,7 +142,8 @@ export default function SignUp() {
               style={{
                 backgroundColor: "rgba(255,216,18,255)",
                 color: "black",
-              }}>
+              }}
+              onClick={handleSignUp}>
               Create your amazon account
             </Button>
           </CardActions>

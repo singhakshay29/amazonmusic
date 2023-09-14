@@ -1,6 +1,13 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
-import { Box, Container, List, ListItem, Typography } from "@mui/material";
+import { Link, useLocation } from "react-router-dom";
+import {
+  Box,
+  Card,
+  CardMedia,
+  Container,
+  CardActionArea,
+  Typography,
+} from "@mui/material";
 
 export default function ShowSearchResults() {
   const location = useLocation();
@@ -14,9 +21,31 @@ export default function ShowSearchResults() {
           Top Results
         </Typography>
       </Box>
+      <Card
+        className="container"
+        key={data._id}
+        sx={{
+          minWidth: 166,
+          margin: "8px 20px",
+        }}
+        style={{ backgroundColor: "black" }}>
+        <CardActionArea>
+          <div className="overlay"></div>
+          <Link to="/searchalbum" state={{ data: data }}>
+            <CardMedia
+              component="img"
+              height="200"
+              image={data.thumbnail}
+              alt={data.title}
+              style={{
+                borderRadius: "8px",
+                height: "160px",
+                width: "160px",
+              }}
+            />
+          </Link>
+        </CardActionArea>
+      </Card>
     </Container>
   );
 }
-// const filterArtistName = artistItem.filter((artist) => {
-//   return artist.name.toLowerCase().includes(searchItem.toLowerCase());
-// });

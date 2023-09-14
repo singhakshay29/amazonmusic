@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React from "react";
+import { useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -15,27 +16,24 @@ import { Link } from "react-router-dom";
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
 
-function Playlist() {
+export default function SearchAlbum() {
   const [songsList, setSongsList] = useState({});
   const [loader, setLoader] = useState(true);
   const [playlistsongs, setplaylistsongs] = useState([]);
+  const location = useLocation();
+  const { data } = location.state;
 
-  const { id } = useParams();
+  const baseUrl = `https://academics.newtonschool.co/api/v1/music/album/${data.album}`;
 
   async function getTheDeatails() {
-    const response = await fetch(
-      `https://academics.newtonschool.co/api/v1/music/album/${id}`,
-      {
-        headers: {
-          projectId: "8jf3b15onzua",
-        },
-      }
-    );
+    const response = await fetch(baseUrl, {
+      headers: {
+        projectId: "8jf3b15onzua",
+      },
+    });
     const data = await response.json();
     setSongsList(data.data);
-    console.log(data.data);
     const songsArray = data.data.songs;
-    console.log(songsArray);
     setplaylistsongs(songsArray);
     setLoader(false);
   }
@@ -205,5 +203,3 @@ function Playlist() {
     </>
   );
 }
-
-export default Playlist;

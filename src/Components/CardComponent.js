@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Typography } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -9,6 +9,8 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import AddIcon from "@mui/icons-material/Add";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import PauseIcon from "@mui/icons-material/Pause";
+import { NavLink } from "react-router-dom";
+import { ListItem, List } from "@mui/material";
 
 export default function CardComponent({
   album,
@@ -19,6 +21,11 @@ export default function CardComponent({
   togglePlayPause,
   isPlaying,
 }) {
+  const [isDropdownOpen, setIsDropDownOpen] = useState(false);
+
+  const toggleDropDown = () => {
+    setIsDropDownOpen(!isDropdownOpen);
+  };
   return (
     <>
       <Card
@@ -27,13 +34,14 @@ export default function CardComponent({
         sx={{
           minWidth: 166,
           margin: "8px 20px",
+          position: "relative",
+          zIndex: 0,
         }}
         style={{ backgroundColor: "black" }}>
         <CardActionArea>
           <div className="overlay"></div>
           <CardMedia
             component="img"
-            height="200"
             image={album.thumbnail}
             alt={album.title}
             style={{
@@ -97,9 +105,47 @@ export default function CardComponent({
                   background: "transparent",
                   border: "none",
                 }}
-                onMouseEnter={() => handleMouseEnter(album._id)}
-                onMouseLeave={() => handleMouseLeave(album._id)}>
+                onClick={toggleDropDown}
+                onMouseEnter={() => {
+                  handleMouseEnter(album._id);
+                  setIsDropDownOpen(true);
+                }}
+                onMouseLeave={() => {
+                  handleMouseLeave(album._id);
+                  setIsDropDownOpen(false);
+                }}>
                 <MoreHorizIcon />
+                {isDropdownOpen && (
+                  <Card
+                    sx={{
+                      mt: "3rem",
+                      position: "absolute",
+                      left: 15,
+                      zIndex: 99999,
+                    }}>
+                    <List
+                      style={{
+                        position: "fixed",
+                        border: "0.5px solid grey",
+                        width: "280px",
+                        borderRadius: "10px",
+                        backgroundColor: "rgba(15,17,17,.7)",
+                        backdropFilter: "blur(30px)",
+                      }}
+                      onMouseEnter={() => setIsDropDownOpen(true)}>
+                      <NavLink
+                        to="/favorites"
+                        style={{
+                          color: "white",
+                        }}
+                        onClick={toggleDropDown}>
+                        <ListItem onMouseEnter={() => setIsDropDownOpen(true)}>
+                          Add to Favorites
+                        </ListItem>
+                      </NavLink>
+                    </List>
+                  </Card>
+                )}
               </Button>
             </>
           )}

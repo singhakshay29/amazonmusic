@@ -12,13 +12,15 @@ import Subscription from "./Components/Subscription";
 import Playlist from "./Components/Playlist";
 import "./App.css";
 import MusicPlayerComponents from "./Components/MusicPlayerComponents";
-import MusicPlay from "./Components/MusicPlay";
 import SignIn from "./Components/SignIn";
 import SignUp from "./SignUp";
 import TrendingPlaylist from "./Components/TrendingPlaylist";
 import NoResultsFound from "./Components/NoResultsFound";
 import SearchComponents from "./Components/SearchComponents";
 import ShowSearchResults from "./Components/ShowSearchResults";
+import Favorites from "./Components/Favorites";
+import SearchAlbum from "./Components/SearchAlbum";
+import Artist from "./Components/Artist";
 
 function App() {
   const [songPlayId, setSongPlayId] = useState("");
@@ -49,8 +51,8 @@ function App() {
     setSearchItem(e.target.value);
   };
 
-  const handleInputValueToSearch = () => {
-    console.log(searchItem);
+  const handleInputValueToSearch = (e) => {
+    e.preventDefault();
     setSearchItem("");
   };
 
@@ -80,13 +82,23 @@ function App() {
               />
             }
           />
-          <Route path="/podcasts" element={<Podcasts />} />
+          <Route
+            path="/podcasts"
+            element={
+              <Podcasts
+                updateSongPlayCallback={updateSongPlayId}
+                togglePlayPause={togglePlayPause}
+                isPlaying={isPlaying}
+              />
+            }
+          />
           <Route path="/subscription" element={<Subscription />} />
           <Route path="playlist/:id" element={<Playlist />} />
-          <Route path="musicplayer/:id" element={<MusicPlayerComponents />} />
-          <Route path="musicplay/:id" element={<MusicPlay />} />
           <Route path="signin" element={<SignIn />} />
           <Route path="signup" element={<SignUp />} />
+          <Route path="favorites" element={<Favorites />} />
+          <Route path="searchalbum" element={<SearchAlbum />} />
+          <Route path="artist" element={<Artist />} />
           <Route
             path="noresultfound"
             element={<NoResultsFound searchItem={searchItem} />}

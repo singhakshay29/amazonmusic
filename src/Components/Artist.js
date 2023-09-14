@@ -1,5 +1,6 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -11,34 +12,35 @@ import Button from "@mui/material/Button";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import AddIcon from "@mui/icons-material/Add";
 import ShareIcon from "@mui/icons-material/Share";
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+// import { Link } from "react-router-dom";
+import Stack from "@mui/material/Stack";
+import CircularProgress from "@mui/material/CircularProgress";
 
-export default function MusicPlay() {
-  const [songsList, setSongsList] = useState({});
+export default function Artist() {
+  // const [songsList, setSongsList] = useState({});
   const [loader, setLoader] = useState(true);
   const [playlistsongs, setplaylistsongs] = useState([]);
+  const [artist, setArtist] = useState({});
+  const location = useLocation();
+  const { data } = location.state;
+  console.log(data);
 
-  const { id } = useParams();
-  console.log(id);
+  const baseUrl = `https://academics.newtonschool.co/api/v1/music/artist/${data.artists[0]?._id}`;
 
   async function getTheDeatails() {
-    try {
-      const storedData = localStorage.getItem("musicData");
-      if (storedData) {
-        const parsedData = JSON.parse(storedData);
-
-        const songsArray = parsedData.musicData;
-        console.log(songsArray);
-
-        const filterDataRomantic = songsArray.filter(
-          (songs) => songs._id === id
-        );
-        console.log(filterDataRomantic);
-      }
-    } catch (error) {
-      console.error("Something went Wrong");
-    }
+    const response = await fetch(baseUrl, {
+      headers: {
+        projectId: "8jf3b15onzua",
+      },
+    });
+    const artistDetails = await response.json();
+    setArtist(artistDetails.data);
+    console.log(artistDetails);
+    //setSongsList(data.songs);
+    const songsArray = artistDetails.data.songs;
+    console.log(songsArray);
+    setplaylistsongs(songsArray);
+    setLoader(false);
   }
   useEffect(() => {
     getTheDeatails();
@@ -48,90 +50,69 @@ export default function MusicPlay() {
     <React.Fragment>
       <CardContent>
         <Typography
-          sx={{ fontWeight: "20px" }}
+          sx={{ fontWeight: "bold" }}
           color="rgb(37, 209, 218)"
           textTransform={"uppercase"}
           gutterBottom>
-          Playlist
+          Artist
         </Typography>
         <Typography
-          variant="h3"
-          sx={{ fontSize: "60px", fontWeight: "bold", color: "white" }}
+          variant="h4"
+          sx={{ fontWeight: "bold", color: "white", flexWrap: "wrap" }}
           component="div">
-          {songsList.title}
+          {artist.name}
         </Typography>
-        <Typography sx={{ mb: 11 }} color="text.secondary">
-          {/* {songsList.artists[0]?.name},{songsList.artists[1]?.name},
-          {songsList.artists[3]?.name} */}
-        </Typography>
-        <Typography variant="body2">{songsList.description}</Typography>
+        {/* <Typography sx={{ mb: 8 }} color="text.secondary">
+          {songsList.artists[0]?.name}
+        </Typography> */}
+        <Typography variant="body2">{artist.description}</Typography>
       </CardContent>
       <CardActions>
-        <Link to={"/musicplayer/"}>
-          <Button
-            sx={{
-              background: "rgb(37, 209, 218)",
-              borderRadius: "20px",
-              width: "80px",
-              color: "black",
-            }}>
-            <PlayArrowIcon /> Play
-          </Button>
-        </Link>
+        {/* <Link to={"/musicplayer/"}> */}
+        <Button
+          sx={{
+            background: "rgb(37, 209, 218)",
+            borderRadius: "20px",
+            width: "80px",
+            color: "black",
+          }}>
+          <PlayArrowIcon /> Play
+        </Button>
+        {/* </Link> */}
         <Button>
           <AddIcon style={{ color: "black" }} />
-        </Button>
-        <Button>
-          <ShareIcon style={{ color: "black" }} />
         </Button>
       </CardActions>
     </React.Fragment>
   );
-
   return (
-    <div
-      style={{
-        backgroundImage: `url(${songsList.image})`,
-        height: "690px",
-        backgroundRepeat: "repeat-y",
-        transition: "background-image 0s ease-in-out",
-        backgroundSize: "cover",
-        backgroundAttachment: "fixed",
-        position: "fixed !important",
-        backgroundPosition: "center top",
-        width: "100%",
-        //bacckgroundfilter: "blur(8px)",
-        background: "blur(2px)",
-        zIndex: "-1",
-      }}>
-      {loader ? (
-        <p className="loader">Loading...</p>
-      ) : (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            marginLeft: "5rem",
-          }}>
-          <div style={{ marginTop: "6rem" }}>
-            <Card sx={{ maxWidth: 295, mx: "4rem" }}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image={songsList.image}
-                  alt="green iguana"
-                />
-              </CardActionArea>
-            </Card>
-          </div>
+    <>
+      <Card
+        style={{
+          backgroundImage: `url(${artist.image})`,
+          backgroundSize: "cover",
+          backdropFilter: "blur(10px)",
+        }}>
+        {loader ? (
+          <Stack sx={{ color: "grey.500" }} spacing={2} direction="row">
+            <CircularProgress color="secondary" />
+          </Stack>
+        ) : (
           <div
             style={{
-              height: "140",
-
-              marginTop: "6rem",
+              display: "flex",
+              flexDirection: "row",
+              marginLeft: "5rem",
+              marginTop: "7rem",
             }}>
-            <Box sx={{ minWidth: 475 }}>
+            <Card sx={{ width: 285, mx: "3rem", height: 285 }}>
+              <CardMedia
+                component="img"
+                image={artist.image}
+                alt={artist.name}
+              />
+            </Card>
+            <Box sx={{ width: 285 }}>
               <Card
                 variant="outlined"
                 sx={{
@@ -139,16 +120,15 @@ export default function MusicPlay() {
                   border: "none",
                   fontFamily:
                     "Sharp Grotesk Bold 20, Helvetica, Arial, sans-serif",
+                  width: "fit-content",
                 }}>
                 {card}
               </Card>
             </Box>
           </div>
-        </div>
-      )}
-      <div>
-        {playlistsongs.length > 0 &&
-          playlistsongs.map((songs, index) => (
+        )}
+        <div>
+          {playlistsongs.map((songs, index) => (
             <div
               style={{
                 width: "100vw",
@@ -204,9 +184,9 @@ export default function MusicPlay() {
                       width: "80px",
                       color: "white",
                     }}>
-                    <Link to={`/musicplayer/${songs._id}`}>
-                      <PlayArrowIcon /> Play
-                    </Link>
+                    {/* <Link to={`/musicplayer/${songs._id}`}> */}
+                    <PlayArrowIcon /> Play
+                    {/* </Link> */}
                   </Button>
                   <Button>
                     <AddIcon style={{ color: "white" }} />
@@ -218,7 +198,8 @@ export default function MusicPlay() {
               </Card>
             </div>
           ))}
-      </div>
-    </div>
+        </div>
+      </Card>
+    </>
   );
 }

@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 export default function SearchComponents({ searchItem }) {
   const [searchResultsSongs, setSearchResultsSongs] = useState([]);
   const [searchResultsAlbum, setSearchResultsAlbum] = useState([]);
+  const [searchArtist, setArtist] = useState([]);
   //const [searchHistory, setSearchHistory] = useState([]);
 
   useEffect(() => {
@@ -14,6 +15,7 @@ export default function SearchComponents({ searchItem }) {
       const storedSongs = localStorage.getItem("musicData");
       const parsedDataSongs = JSON.parse(storedSongs);
       const parsedDataAlbum = JSON.parse(storedAlbum);
+
       const filteredResultsAlbum = parsedDataAlbum.albumData.filter((item) => {
         const filterArraysArtist = item.artists.filter((artistItem) => {
           return artistItem.name
@@ -22,11 +24,18 @@ export default function SearchComponents({ searchItem }) {
         });
         return filterArraysArtist.length > 0;
       });
+      setArtist(filteredResultsAlbum);
+      const filteredResultsAlbumByName = parsedDataAlbum.albumData.filter(
+        (item) => {
+          return item.title.toLowerCase().includes(searchItem.toLowerCase());
+        }
+      );
       const filteredResultsSongs = parsedDataSongs.musicData.filter((item) => {
         return item.title.toLowerCase().includes(searchItem.toLowerCase());
       });
-
-      setSearchResultsAlbum(filteredResultsAlbum);
+      // console.log(filteredResultsAlbum);
+      console.log(filteredResultsSongs);
+      setSearchResultsAlbum(filteredResultsAlbumByName);
       setSearchResultsSongs(filteredResultsSongs);
     }
     if (searchItem) {
@@ -86,7 +95,19 @@ export default function SearchComponents({ searchItem }) {
               width: "100%",
             }}
             key={result._id}>
-            <Link to="/showsearchresults" state={{ data: result }}>
+            <Link to={`/playlist/${result._id}`}>{result.title}</Link>
+          </List>
+        ))}
+        {searchArtist.map((result) => (
+          <List
+            className="listItem"
+            style={{
+              margin: "0.8rem 0rem",
+              cursor: "pointer",
+              width: "100%",
+            }}
+            key={result._id}>
+            <Link to="/artist" state={{ data: result }}>
               {result.artists[0]?.name}
             </Link>
           </List>
