@@ -8,7 +8,6 @@ import Button from "@mui/material/Button";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import AddIcon from "@mui/icons-material/Add";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import PauseIcon from "@mui/icons-material/Pause";
 import { NavLink } from "react-router-dom";
 import { ListItem, List } from "@mui/material";
 
@@ -22,6 +21,26 @@ export default function CardComponent({
   isPlaying,
 }) {
   const [isDropdownOpen, setIsDropDownOpen] = useState(false);
+
+  const baseUrlSong =
+    "https://academics.newtonschool.co/api/v1/music/favorites/like";
+
+  async function addandRemoveFavItem(songId) {
+    console.log(songId);
+    const user = localStorage.getItem("signupDeatils");
+    if (user) {
+      const parsedData = JSON.parse(user);
+      const response = await fetch(baseUrlSong, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${parsedData.signup.token}`,
+          projectID: "8jf3b15onzua",
+        },
+        BODY: { songId: songId },
+      });
+      console.log(response);
+    }
+  }
 
   const toggleDropDown = () => {
     setIsDropDownOpen(!isDropdownOpen);
@@ -40,6 +59,7 @@ export default function CardComponent({
         style={{ backgroundColor: "black" }}>
         <CardActionArea>
           <div className="overlay"></div>
+
           <CardMedia
             component="img"
             image={album.thumbnail}
@@ -72,11 +92,7 @@ export default function CardComponent({
                   updateSongPlayCallback(album._id);
                   togglePlayPause(!isPlaying);
                 }}>
-                {isPlaying[album._id] ? (
-                  <PauseIcon style={{ fontSize: "2.5rem" }} />
-                ) : (
-                  <PlayArrowIcon style={{ fontSize: "2.5rem" }} />
-                )}
+                <PlayArrowIcon style={{ fontSize: "2.5rem" }} />
               </Button>
               <Button
                 variant="contained"
@@ -90,7 +106,8 @@ export default function CardComponent({
                   background: "transparent",
                 }}
                 onMouseEnter={() => handleMouseEnter(album._id)}
-                onMouseLeave={() => handleMouseLeave(album._id)}>
+                onMouseLeave={() => handleMouseLeave(album._id)}
+                onClick={() => addandRemoveFavItem(album._id)}>
                 <AddIcon />
               </Button>
               <Button

@@ -1,14 +1,31 @@
 import React from "react";
-import { Card, CardMedia, Typography } from "@mui/material";
-import "../assests/Amazon-Music-pricing-2048x1152.png";
+import { Button, Card } from "@mui/material";
+import subpack from "../assests/subpack.png";
 import extrafeatures from "../assests/extrafeatures.png";
+import CloseIcon from "@mui/icons-material/Close";
+import { Link } from "react-router-dom";
 
-export default function Subscription() {
+export default function Subscription({ handleNotShow }) {
+  handleNotShow();
   return (
-    <Card sx={{ mt: "5rem" }}>
+    <Card>
+      <Link to="/">
+        <Button
+          style={{
+            position: "absolute",
+            color: "white",
+            borderRadius: "50%",
+            width: "25px",
+            height: "60px",
+            left: "94.9%",
+            background: "rgba(0, 0, 0, 0.4)",
+          }}>
+          <CloseIcon style={{ fontSize: "20px" }} />
+        </Button>
+      </Link>
       <img
         style={{ height: "100vh", width: "100vw" }}
-        src="https://centsr.com/wp-content/uploads/2022/07/Amazon-Music-pricing-2048x1152.png"
+        src={subpack}
         alt="subscriptionPlan"></img>
       <Card
         style={{
@@ -18,7 +35,6 @@ export default function Subscription() {
           marginTop: "2rem",
         }}>
         <img src={extrafeatures} width="850px" alt="extraFeatures"></img>
-        {/* <CardMedia image="../assests/extrafeatures.png"></CardMedia> */}
       </Card>
     </Card>
   );

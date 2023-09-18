@@ -11,11 +11,11 @@ import Button from "@mui/material/Button";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import AddIcon from "@mui/icons-material/Add";
 import ShareIcon from "@mui/icons-material/Share";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
 
-function Playlist() {
+function Playlist({ updateSongPlayCallback, togglePlayPause, isPlaying }) {
   const [songsList, setSongsList] = useState({});
   const [loader, setLoader] = useState(true);
   const [playlistsongs, setplaylistsongs] = useState([]);
@@ -33,9 +33,7 @@ function Playlist() {
     );
     const data = await response.json();
     setSongsList(data.data);
-    console.log(data.data);
     const songsArray = data.data.songs;
-    console.log(songsArray);
     setplaylistsongs(songsArray);
     setLoader(false);
   }
@@ -65,23 +63,24 @@ function Playlist() {
         <Typography variant="body2">{songsList.description}</Typography>
       </CardContent>
       <CardActions>
-        <Link to={"/musicplayer/"}>
-          <Button
-            sx={{
-              background: "rgb(37, 209, 218)",
-              borderRadius: "20px",
-              width: "80px",
-              color: "black",
-            }}>
-            <PlayArrowIcon /> Play
-          </Button>
-        </Link>
+        <Button
+          sx={{
+            background: "rgb(37, 209, 218)",
+            borderRadius: "20px",
+            width: "80px",
+            color: "black",
+          }}>
+          <PlayArrowIcon
+            onClick={() => {
+              updateSongPlayCallback(songsList?.songs[0]?._id);
+              togglePlayPause(!isPlaying);
+            }}
+          />
+          Play
+        </Button>
         <Button>
           <AddIcon style={{ color: "black" }} />
         </Button>
-        {/* <Button>
-          <ShareIcon style={{ color: "black" }} />
-        </Button> */}
       </CardActions>
     </React.Fragment>
   );
@@ -92,7 +91,6 @@ function Playlist() {
         style={{
           backgroundImage: `url(${songsList.image})`,
           backgroundSize: "cover",
-          backdropFilter: "blur(10px)",
         }}>
         {loader ? (
           <Stack sx={{ color: "grey.500" }} spacing={2} direction="row">
@@ -186,9 +184,13 @@ function Playlist() {
                         width: "80px",
                         color: "white",
                       }}>
-                      <Link to={`/musicplayer/${songs._id}`}>
-                        <PlayArrowIcon /> Play
-                      </Link>
+                      <PlayArrowIcon
+                        onClick={() => {
+                          updateSongPlayCallback(songs.songs[0]?._id);
+                          togglePlayPause(!isPlaying);
+                        }}
+                      />
+                      Play
                     </Button>
                     <Button>
                       <AddIcon style={{ color: "white" }} />

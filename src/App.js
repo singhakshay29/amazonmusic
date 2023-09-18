@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  // useLocation,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import Home from "./Components/Home";
 import Podcasts from "./Components/Podcasts";
@@ -21,18 +16,24 @@ import ShowSearchResults from "./Components/ShowSearchResults";
 import Favorites from "./Components/Favorites";
 import SearchAlbum from "./Components/SearchAlbum";
 import Artist from "./Components/Artist";
+import NotSignIn from "./Components/NotSignIn";
 
 function App() {
   const [songPlayId, setSongPlayId] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
+  const [searchItem, setSearchItem] = useState("");
+  const [showNav, setShowNav] = useState(true);
   const [hoverStates, setHoverStates] = useState(
     Array(Array.length).fill(false)
   );
-  const [searchItem, setSearchItem] = useState("");
+  const [signSuccess, setSignSuccess] = useState(false);
 
-  function updateSongPlayId(id) {
-    setSongPlayId(id);
-  }
+  const handleNotShow = () => {
+    setShowNav(false);
+  };
+  const handleShowNav = () => {
+    setShowNav(true);
+  };
   const togglePlayPause = () => {
     setIsPlaying(!isPlaying);
   };
@@ -41,7 +42,6 @@ function App() {
     newHoverStates[index] = true;
     setHoverStates(newHoverStates);
   };
-
   const handleMouseLeave = (index) => {
     const newHoverStates = [...hoverStates];
     newHoverStates[index] = false;
@@ -50,24 +50,27 @@ function App() {
   const handleTextToSearch = (e) => {
     setSearchItem(e.target.value);
   };
-
   const handleInputValueToSearch = (e) => {
     e.preventDefault();
     setSearchItem("");
   };
 
-  // const location = useLocation();
+  function updateSongPlayId(id) {
+    setSongPlayId(id);
+  }
 
   return (
     <div className="App">
       <Router>
-        {/* {location.pathname !== "/signin" && <Navbar />} */}
-        <Navbar
-          searchItem={searchItem}
-          handleTextToSearch={handleTextToSearch}
-          handleInputValueToSearch={handleInputValueToSearch}
-        />
         {songPlayId && <MusicPlayerComponents songPlayId={songPlayId} />}
+        {showNav && (
+          <Navbar
+            searchItem={searchItem}
+            handleTextToSearch={handleTextToSearch}
+            handleInputValueToSearch={handleInputValueToSearch}
+            signSuccess={signSuccess}
+          />
+        )}
         <Routes>
           <Route
             path="/"
@@ -79,6 +82,8 @@ function App() {
                 handleMouseLeave={handleMouseLeave}
                 isPlaying={isPlaying}
                 hoverStates={hoverStates}
+                handleShowNav={handleShowNav}
+                signSuccess={signSuccess}
               />
             }
           />
@@ -92,10 +97,40 @@ function App() {
               />
             }
           />
-          <Route path="/subscription" element={<Subscription />} />
-          <Route path="playlist/:id" element={<Playlist />} />
-          <Route path="signin" element={<SignIn />} />
-          <Route path="signup" element={<SignUp />} />
+          <Route
+            path="/subscription"
+            element={<Subscription handleNotShow={handleNotShow} />}
+          />
+          <Route
+            path="playlist/:id"
+            element={
+              <Playlist
+                updateSongPlayCallback={updateSongPlayId}
+                togglePlayPause={togglePlayPause}
+                isPlaying={isPlaying}
+              />
+            }
+          />
+          <Route
+            path="signin"
+            element={
+              <SignIn
+                handleNotShow={handleNotShow}
+                setSignSuccess={setSignSuccess}
+                signSuccess={signSuccess}
+              />
+            }
+          />
+          <Route
+            path="signup"
+            element={
+              <SignUp
+                handleNotShow={handleNotShow}
+                setSignSuccess={setSignSuccess}
+                signSuccess={signSuccess}
+              />
+            }
+          />
           <Route path="favorites" element={<Favorites />} />
           <Route path="searchalbum" element={<SearchAlbum />} />
           <Route path="artist" element={<Artist />} />
@@ -122,7 +157,16 @@ function App() {
           />
           <Route
             path="showsearchresults"
-            element={<ShowSearchResults searchItem={searchItem} />}
+            element={
+              <ShowSearchResults
+                searchItem={searchItem}
+                hoverStates={hoverStates}
+              />
+            }
+          />
+          <Route
+            path="notsignin"
+            element={<NotSignIn handleNotShow={handleNotShow} />}
           />
         </Routes>
       </Router>

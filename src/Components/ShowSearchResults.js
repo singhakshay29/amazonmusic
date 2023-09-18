@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 
-export default function ShowSearchResults() {
+export default function ShowSearchResults({ hoverStates }) {
   const location = useLocation();
   const { data } = location.state;
   console.log(data);
@@ -27,6 +27,8 @@ export default function ShowSearchResults() {
         sx={{
           minWidth: 166,
           margin: "8px 20px",
+
+          display: "flex",
         }}
         style={{ backgroundColor: "black" }}>
         <CardActionArea>
@@ -44,6 +46,50 @@ export default function ShowSearchResults() {
               }}
             />
           </Link>
+          <Typography
+            style={{ fontSize: "24px", lineHeight: "88px", color: "white" }}>
+            {data.title}
+          </Typography>
+        </CardActionArea>
+        <CardActionArea>
+          <div className="overlay"></div>
+          <Link to="/searchalbum" state={{ data: data }}>
+            <CardMedia
+              component="img"
+              height="200"
+              image={data.artist[0]?.image}
+              alt={data.artist[0]?.name}
+              style={{
+                borderRadius: "8px",
+                height: "160px",
+                width: "160px",
+              }}
+            />
+          </Link>
+          <Typography
+            style={{ fontSize: "24px", lineHeight: "88px", color: "white" }}>
+            {data.artist[0]?.name}
+          </Typography>
+        </CardActionArea>
+        <CardActionArea>
+          <div className="overlay"></div>
+          <Link to="/searchalbum" state={{ data: data }}>
+            <CardMedia
+              component="img"
+              height="200"
+              image={data.artist[1]?.image}
+              alt={data.artist[1]?.name}
+              style={{
+                borderRadius: "8px",
+                height: "160px",
+                width: "160px",
+              }}
+            />
+          </Link>
+          <Typography
+            style={{ fontSize: "24px", lineHeight: "88px", color: "white" }}>
+            {data.artist[1]?.name}
+          </Typography>
         </CardActionArea>
       </Card>
     </Container>

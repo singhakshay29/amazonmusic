@@ -7,7 +7,6 @@ import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import { Container } from "@mui/material";
-import { Link } from "react-router-dom";
 
 export default function Podcasts({
   updateSongPlayCallback,
@@ -61,8 +60,9 @@ export default function Podcasts({
             sx={{
               display: "flex",
               m: "3rem",
-              maxWidth: 300,
+              width: 300,
               maxHeight: 100,
+              backgroundColor: "black",
             }}>
             <CardMedia
               component="img"
@@ -75,7 +75,12 @@ export default function Podcasts({
               }}
             />
             <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <CardContent sx={{ flex: "1 0 auto", backgroundColor: "black" }}>
+              <CardContent
+                sx={{
+                  flex: "1 0 auto",
+                  backgroundColor: "black",
+                  wordWrap: "none",
+                }}>
                 <Typography
                   component="div"
                   variant="h6"

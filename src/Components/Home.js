@@ -1,4 +1,3 @@
-// src/components/HomePage.js
 import React, { useEffect, useState } from "react";
 import { Container, Typography } from "@mui/material";
 import Card from "@mui/material/Card";
@@ -8,11 +7,14 @@ import { CardActionArea } from "@mui/material";
 import { Link } from "react-router-dom";
 import CardComponent from "./CardComponent";
 import Button from "@mui/material/Button";
-import PauseIcon from "@mui/icons-material/Pause";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import AddIcon from "@mui/icons-material/Add";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { ListItem, List } from "@mui/material";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+// import PauseIcon from "@mui/icons-material/Pause";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import CardOnScroll from "./CardOnScroll";
 
 const Home = ({
   updateSongPlayCallback,
@@ -21,6 +23,8 @@ const Home = ({
   handleMouseLeave,
   isPlaying,
   hoverStates,
+  handleShowNav,
+  signSuccess,
 }) => {
   const [romanticData, setromanticData] = useState([]);
   const [happyData, setHappyData] = useState([]);
@@ -28,6 +32,11 @@ const Home = ({
   const [sadData, setsadData] = useState([]);
   const [albumData, setAlbum] = useState([]);
   const [isDropdownOpen, setIsDropDownOpen] = useState(false);
+  const [currentDataIndex, setCurrentDataIndex] = useState(1);
+  const [currentDataIndexR, setCurrentDataIndexR] = useState(0);
+  const [disabled, setDisable] = useState(true);
+  const [disabledRight, setDisableRight] = useState(false);
+  handleShowNav();
 
   async function getThedataRomantic() {
     try {
@@ -56,7 +65,7 @@ const Home = ({
       } else {
         // Fetch data from the API
         const baseUrlSong =
-          "https://academics.newtonschool.co/api/v1/music/song";
+          "https://academics.newtonschool.co/api/v1/music/song?limit=100";
         const response = await fetch(baseUrlSong, {
           method: "GET",
           headers: {
@@ -97,8 +106,31 @@ const Home = ({
       console.error("Something went wrong");
     }
   }
+  const baseUrlSong =
+    "https://academics.newtonschool.co/api/v1/music/favorites/like";
 
-  const baseUrlAlbum = "https://academics.newtonschool.co/api/v1/music/album";
+  async function addandRemoveFavItem(songId) {
+    console.log(songId);
+    const user = localStorage.getItem("signupDeatils");
+    if (user) {
+      const parsedData = JSON.parse(user);
+
+      const response = await fetch(baseUrlSong, {
+        method: "PATCH",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${parsedData.signup.token}`,
+          projectID: "8jf3b15onzua",
+        },
+        body: JSON.stringify({ songId: songId }),
+      });
+    }
+  }
+
+  const baseUrlAlbum =
+    "https://academics.newtonschool.co/api/v1/music/album?limit=100";
+
   async function getThedataAlbum() {
     try {
       const storedData = localStorage.getItem("albumData");
@@ -131,6 +163,55 @@ const Home = ({
     setIsDropDownOpen(!isDropdownOpen);
   };
 
+  const handleRightArrowClick = () => {
+    if (currentDataIndex < albumData.length - 1) {
+      setCurrentDataIndex(currentDataIndex + 10);
+    }
+    if (currentDataIndex === 1) {
+      setDisable(true);
+    } else {
+      setDisable(false);
+    }
+  };
+
+  const handleRightArrowClickRomantic = () => {
+    if (currentDataIndexR < 20) {
+      setDisableRight(true);
+    } else {
+      setDisableRight(false);
+    }
+    if (currentDataIndexR < romanticData.length - 1) {
+      setCurrentDataIndexR(currentDataIndexR + 10);
+    }
+    if (currentDataIndexR === 0) {
+      setDisable(true);
+    } else {
+      setDisable(false);
+    }
+  };
+
+  const handleLeftArrowClickRomantic = () => {
+    if (currentDataIndexR > 0) {
+      setCurrentDataIndexR(currentDataIndexR - 1);
+    }
+    if (currentDataIndexR === 0) {
+      setDisable(true);
+    } else {
+      setDisable(false);
+    }
+  };
+
+  const handleLeftArrowClick = () => {
+    if (currentDataIndex > 1) {
+      setCurrentDataIndex(currentDataIndex - 1);
+    }
+    if (currentDataIndex === 1) {
+      setDisable(true);
+    } else {
+      setDisable(false);
+    }
+  };
+
   useEffect(() => {
     getThedataRomantic();
     getThedataAlbum();
@@ -138,9 +219,14 @@ const Home = ({
 
   return (
     <Container sx={{ mt: "7rem" }}>
-      <Typography sx={{ fontWeight: "bold", fontSize: "30px" }} variant="h4">
-        Popular Albums
-      </Typography>
+      <CardOnScroll
+        disabled={disabled}
+        handleLeftArrowClick={handleLeftArrowClick}
+        handleRightArrowClick={handleRightArrowClick}
+        currentDataIndex={currentDataIndex}
+        heading="Popular Album"
+        disabledRight={disabledRight}
+      />
       <div
         style={{
           display: "flex",
@@ -149,183 +235,214 @@ const Home = ({
           marginTop: "1rem",
         }}>
         {albumData.length > 0 &&
-          albumData.map((data) => (
-            <Card
-              className="container"
-              key={data.id}
-              sx={{
-                minWidth: 166,
-                margin: "8px 20px",
-              }}
-              style={{ backgroundColor: "black" }}>
-              <CardActionArea>
-                <div className="overlay"></div>
-                <Link to={`/playlist/${data._id}`}>
-                  <CardMedia
-                    component="img"
-                    image={data.image}
-                    alt={data.title}
-                    style={{
-                      borderRadius: "8px",
-                      height: "160px",
-                      width: "160px",
-                    }}
-                    onMouseOver={() => handleMouseEnter(data._id)}
-                    onMouseLeave={() => handleMouseLeave(data._id)}
-                  />
-                </Link>
-                {hoverStates[data._id] && (
-                  <>
-                    {/* <Button
-                      variant="contained"
+          albumData
+            .slice(currentDataIndex, currentDataIndex + 10)
+            .map((data) => (
+              <Card
+                className="container"
+                key={data.id}
+                sx={{
+                  minWidth: 166,
+                  margin: "8px 20px",
+                }}
+                style={{ backgroundColor: "black" }}>
+                <CardActionArea>
+                  <div className="overlay"></div>
+                  <Link to={`/playlist/${data._id}`}>
+                    <CardMedia
+                      component="img"
+                      image={data.image}
+                      alt={data.title}
                       style={{
-                        position: "absolute",
-                        top: "35%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)",
-                        zIndex: 8,
-                        background: "FFFFFF26",
-                        color: "white",
-                        borderRadius: "81%",
-                        backgroundColor: "rgba(0, 0, 0, 0.5)",
+                        borderRadius: "8px",
+                        height: "160px",
+                        width: "160px",
                       }}
-                      onMouseEnter={() => handleMouseEnter(data._id)}
+                      onMouseOver={() => handleMouseEnter(data._id)}
                       onMouseLeave={() => handleMouseLeave(data._id)}
-                      onClick={() => {
-                        updateSongPlayCallback(data._id);
-                        togglePlayPause(!isPlaying);
-                      }}>
-                      {isPlaying[data._id] ? (
-                        <PauseIcon style={{ fontSize: "2.5rem" }} />
-                      ) : (
-                        <PlayArrowIcon style={{ fontSize: "2.5rem" }} />
-                      )}
-                    </Button> */}
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      style={{
-                        position: "absolute",
-                        top: "35%",
-                        left: "20%",
-                        transform: "translate(-50%, -50%)",
-                        zIndex: 1,
-                        background: "transparent",
-                      }}
-                      onMouseEnter={() => handleMouseEnter(data._id)}
-                      onMouseLeave={() => handleMouseLeave(data._id)}>
-                      <AddIcon />
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      style={{
-                        position: "absolute",
-                        top: "35%",
-                        left: "80%",
-                        transform: "translate(-50%, -50%)",
-                        zIndex: 1,
-                        background: "transparent",
-                        border: "none",
-                      }}
-                      onClick={toggleDropDown}
-                      onMouseEnter={() => {
-                        handleMouseEnter(data._id);
-                        setIsDropDownOpen(true);
-                      }}
-                      onMouseLeave={() => {
-                        handleMouseLeave(data._id);
-                        setIsDropDownOpen(false);
-                      }}>
-                      <MoreHorizIcon />
-                      {isDropdownOpen && (
-                        <Card
-                          sx={{
-                            mt: "3rem",
+                    />
+                  </Link>
+                  {hoverStates[data._id] && (
+                    <>
+                      <Link to={`/playlist/${data._id}`}>
+                        <Button
+                          variant="contained"
+                          style={{
                             position: "absolute",
-                            left: 15,
-                            zIndex: 10,
-                          }}>
-                          <List
+                            top: "35%",
+                            left: "50%",
+                            transform: "translate(-50%, -50%)",
+                            zIndex: 8,
+                            background: "FFFFFF26",
+                            color: "white",
+                            borderRadius: "81%",
+                            backgroundColor: "rgba(0, 0, 0, 0.5)",
+                          }}
+                          onMouseEnter={() => handleMouseEnter(data._id)}
+                          onMouseLeave={() => handleMouseLeave(data._id)}>
+                          <PlayArrowIcon style={{ fontSize: "2.5rem" }} />
+                        </Button>
+                      </Link>
+                      {signSuccess ? (
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          style={{
+                            position: "absolute",
+                            top: "35%",
+                            left: "20%",
+                            transform: "translate(-50%, -50%)",
+                            zIndex: 1,
+                            background: "transparent",
+                          }}
+                          onMouseEnter={() => handleMouseEnter(data._id)}
+                          onMouseLeave={() => handleMouseLeave(data._id)}
+                          onClick={() =>
+                            addandRemoveFavItem(data.songs[0]?._id)
+                          }>
+                          <AddIcon />
+                        </Button>
+                      ) : (
+                        <Link to="/signin">
+                          <Button
+                            variant="contained"
+                            color="primary"
                             style={{
-                              position: "fixed",
-                              border: "0.5px solid grey",
-                              width: "280px",
-                              borderRadius: "10px",
-                              backgroundColor: "rgba(15,17,17,.7)",
-                              backdropFilter: "blur(30px)",
+                              position: "absolute",
+                              top: "35%",
+                              left: "20%",
+                              transform: "translate(-50%, -50%)",
+                              zIndex: 1,
+                              background: "transparent",
                             }}
-                            onMouseEnter={() => setIsDropDownOpen(true)}>
-                            <Link
-                              to="/favorites"
-                              style={{
-                                color: "white",
-                              }}
-                              onClick={toggleDropDown}>
-                              <ListItem
-                                onMouseEnter={() => setIsDropDownOpen(true)}>
-                                Add to Favorites
-                              </ListItem>
-                            </Link>
-                          </List>
-                        </Card>
+                            onMouseEnter={() => handleMouseEnter(data._id)}
+                            onMouseLeave={() => handleMouseLeave(data._id)}>
+                            <AddIcon />
+                          </Button>
+                        </Link>
                       )}
-                    </Button>
-                  </>
-                )}
-                <CardContent
-                  style={{
-                    height: "100px",
-                    width: "10em",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                    background: "black",
-                    color: "white",
-                    padding: "16px 8px",
-                  }}>
-                  <Typography
-                    gutterBottom
-                    variant="h6"
-                    component="div"
-                    style={{ overflow: "scroll" }}>
-                    {data.title}
-                  </Typography>
-                  <Typography variant="body2" color="rgba(255, 255, 255, 0.6)">
-                    {data.artists[0].name}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          ))}
+
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        style={{
+                          position: "absolute",
+                          top: "35%",
+                          left: "80%",
+                          transform: "translate(-50%, -50%)",
+                          zIndex: 1,
+                          background: "transparent",
+                          border: "none",
+                        }}
+                        onClick={toggleDropDown}
+                        onMouseEnter={() => {
+                          handleMouseEnter(data._id);
+                          setIsDropDownOpen(true);
+                        }}
+                        onMouseLeave={() => {
+                          handleMouseLeave(data._id);
+                          setIsDropDownOpen(false);
+                        }}>
+                        <MoreHorizIcon />
+                        {isDropdownOpen && (
+                          <Card
+                            sx={{
+                              mt: "3rem",
+                              position: "absolute",
+                              left: 15,
+                              zIndex: 10,
+                            }}>
+                            <List
+                              style={{
+                                position: "fixed",
+                                border: "0.5px solid grey",
+                                width: "280px",
+                                borderRadius: "10px",
+                                backgroundColor: "rgba(15,17,17,.7)",
+                                backdropFilter: "blur(30px)",
+                              }}
+                              onMouseEnter={() => setIsDropDownOpen(true)}>
+                              <Link
+                                to="/favorites"
+                                style={{
+                                  color: "white",
+                                }}
+                                onClick={toggleDropDown}>
+                                <ListItem
+                                  onMouseEnter={() => setIsDropDownOpen(true)}>
+                                  Add to Favorites
+                                </ListItem>
+                              </Link>
+                            </List>
+                          </Card>
+                        )}
+                      </Button>
+                    </>
+                  )}
+                  <CardContent
+                    style={{
+                      height: "100px",
+                      width: "10em",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                      background: "black",
+                      color: "white",
+                      padding: "16px 8px",
+                    }}>
+                    <Typography
+                      gutterBottom
+                      variant="h6"
+                      component="div"
+                      style={{ overflow: "scroll" }}>
+                      {data.title}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="rgba(255, 255, 255, 0.6)">
+                      {data.artists[0].name}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            ))}
       </div>
-      <Typography sx={{ fontWeight: "bold", fontSize: "30px" }} variant="h4">
-        Featured Romantic Songs
-      </Typography>
+      <CardOnScroll
+        heading="Featured Romantic Songs"
+        disabled={disabled}
+        currentDataIndex={currentDataIndexR}
+        handleRightArrowClick={handleRightArrowClickRomantic}
+        handleLeftArrowClick={handleLeftArrowClickRomantic}
+        disabledRight={disabledRight}
+      />
       <div
         style={{
           display: "flex",
           flexDirection: "row",
           overflowX: "auto",
-          marginTop: "1rem", // Enable horizontal scrolling
+          marginTop: "1rem",
         }}>
         {romanticData.length > 0 &&
-          romanticData.map((album, index) => (
-            <CardComponent
-              album={album}
-              index={index}
-              handleMouseEnter={handleMouseEnter}
-              handleMouseLeave={handleMouseLeave}
-              hoverStates={hoverStates}
-              updateSongPlayCallback={updateSongPlayCallback}
-              togglePlayPause={togglePlayPause}
-              isPlaying={isPlaying} // Pass isPlaying as a prop
-            />
-          ))}
+          romanticData
+            .slice(currentDataIndexR, currentDataIndexR + 10)
+            .map((album, index) => (
+              <CardComponent
+                album={album}
+                index={index}
+                handleMouseEnter={handleMouseEnter}
+                handleMouseLeave={handleMouseLeave}
+                hoverStates={hoverStates}
+                updateSongPlayCallback={updateSongPlayCallback}
+                togglePlayPause={togglePlayPause}
+                isPlaying={isPlaying}
+              />
+            ))}
       </div>
-      <Typography sx={{ fontWeight: "bold", fontSize: "30px" }} variant="h4">
-        Happy Songs
-      </Typography>
+      <CardOnScroll
+        heading="Happy Songs"
+        currentDataIndex={currentDataIndex}
+        disabled={disabled}
+      />
       <div
         style={{
           display: "flex",
@@ -343,13 +460,15 @@ const Home = ({
               hoverStates={hoverStates}
               updateSongPlayCallback={updateSongPlayCallback}
               togglePlayPause={togglePlayPause}
-              isPlaying={isPlaying} // Pass isPlaying as a prop
+              isPlaying={isPlaying}
             />
           ))}
       </div>
-      <Typography variant="h4" sx={{ fontWeight: "bold", fontSize: "30px" }}>
-        Excited Songs
-      </Typography>
+      <CardOnScroll
+        heading="Excited Songs"
+        currentDataIndex={currentDataIndex}
+        disabled={disabled}
+      />
       <div
         style={{
           display: "flex",
@@ -367,13 +486,15 @@ const Home = ({
               hoverStates={hoverStates}
               updateSongPlayCallback={updateSongPlayCallback}
               togglePlayPause={togglePlayPause}
-              isPlaying={isPlaying} // Pass isPlaying as a prop
+              isPlaying={isPlaying}
             />
           ))}
       </div>
-      <Typography variant="h4" sx={{ fontWeight: "bold", fontSize: "30px" }}>
-        Sad Songs
-      </Typography>
+      <CardOnScroll
+        heading="Sad Songs"
+        currentDataIndex={currentDataIndex}
+        disabled={disabled}
+      />
       <div
         style={{
           display: "flex",
@@ -391,7 +512,7 @@ const Home = ({
               hoverStates={hoverStates}
               updateSongPlayCallback={updateSongPlayCallback}
               togglePlayPause={togglePlayPause}
-              isPlaying={isPlaying} // Pass isPlaying as a prop
+              isPlaying={isPlaying}
             />
           ))}
       </div>

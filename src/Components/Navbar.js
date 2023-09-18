@@ -10,7 +10,7 @@ import SearchIcon from "@mui/icons-material/Search";
 // import MenuItem from "@mui/material/MenuItem";
 // import Menu from "@mui/material/Menu";
 import Card from "@mui/material/Card";
-import { CardMedia, ListItem, List } from "@mui/material";
+import { CardMedia, ListItem, List, Button } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import PodcastsIcon from "@mui/icons-material/Podcasts";
 import HeadphonesIcon from "@mui/icons-material/Headphones";
@@ -18,10 +18,16 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 //import { useLocation } from "react-router-dom";
 
-function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
+function Navbar({
+  searchItem,
+  handleTextToSearch,
+  handleInputValueToSearch,
+  signSuccess,
+}) {
   // const location = useLocation();
   // const [searchItem, setSearchItem] = useState("");
   const [isDropdownOpen, setIsDropDownOpen] = useState(false);
+  const [isDropdownOpenUser, setIsDropDownOpenUser] = useState(false);
 
   const navLinkStyle = ({ isActive }) => {
     return {
@@ -31,6 +37,10 @@ function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
 
   const toggleDropDown = () => {
     setIsDropDownOpen(!isDropdownOpen);
+  };
+
+  const toggleDropDownUser = () => {
+    setIsDropDownOpenUser(!isDropdownOpenUser);
   };
 
   const handleMouseEnter = () => {
@@ -74,9 +84,8 @@ function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
             flexDirection: "row",
             backgroundColor: "transparent",
             width: "482px",
-
-            outline: "none",
             height: "80px",
+            boxShadow: "none",
           }}>
           <ListItem style={{ fontSize: "1rem", padding: "0" }}>
             <NavLink to="/" style={navLinkStyle}>
@@ -136,8 +145,17 @@ function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
                     </ListItem>
                   </NavLink>
                   <NavLink to="/podcasts" style={{ color: "white" }}>
-                    <ListItem style={{ marginBottom: "20px" }}>
+                    <ListItem
+                      style={{
+                        height: "50px",
+                        borderBottom: "1px solid grey",
+                      }}>
                       Podcasts
+                    </ListItem>
+                  </NavLink>
+                  <NavLink to="/favorites" style={{ color: "white" }}>
+                    <ListItem style={{ marginBottom: "15px" }}>
+                      Favorites
                     </ListItem>
                   </NavLink>
                 </List>
@@ -185,9 +203,64 @@ function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
             </Link>
           </IconButton>
         </Card>
-        <NavLink to="/signin">
-          <AccountCircleIcon sx={{ fontSize: "2rem" }} />
-        </NavLink>
+        <AccountCircleIcon
+          sx={{ fontSize: "2rem" }}
+          onClick={toggleDropDownUser}
+        />
+        {isDropdownOpenUser && (
+          <Card
+            sx={{
+              mt: "3rem",
+              position: "absolute",
+              top: "8%",
+              left: "78%",
+              zIndex: 1,
+            }}>
+            <List
+              style={{
+                position: "fixed",
+                border: "0.5px solid grey",
+                width: "250px",
+                borderRadius: "10px",
+                backgroundColor: "rgba(15,17,17,.7)",
+                zIndex: 1000,
+                backdropFilter: "blur(30px)",
+              }}>
+              {signSuccess ? (
+                <NavLink to="/signin">
+                  <Button
+                    style={{
+                      margin: "1rem",
+                      border: "2px solid rgb(37, 209, 218)",
+                      backgroundColor: "rgb(37, 209, 218)",
+                      borderRadius: "50px",
+                      width: "220px",
+                      color: "black",
+                    }}>
+                    LOG OUT
+                  </Button>
+                </NavLink>
+              ) : (
+                <NavLink to="/signin">
+                  <Button
+                    style={{
+                      margin: "1rem",
+                      border: "2px solid rgb(37, 209, 218)",
+                      backgroundColor: "rgb(37, 209, 218)",
+                      borderRadius: "50px",
+                      width: "220px",
+                      color: "black",
+                    }}>
+                    SIGN IN
+                  </Button>
+                </NavLink>
+              )}
+              <NavLink to="/subscription" style={{ color: "white" }}>
+                <ListItem>Subscription</ListItem>
+              </NavLink>
+            </List>
+          </Card>
+        )}
 
         {/* <Menu
           id="menu-appbar"
