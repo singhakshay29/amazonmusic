@@ -12,6 +12,7 @@ import PodcastsIcon from "@mui/icons-material/Podcasts";
 import HeadphonesIcon from "@mui/icons-material/Headphones";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 function Navbar({
   searchItem,
@@ -21,6 +22,7 @@ function Navbar({
 }) {
   const [isDropdownOpen, setIsDropDownOpen] = useState(false);
   const [isDropdownOpenUser, setIsDropDownOpenUser] = useState(false);
+  const matches = useMediaQuery("(min-width:600px)");
 
   const navLinkStyle = ({ isActive }) => {
     return {

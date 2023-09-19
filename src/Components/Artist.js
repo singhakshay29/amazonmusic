@@ -12,12 +12,15 @@ import Button from "@mui/material/Button";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import AddIcon from "@mui/icons-material/Add";
 import ShareIcon from "@mui/icons-material/Share";
-// import { Link } from "react-router-dom";
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
 
-export default function Artist({ setSearchItem }) {
-  // const [songsList, setSongsList] = useState({});
+export default function Artist({
+  setSearchItem,
+  updateSongPlayCallback,
+  togglePlayPause,
+  isPlaying,
+}) {
   const [loader, setLoader] = useState(true);
   const [playlistsongs, setplaylistsongs] = useState([]);
   const [artist, setArtist] = useState({});
@@ -36,9 +39,7 @@ export default function Artist({ setSearchItem }) {
     });
     const artistDetails = await response.json();
     setArtist(artistDetails.data);
-    console.log(artistDetails);
     const songsArray = artistDetails.data.songs;
-    console.log(songsArray);
     setplaylistsongs(songsArray);
     setLoader(false);
   }
@@ -65,17 +66,19 @@ export default function Artist({ setSearchItem }) {
         <Typography variant="body2">{artist.description}</Typography>
       </CardContent>
       <CardActions>
-        {/* <Link to={"/musicplayer/"}> */}
         <Button
           sx={{
             background: "rgb(37, 209, 218)",
             borderRadius: "20px",
             width: "80px",
             color: "black",
+          }}
+          onClick={() => {
+            updateSongPlayCallback(artist.songs[0]?._id);
+            togglePlayPause(!isPlaying);
           }}>
           <PlayArrowIcon /> Play
         </Button>
-        {/* </Link> */}
         <Button>
           <AddIcon style={{ color: "black" }} />
         </Button>
@@ -182,9 +185,13 @@ export default function Artist({ setSearchItem }) {
                       width: "80px",
                       color: "white",
                     }}>
-                    {/* <Link to={`/musicplayer/${songs._id}`}> */}
-                    <PlayArrowIcon /> Play
-                    {/* </Link> */}
+                    <PlayArrowIcon
+                      onClick={() => {
+                        updateSongPlayCallback(songs._id);
+                        togglePlayPause(!isPlaying);
+                      }}
+                    />
+                    Play
                   </Button>
                   <Button>
                     <AddIcon style={{ color: "white" }} />

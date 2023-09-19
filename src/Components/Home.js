@@ -10,9 +10,8 @@ import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import CardOnScroll from "./CardOnScroll";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+// import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+// import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 
 const Home = ({
   updateSongPlayCallback,
@@ -31,10 +30,9 @@ const Home = ({
   const [sadData, setsadData] = useState([]);
   const [albumData, setAlbum] = useState([]);
   const [isDropdownOpen, setIsDropDownOpen] = useState(false);
-  const [currentDataIndexAlbum, setCurrentDataIndexAlbum] = useState(1);
-  const [currentDataIndexR, setCurrentDataIndexR] = useState(0);
-  const [disabledLeft, setDisableLeft] = useState(true);
-  const [disabledRight, setDisableRight] = useState(false);
+  // const [currentDataIndexAlbum, setCurrentDataIndexAlbum] = useState(1);
+  // const [disabledLeft, setDisableLeft] = useState(true);
+  // const [disabledRight, setDisableRight] = useState(false);
 
   async function getThedataRomantic() {
     try {
@@ -160,52 +158,23 @@ const Home = ({
     setIsDropDownOpen(!isDropdownOpen);
   };
 
-  const handleRightArrowClick = () => {
-    if (currentDataIndexAlbum < albumData.length - 1) {
-      setCurrentDataIndexAlbum(currentDataIndexAlbum + 10);
-    }
-    if (currentDataIndexAlbum === 1) {
-      setDisableLeft(true);
-    } else {
-      setDisableLeft(false);
-    }
-  };
-  const handleLeftArrowClick = () => {
-    if (currentDataIndexAlbum > 1) {
-      setCurrentDataIndexAlbum(currentDataIndexAlbum - 1);
-    }
-    if (currentDataIndexAlbum === 20) {
-      setDisableLeft(true);
-    } else {
-      setDisableLeft(false);
-    }
-  };
-
-  const handleRightArrowClickRomantic = () => {
-    if (currentDataIndexR < 20) {
-      setDisableRight(true);
-    } else {
-      setDisableRight(false);
-    }
-    if (currentDataIndexR < romanticData.length - 1) {
-      setCurrentDataIndexR(currentDataIndexR + 10);
-    }
-    if (currentDataIndexR === 0) {
-      setDisableLeft(true);
-    } else {
-      setDisableLeft(false);
-    }
-  };
-  const handleLeftArrowClickRomantic = () => {
-    if (currentDataIndexR > 0) {
-      setCurrentDataIndexR(currentDataIndexR - 1);
-    }
-    if (currentDataIndexR === 0) {
-      setDisableLeft(true);
-    } else {
-      setDisableLeft(false);
-    }
-  };
+  // const handleRightArrowClick = () => {
+  //   if (currentDataIndexAlbum < albumData.length - 1) {
+  //     setCurrentDataIndexAlbum(currentDataIndexAlbum + 1);
+  //   }
+  //   setDisableLeft(false);
+  //   if (currentDataIndexAlbum === albumData.length - 10) {
+  //     setDisableRight(false);
+  //   }
+  // };
+  // const handleLeftArrowClick = () => {
+  //   if (currentDataIndexAlbum > 1) {
+  //     setCurrentDataIndexAlbum(currentDataIndexAlbum - 1);
+  //   }
+  //   if (currentDataIndexAlbum === 1) {
+  //     setDisableLeft(true);
+  //   }
+  // };
 
   useEffect(() => {
     getThedataRomantic();
@@ -223,10 +192,8 @@ const Home = ({
         <Typography sx={{ fontWeight: "bold", fontSize: "30px" }} variant="h4">
           Popular Album
         </Typography>
-        <Card style={{ background: "transparent" }}>
-          <Button
-            onClick={handleLeftArrowClick}
-            disabled={currentDataIndexAlbum === 1}>
+        {/* <Card style={{ background: "transparent" }}>
+          <Button onClick={handleLeftArrowClick}>
             {disabledLeft ? (
               <KeyboardArrowLeftIcon style={{ color: "grey" }} />
             ) : (
@@ -240,16 +207,8 @@ const Home = ({
               <KeyboardArrowRightIcon style={{ color: "white" }} />
             )}
           </Button>
-        </Card>
+        </Card> */}
       </Container>
-      {/* <CardOnScroll
-        disabledLeft={disabledLeft}
-        handleLeftArrowClick={handleLeftArrowClick}
-        handleRightArrowClick={handleRightArrowClick}
-        currentDataIndexAlbum={currentDataIndexAlbum}
-        heading="Popular Album"
-        disabledRight={disabledRight}
-      /> */}
       <div
         style={{
           display: "flex",
@@ -259,7 +218,7 @@ const Home = ({
         }}>
         {albumData.length > 0 &&
           albumData
-            .slice(currentDataIndexAlbum, currentDataIndexAlbum + 10)
+            // .slice(currentDataIndexAlbum, currentDataIndexAlbum + 10)
             .map((data) => (
               <Card
                 className="container"
@@ -427,13 +386,16 @@ const Home = ({
               </Card>
             ))}
       </div>
-      <CardOnScroll
-        heading="Romantic Songs"
-        currentDataIndex={currentDataIndexR}
-        handleRightArrowClick={handleRightArrowClickRomantic}
-        handleLeftArrowClick={handleLeftArrowClickRomantic}
-        disabledRight={disabledRight}
-      />
+      <Container
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: "30px" }} variant="h4">
+          Romantic Songs
+        </Typography>
+      </Container>
       <div
         style={{
           display: "flex",
@@ -442,23 +404,30 @@ const Home = ({
           marginTop: "1rem",
         }}>
         {romanticData.length > 0 &&
-          romanticData
-            .slice(currentDataIndexR, currentDataIndexR + 10)
-            .map((album, index) => (
-              <CardComponent
-                album={album}
-                index={index}
-                handleMouseEnter={handleMouseEnter}
-                handleMouseLeave={handleMouseLeave}
-                hoverStates={hoverStates}
-                updateSongPlayCallback={updateSongPlayCallback}
-                togglePlayPause={togglePlayPause}
-                isPlaying={isPlaying}
-                signSuccess={signSuccess}
-              />
-            ))}
+          romanticData.map((album, index) => (
+            <CardComponent
+              album={album}
+              index={index}
+              handleMouseEnter={handleMouseEnter}
+              handleMouseLeave={handleMouseLeave}
+              hoverStates={hoverStates}
+              updateSongPlayCallback={updateSongPlayCallback}
+              togglePlayPause={togglePlayPause}
+              isPlaying={isPlaying}
+              signSuccess={signSuccess}
+            />
+          ))}
       </div>
-      <CardOnScroll heading="Happy Songs" />
+      <Container
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: "30px" }} variant="h4">
+          Happy Songs
+        </Typography>
+      </Container>
       <div
         style={{
           display: "flex",
@@ -481,7 +450,16 @@ const Home = ({
             />
           ))}
       </div>
-      <CardOnScroll heading="Excited Songs" />
+      <Container
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: "30px" }} variant="h4">
+          Excited Songs
+        </Typography>
+      </Container>
       <div
         style={{
           display: "flex",
@@ -504,7 +482,16 @@ const Home = ({
             />
           ))}
       </div>
-      <CardOnScroll heading="Sad Songs" />
+      <Container
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: "30px" }} variant="h4">
+          Sad Songs
+        </Typography>
+      </Container>
       <div
         style={{
           display: "flex",

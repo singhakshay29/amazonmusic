@@ -42,32 +42,44 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
             return false;
           });
         }
+        console.log(filterDataRomantic);
         setSong(filterDataRomantic);
         setIsPlaying(false);
       }
-      // if (filterDataRomantic.length === 0) {
-      //   const storedDataAlbum = localStorage.getItem("albumData");
-      //   if (storedDataAlbum) {
-      //     const parsedData = JSON.parse(storedDataAlbum);
-      //     const songsArray = parsedData.albumData;
-      //     if (sIndex !== null) {
-      //       filterDataRomantic = [songsArray[sIndex]];
-      //     } else {
-      //       filterDataRomantic = songsArray.filter((songs, index) => {
-      //         const filterSongsById = songs.filter((song) => {
-      //           if (song._id === sid) {
-      //             setCurrentSongIndex(index);
-      //             return true;
-      //           }
-      //           return false;
-      //         });
-      //         console.log(filterSongsById);
-      //         return filterSongsById;
-
-      //       });
-      //     }
-      //   }
-      // }
+      if (filterDataRomantic.length === 0) {
+        const storedDataAlbum = localStorage.getItem("albumData");
+        let filterSongsById = [];
+        if (storedDataAlbum) {
+          const parsedData = JSON.parse(storedDataAlbum);
+          const songsArray = parsedData.albumData;
+          if (sIndex !== null) {
+            filterDataRomantic = [songsArray[sIndex]];
+          } else {
+            let broken = false;
+            filterDataRomantic = songsArray.map((data, index) => {
+              if (broken) {
+                return;
+              }
+              if (data?.songs?.length > 0) {
+                filterSongsById = data.songs.filter((song) => {
+                  if (song._id === sid) {
+                    setCurrentSongIndex(index);
+                    return true;
+                  }
+                  return false;
+                });
+                console.log(filterSongsById);
+              }
+              if (filterSongsById.length > 0) {
+                broken = true;
+                return;
+              }
+            });
+          }
+        }
+        setSong(filterSongsById);
+        setIsPlaying(false);
+      }
     } catch (error) {
       console.error("Something went Wrong");
     }

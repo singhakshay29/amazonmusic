@@ -135,11 +135,25 @@ function App() {
           <Route path="favorites" element={<Favorites />} />
           <Route
             path="searchalbum"
-            element={<SearchAlbum setSearchItem={setSearchItem} />}
+            element={
+              <SearchAlbum
+                setSearchItem={setSearchItem}
+                updateSongPlayCallback={updateSongPlayId}
+                togglePlayPause={togglePlayPause}
+                isPlaying={isPlaying}
+              />
+            }
           />
           <Route
             path="artist"
-            element={<Artist setSearchItem={setSearchItem} />}
+            element={
+              <Artist
+                setSearchItem={setSearchItem}
+                updateSongPlayCallback={updateSongPlayId}
+                togglePlayPause={togglePlayPause}
+                isPlaying={isPlaying}
+              />
+            }
           />
           <Route
             path="noresultfound"

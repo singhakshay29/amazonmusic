@@ -16,7 +16,12 @@ import { Link } from "react-router-dom";
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
 
-export default function SearchAlbum({ setSearchItem }) {
+export default function SearchAlbum({
+  setSearchItem,
+  updateSongPlayCallback,
+  togglePlayPause,
+  isPlaying,
+}) {
   const [songsList, setSongsList] = useState({});
   const [loader, setLoader] = useState(true);
   const [playlistsongs, setplaylistsongs] = useState([]);
@@ -71,6 +76,10 @@ export default function SearchAlbum({ setSearchItem }) {
               borderRadius: "20px",
               width: "80px",
               color: "black",
+            }}
+            onClick={() => {
+              updateSongPlayCallback(songsList.songs[0]?._id);
+              togglePlayPause(!isPlaying);
             }}>
             <PlayArrowIcon /> Play
           </Button>
@@ -181,10 +190,12 @@ export default function SearchAlbum({ setSearchItem }) {
                         borderRadius: "20px",
                         width: "80px",
                         color: "white",
+                      }}
+                      onClick={() => {
+                        updateSongPlayCallback(songs._id);
+                        togglePlayPause(!isPlaying);
                       }}>
-                      <Link to={`/musicplayer/${songs._id}`}>
-                        <PlayArrowIcon /> Play
-                      </Link>
+                      <PlayArrowIcon /> Play
                     </Button>
                     <Button>
                       <AddIcon style={{ color: "white" }} />
