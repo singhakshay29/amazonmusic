@@ -9,12 +9,10 @@ import CardComponent from "./CardComponent";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import { ListItem, List } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-// import PauseIcon from "@mui/icons-material/Pause";
+import CardOnScroll from "./CardOnScroll";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import CardOnScroll from "./CardOnScroll";
 
 const Home = ({
   updateSongPlayCallback,
@@ -25,6 +23,7 @@ const Home = ({
   hoverStates,
   handleShowNav,
   signSuccess,
+  setSearchItem,
 }) => {
   const [romanticData, setromanticData] = useState([]);
   const [happyData, setHappyData] = useState([]);
@@ -32,11 +31,10 @@ const Home = ({
   const [sadData, setsadData] = useState([]);
   const [albumData, setAlbum] = useState([]);
   const [isDropdownOpen, setIsDropDownOpen] = useState(false);
-  const [currentDataIndex, setCurrentDataIndex] = useState(1);
+  const [currentDataIndexAlbum, setCurrentDataIndexAlbum] = useState(1);
   const [currentDataIndexR, setCurrentDataIndexR] = useState(0);
-  const [disabled, setDisable] = useState(true);
+  const [disabledLeft, setDisableLeft] = useState(true);
   const [disabledRight, setDisableRight] = useState(false);
-  handleShowNav();
 
   async function getThedataRomantic() {
     try {
@@ -108,7 +106,7 @@ const Home = ({
   }
   const baseUrlSong =
     "https://academics.newtonschool.co/api/v1/music/favorites/like";
-
+  setSearchItem("");
   async function addandRemoveFavItem(songId) {
     console.log(songId);
     const user = localStorage.getItem("signupDeatils");
@@ -121,16 +119,15 @@ const Home = ({
           Accept: "application/json",
           "Content-Type": "application/json",
           Authorization: `Bearer ${parsedData.signup.token}`,
-          projectID: "8jf3b15onzua",
+          projectid: "8jf3b15onzua",
         },
         body: JSON.stringify({ songId: songId }),
       });
     }
   }
-
   const baseUrlAlbum =
     "https://academics.newtonschool.co/api/v1/music/album?limit=100";
-
+  handleShowNav();
   async function getThedataAlbum() {
     try {
       const storedData = localStorage.getItem("albumData");
@@ -164,13 +161,23 @@ const Home = ({
   };
 
   const handleRightArrowClick = () => {
-    if (currentDataIndex < albumData.length - 1) {
-      setCurrentDataIndex(currentDataIndex + 10);
+    if (currentDataIndexAlbum < albumData.length - 1) {
+      setCurrentDataIndexAlbum(currentDataIndexAlbum + 10);
     }
-    if (currentDataIndex === 1) {
-      setDisable(true);
+    if (currentDataIndexAlbum === 1) {
+      setDisableLeft(true);
     } else {
-      setDisable(false);
+      setDisableLeft(false);
+    }
+  };
+  const handleLeftArrowClick = () => {
+    if (currentDataIndexAlbum > 1) {
+      setCurrentDataIndexAlbum(currentDataIndexAlbum - 1);
+    }
+    if (currentDataIndexAlbum === 20) {
+      setDisableLeft(true);
+    } else {
+      setDisableLeft(false);
     }
   };
 
@@ -184,31 +191,19 @@ const Home = ({
       setCurrentDataIndexR(currentDataIndexR + 10);
     }
     if (currentDataIndexR === 0) {
-      setDisable(true);
+      setDisableLeft(true);
     } else {
-      setDisable(false);
+      setDisableLeft(false);
     }
   };
-
   const handleLeftArrowClickRomantic = () => {
     if (currentDataIndexR > 0) {
       setCurrentDataIndexR(currentDataIndexR - 1);
     }
     if (currentDataIndexR === 0) {
-      setDisable(true);
+      setDisableLeft(true);
     } else {
-      setDisable(false);
-    }
-  };
-
-  const handleLeftArrowClick = () => {
-    if (currentDataIndex > 1) {
-      setCurrentDataIndex(currentDataIndex - 1);
-    }
-    if (currentDataIndex === 1) {
-      setDisable(true);
-    } else {
-      setDisable(false);
+      setDisableLeft(false);
     }
   };
 
@@ -219,14 +214,42 @@ const Home = ({
 
   return (
     <Container sx={{ mt: "7rem" }}>
-      <CardOnScroll
-        disabled={disabled}
+      <Container
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: "30px" }} variant="h4">
+          Popular Album
+        </Typography>
+        <Card style={{ background: "transparent" }}>
+          <Button
+            onClick={handleLeftArrowClick}
+            disabled={currentDataIndexAlbum === 1}>
+            {disabledLeft ? (
+              <KeyboardArrowLeftIcon style={{ color: "grey" }} />
+            ) : (
+              <KeyboardArrowLeftIcon style={{ color: "white" }} />
+            )}
+          </Button>
+          <Button onClick={handleRightArrowClick}>
+            {disabledRight ? (
+              <KeyboardArrowRightIcon style={{ color: "grey" }} />
+            ) : (
+              <KeyboardArrowRightIcon style={{ color: "white" }} />
+            )}
+          </Button>
+        </Card>
+      </Container>
+      {/* <CardOnScroll
+        disabledLeft={disabledLeft}
         handleLeftArrowClick={handleLeftArrowClick}
         handleRightArrowClick={handleRightArrowClick}
-        currentDataIndex={currentDataIndex}
+        currentDataIndexAlbum={currentDataIndexAlbum}
         heading="Popular Album"
         disabledRight={disabledRight}
-      />
+      /> */}
       <div
         style={{
           display: "flex",
@@ -236,7 +259,7 @@ const Home = ({
         }}>
         {albumData.length > 0 &&
           albumData
-            .slice(currentDataIndex, currentDataIndex + 10)
+            .slice(currentDataIndexAlbum, currentDataIndexAlbum + 10)
             .map((data) => (
               <Card
                 className="container"
@@ -277,6 +300,7 @@ const Home = ({
                             color: "white",
                             borderRadius: "81%",
                             backgroundColor: "rgba(0, 0, 0, 0.5)",
+                            boxShadow: "none",
                           }}
                           onMouseEnter={() => handleMouseEnter(data._id)}
                           onMouseLeave={() => handleMouseLeave(data._id)}>
@@ -303,7 +327,7 @@ const Home = ({
                           <AddIcon />
                         </Button>
                       ) : (
-                        <Link to="/signin">
+                        <Link to="/notsignin">
                           <Button
                             variant="contained"
                             color="primary"
@@ -321,7 +345,6 @@ const Home = ({
                           </Button>
                         </Link>
                       )}
-
                       <Button
                         variant="contained"
                         color="primary"
@@ -344,17 +367,14 @@ const Home = ({
                           setIsDropDownOpen(false);
                         }}>
                         <MoreHorizIcon />
-                        {isDropdownOpen && (
+                        {/* {isDropdownOpen && (
                           <Card
                             sx={{
-                              mt: "3rem",
                               position: "absolute",
                               left: 15,
-                              zIndex: 10,
                             }}>
                             <List
                               style={{
-                                position: "fixed",
                                 border: "0.5px solid grey",
                                 width: "280px",
                                 borderRadius: "10px",
@@ -375,7 +395,7 @@ const Home = ({
                               </Link>
                             </List>
                           </Card>
-                        )}
+                        )} */}
                       </Button>
                     </>
                   )}
@@ -408,8 +428,7 @@ const Home = ({
             ))}
       </div>
       <CardOnScroll
-        heading="Featured Romantic Songs"
-        disabled={disabled}
+        heading="Romantic Songs"
         currentDataIndex={currentDataIndexR}
         handleRightArrowClick={handleRightArrowClickRomantic}
         handleLeftArrowClick={handleLeftArrowClickRomantic}
@@ -435,14 +454,11 @@ const Home = ({
                 updateSongPlayCallback={updateSongPlayCallback}
                 togglePlayPause={togglePlayPause}
                 isPlaying={isPlaying}
+                signSuccess={signSuccess}
               />
             ))}
       </div>
-      <CardOnScroll
-        heading="Happy Songs"
-        currentDataIndex={currentDataIndex}
-        disabled={disabled}
-      />
+      <CardOnScroll heading="Happy Songs" />
       <div
         style={{
           display: "flex",
@@ -461,14 +477,11 @@ const Home = ({
               updateSongPlayCallback={updateSongPlayCallback}
               togglePlayPause={togglePlayPause}
               isPlaying={isPlaying}
+              signSuccess={signSuccess}
             />
           ))}
       </div>
-      <CardOnScroll
-        heading="Excited Songs"
-        currentDataIndex={currentDataIndex}
-        disabled={disabled}
-      />
+      <CardOnScroll heading="Excited Songs" />
       <div
         style={{
           display: "flex",
@@ -487,14 +500,11 @@ const Home = ({
               updateSongPlayCallback={updateSongPlayCallback}
               togglePlayPause={togglePlayPause}
               isPlaying={isPlaying}
+              signSuccess={signSuccess}
             />
           ))}
       </div>
-      <CardOnScroll
-        heading="Sad Songs"
-        currentDataIndex={currentDataIndex}
-        disabled={disabled}
-      />
+      <CardOnScroll heading="Sad Songs" />
       <div
         style={{
           display: "flex",
@@ -513,6 +523,7 @@ const Home = ({
               updateSongPlayCallback={updateSongPlayCallback}
               togglePlayPause={togglePlayPause}
               isPlaying={isPlaying}
+              signSuccess={signSuccess}
             />
           ))}
       </div>

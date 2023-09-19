@@ -16,13 +16,14 @@ import { Link } from "react-router-dom";
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
 
-export default function SearchAlbum() {
+export default function SearchAlbum({ setSearchItem }) {
   const [songsList, setSongsList] = useState({});
   const [loader, setLoader] = useState(true);
   const [playlistsongs, setplaylistsongs] = useState([]);
   const location = useLocation();
   const { data } = location.state;
   console.log(data);
+  setSearchItem("");
 
   const baseUrl = `https://academics.newtonschool.co/api/v1/music/album/${data.album}`;
 
@@ -59,9 +60,7 @@ export default function SearchAlbum() {
           component="div">
           {songsList.title}
         </Typography>
-        <Typography sx={{ mb: 8 }} color="text.secondary">
-          {/* {songsList.artists[0]?.name} */}
-        </Typography>
+        <Typography sx={{ mb: 8 }} color="text.secondary"></Typography>
         <Typography variant="body2">{songsList.description}</Typography>
       </CardContent>
       <CardActions>
@@ -79,9 +78,6 @@ export default function SearchAlbum() {
         <Button>
           <AddIcon style={{ color: "black" }} />
         </Button>
-        {/* <Button>
-          <ShareIcon style={{ color: "black" }} />
-        </Button> */}
       </CardActions>
     </React.Fragment>
   );

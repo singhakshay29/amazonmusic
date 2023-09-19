@@ -15,8 +15,7 @@ import CardContent from "@mui/material/CardContent";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import { useRef, memo } from "react";
 
-export default memo(function MusicPlayerComponents({ songPlayId }) {
-  console.log(songPlayId);
+export default memo(function MusicPlayA({ songPlayId }) {
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [isMute, setIsMute] = useState(false);
   const [song, setSong] = useState([]);
@@ -25,49 +24,29 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
 
   async function getTheDeatails(sid, sIndex = null) {
     try {
-      const storedData = localStorage.getItem("musicData");
-      let filterDataRomantic = [];
-      if (storedData) {
-        const parsedData = JSON.parse(storedData);
-        const songsArray = parsedData.musicData;
-
+      const storedDataAlbum = localStorage.getItem("albumData");
+      if (storedDataAlbum) {
+        const parsedData = JSON.parse(storedDataAlbum);
+        const songsArray = parsedData.albumData;
+        console.log(songsArray);
+        let filterDataRomantic = [];
         if (sIndex !== null) {
           filterDataRomantic = [songsArray[sIndex]];
         } else {
-          filterDataRomantic = songsArray.filter((songs, index) => {
-            if (songs._id === sid) {
-              setCurrentSongIndex(index);
-              return true;
-            }
-            return false;
+          filterDataRomantic = songsArray.filter((item) => {
+            const filterDataSong = item.songs.filter((song, index) => {
+              if (song === sid) {
+                setCurrentSongIndex(index);
+                return true;
+              }
+              return false;
+            });
+            return filterDataSong;
           });
+          setSong(filterDataRomantic);
+          setIsPlaying(false);
         }
-        setSong(filterDataRomantic);
-        setIsPlaying(false);
       }
-      // if (filterDataRomantic.length === 0) {
-      //   const storedDataAlbum = localStorage.getItem("albumData");
-      //   if (storedDataAlbum) {
-      //     const parsedData = JSON.parse(storedDataAlbum);
-      //     const songsArray = parsedData.albumData;
-      //     if (sIndex !== null) {
-      //       filterDataRomantic = [songsArray[sIndex]];
-      //     } else {
-      //       filterDataRomantic = songsArray.filter((songs, index) => {
-      //         const filterSongsById = songs.filter((song) => {
-      //           if (song._id === sid) {
-      //             setCurrentSongIndex(index);
-      //             return true;
-      //           }
-      //           return false;
-      //         });
-      //         console.log(filterSongsById);
-      //         return filterSongsById;
-
-      //       });
-      //     }
-      //   }
-      // }
     } catch (error) {
       console.error("Something went Wrong");
     }
@@ -136,7 +115,7 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
         <CardContent sx={{ minWidth: 200 }}>
           <Typography style={{ color: "white" }}>{song[0]?.title}</Typography>
           <Typography variant="caption" style={{ color: "grey" }}>
-            {song[0]?.artist[0]?.name}
+            {/* {song[0]?.artist[0]?.name} */}
           </Typography>
         </CardContent>
 

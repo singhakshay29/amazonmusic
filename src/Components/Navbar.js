@@ -4,11 +4,7 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
-//import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-// import AccountCircle from "@mui/icons-material/AccountCircle";
-// import MenuItem from "@mui/material/MenuItem";
-// import Menu from "@mui/material/Menu";
 import Card from "@mui/material/Card";
 import { CardMedia, ListItem, List, Button } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
@@ -16,7 +12,6 @@ import PodcastsIcon from "@mui/icons-material/Podcasts";
 import HeadphonesIcon from "@mui/icons-material/Headphones";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-//import { useLocation } from "react-router-dom";
 
 function Navbar({
   searchItem,
@@ -24,8 +19,6 @@ function Navbar({
   handleInputValueToSearch,
   signSuccess,
 }) {
-  // const location = useLocation();
-  // const [searchItem, setSearchItem] = useState("");
   const [isDropdownOpen, setIsDropDownOpen] = useState(false);
   const [isDropdownOpenUser, setIsDropDownOpenUser] = useState(false);
 
@@ -60,11 +53,11 @@ function Navbar({
           borderBottom: "1px solid grey",
           alignItems: "center",
           position: "fixed",
-          // backgroundColor: "black",
           backgroundColor: "rgba(15,17,17,.6)",
           zIndex: 1000,
           backdropFilter: "blur(30px)",
           width: "100%",
+          fontfamily: "Sharp Grotesk SmBold 40 ",
         }}>
         <NavLink to="/">
           <CardMedia
@@ -198,9 +191,7 @@ function Navbar({
               padding: "6px",
               background: "none",
             }}>
-            <Link to="/showsearchresults">
-              <SearchIcon onClick={handleInputValueToSearch} />
-            </Link>
+            <SearchIcon onClick={handleInputValueToSearch} />
           </IconButton>
         </Card>
         <AccountCircleIcon
@@ -261,39 +252,6 @@ function Navbar({
             </List>
           </Card>
         )}
-
-        {/* <Menu
-          id="menu-appbar"
-          anchorEl={anchorEl}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          open={open}
-          onClose={handleClose}>
-          Conditionally render Login or Logout based on user authentication
-          {userAuthenticated ? (
-            <div>
-              <MenuItem onClick={handleClose} component={Link} to="/logout">
-                Logout
-              </MenuItem>
-              <MenuItem
-                onClick={handleClose}
-                component={Link}
-                to="/subscription">
-                Subscription
-              </MenuItem>
-            </div>
-          ) : (
-            <MenuItem onClick={handleClose} component={Link} to="/login">
-              Login
-            </MenuItem>
-          )}
-        </Menu> */}
       </Toolbar>
     </AppBar>
   );

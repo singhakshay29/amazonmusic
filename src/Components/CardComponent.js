@@ -8,8 +8,7 @@ import Button from "@mui/material/Button";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import AddIcon from "@mui/icons-material/Add";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import { NavLink } from "react-router-dom";
-import { ListItem, List } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export default function CardComponent({
   album,
@@ -19,6 +18,7 @@ export default function CardComponent({
   updateSongPlayCallback,
   togglePlayPause,
   isPlaying,
+  signSuccess,
 }) {
   const [isDropdownOpen, setIsDropDownOpen] = useState(false);
 
@@ -33,10 +33,12 @@ export default function CardComponent({
       const response = await fetch(baseUrlSong, {
         method: "PATCH",
         headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
           Authorization: `Bearer ${parsedData.signup.token}`,
-          projectID: "8jf3b15onzua",
+          projectId: "8jf3b15onzua",
         },
-        BODY: { songId: songId },
+        body: JSON.stringify({ songId: songId }),
       });
       console.log(response);
     }
@@ -94,6 +96,44 @@ export default function CardComponent({
                 }}>
                 <PlayArrowIcon style={{ fontSize: "2.5rem" }} />
               </Button>
+
+              {signSuccess ? (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{
+                    position: "absolute",
+                    top: "35%",
+                    left: "20%",
+                    transform: "translate(-50%, -50%)",
+                    zIndex: 1,
+                    background: "transparent",
+                  }}
+                  onMouseEnter={() => handleMouseEnter(album._id)}
+                  onMouseLeave={() => handleMouseLeave(album._id)}
+                  onClick={() => addandRemoveFavItem(album._id)}>
+                  <AddIcon />
+                </Button>
+              ) : (
+                <Link to="/notsignin">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    style={{
+                      position: "absolute",
+                      top: "35%",
+                      left: "20%",
+                      transform: "translate(-50%, -50%)",
+                      zIndex: 1,
+                      background: "transparent",
+                    }}
+                    onMouseEnter={() => handleMouseEnter(album._id)}
+                    onMouseLeave={() => handleMouseLeave(album._id)}
+                    onClick={() => addandRemoveFavItem(album._id)}>
+                    <AddIcon />
+                  </Button>
+                </Link>
+              )}
               <Button
                 variant="contained"
                 color="primary"
@@ -132,7 +172,7 @@ export default function CardComponent({
                   setIsDropDownOpen(false);
                 }}>
                 <MoreHorizIcon />
-                {isDropdownOpen && (
+                {/* {isDropdownOpen && (
                   <Card
                     sx={{
                       mt: "3rem",
@@ -162,7 +202,7 @@ export default function CardComponent({
                       </NavLink>
                     </List>
                   </Card>
-                )}
+                )} */}
               </Button>
             </>
           )}

@@ -51,46 +51,6 @@ export default function ShowSearchResults({ hoverStates }) {
             {data.title}
           </Typography>
         </CardActionArea>
-        <CardActionArea>
-          <div className="overlay"></div>
-          <Link to="/searchalbum" state={{ data: data }}>
-            <CardMedia
-              component="img"
-              height="200"
-              image={data.artist[0]?.image}
-              alt={data.artist[0]?.name}
-              style={{
-                borderRadius: "8px",
-                height: "160px",
-                width: "160px",
-              }}
-            />
-          </Link>
-          <Typography
-            style={{ fontSize: "24px", lineHeight: "88px", color: "white" }}>
-            {data.artist[0]?.name}
-          </Typography>
-        </CardActionArea>
-        <CardActionArea>
-          <div className="overlay"></div>
-          <Link to="/searchalbum" state={{ data: data }}>
-            <CardMedia
-              component="img"
-              height="200"
-              image={data.artist[1]?.image}
-              alt={data.artist[1]?.name}
-              style={{
-                borderRadius: "8px",
-                height: "160px",
-                width: "160px",
-              }}
-            />
-          </Link>
-          <Typography
-            style={{ fontSize: "24px", lineHeight: "88px", color: "white" }}>
-            {data.artist[1]?.name}
-          </Typography>
-        </CardActionArea>
       </Card>
     </Container>
   );

@@ -84,6 +84,7 @@ function App() {
                 hoverStates={hoverStates}
                 handleShowNav={handleShowNav}
                 signSuccess={signSuccess}
+                setSearchItem={setSearchItem}
               />
             }
           />
@@ -132,8 +133,14 @@ function App() {
             }
           />
           <Route path="favorites" element={<Favorites />} />
-          <Route path="searchalbum" element={<SearchAlbum />} />
-          <Route path="artist" element={<Artist />} />
+          <Route
+            path="searchalbum"
+            element={<SearchAlbum setSearchItem={setSearchItem} />}
+          />
+          <Route
+            path="artist"
+            element={<Artist setSearchItem={setSearchItem} />}
+          />
           <Route
             path="noresultfound"
             element={<NoResultsFound searchItem={searchItem} />}

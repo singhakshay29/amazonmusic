@@ -11,7 +11,6 @@ import Button from "@mui/material/Button";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import AddIcon from "@mui/icons-material/Add";
 import ShareIcon from "@mui/icons-material/Share";
-// import { Link } from "react-router-dom";
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
 
@@ -57,9 +56,7 @@ function Playlist({ updateSongPlayCallback, togglePlayPause, isPlaying }) {
           component="div">
           {songsList.title}
         </Typography>
-        <Typography sx={{ mb: 8 }} color="text.secondary">
-          {/* {songsList.artists[0]?.name} */}
-        </Typography>
+        <Typography sx={{ mb: 8 }} color="text.secondary"></Typography>
         <Typography variant="body2">{songsList.description}</Typography>
       </CardContent>
       <CardActions>
@@ -72,7 +69,7 @@ function Playlist({ updateSongPlayCallback, togglePlayPause, isPlaying }) {
           }}>
           <PlayArrowIcon
             onClick={() => {
-              updateSongPlayCallback(songsList?.songs[0]?._id);
+              updateSongPlayCallback(songsList.songs[0]?._id);
               togglePlayPause(!isPlaying);
             }}
           />
@@ -91,6 +88,7 @@ function Playlist({ updateSongPlayCallback, togglePlayPause, isPlaying }) {
         style={{
           backgroundImage: `url(${songsList.image})`,
           backgroundSize: "cover",
+          backdropFilter: "blur(6px)",
         }}>
         {loader ? (
           <Stack sx={{ color: "grey.500" }} spacing={2} direction="row">
@@ -175,6 +173,7 @@ function Playlist({ updateSongPlayCallback, togglePlayPause, isPlaying }) {
                     marginLeft: "42rem",
                     paddingTop: "30px",
                     background: "transparent",
+                    boxShadow: "none",
                   }}>
                   <CardActions>
                     <Button
@@ -186,7 +185,7 @@ function Playlist({ updateSongPlayCallback, togglePlayPause, isPlaying }) {
                       }}>
                       <PlayArrowIcon
                         onClick={() => {
-                          updateSongPlayCallback(songs.songs[0]?._id);
+                          updateSongPlayCallback(songs._id);
                           togglePlayPause(!isPlaying);
                         }}
                       />

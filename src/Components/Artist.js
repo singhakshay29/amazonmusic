@@ -16,7 +16,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
 
-export default function Artist() {
+export default function Artist({ setSearchItem }) {
   // const [songsList, setSongsList] = useState({});
   const [loader, setLoader] = useState(true);
   const [playlistsongs, setplaylistsongs] = useState([]);
@@ -24,6 +24,7 @@ export default function Artist() {
   const location = useLocation();
   const { data } = location.state;
   console.log(data);
+  setSearchItem("");
 
   const baseUrl = `https://academics.newtonschool.co/api/v1/music/artist/${data.artists[0]?._id}`;
 
@@ -36,7 +37,6 @@ export default function Artist() {
     const artistDetails = await response.json();
     setArtist(artistDetails.data);
     console.log(artistDetails);
-    //setSongsList(data.songs);
     const songsArray = artistDetails.data.songs;
     console.log(songsArray);
     setplaylistsongs(songsArray);
@@ -62,9 +62,6 @@ export default function Artist() {
           component="div">
           {artist.name}
         </Typography>
-        {/* <Typography sx={{ mb: 8 }} color="text.secondary">
-          {songsList.artists[0]?.name}
-        </Typography> */}
         <Typography variant="body2">{artist.description}</Typography>
       </CardContent>
       <CardActions>
@@ -175,6 +172,7 @@ export default function Artist() {
                   marginLeft: "42rem",
                   paddingTop: "30px",
                   background: "transparent",
+                  boxShadow: "none",
                 }}>
                 <CardActions>
                   <Button

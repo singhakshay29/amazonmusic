@@ -9,7 +9,7 @@ export default function CardOnScroll({
   handleLeftArrowClick,
   currentDataIndex,
   handleRightArrowClick,
-  disabled,
+  disabledLeft,
   heading,
   disabledRight,
 }) {
@@ -27,7 +27,7 @@ export default function CardOnScroll({
         <Button
           onClick={handleLeftArrowClick}
           disabled={currentDataIndex === 1}>
-          {disabled ? (
+          {disabledLeft ? (
             <KeyboardArrowLeftIcon style={{ color: "grey" }} />
           ) : (
             <KeyboardArrowLeftIcon style={{ color: "white" }} />

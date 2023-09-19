@@ -1,7 +1,5 @@
 import { Card } from "@mui/material";
 import React from "react";
-// import Stack from "@mui/material/Stack";
-// import CircularProgress from "@mui/material/CircularProgress";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
@@ -37,13 +35,16 @@ export default function Favorites({
       const response = await fetch(baseUrlSong, {
         method: "GET",
         headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
           Authorization: `Bearer ${parsedData.signup.token}`,
-          projectID: "8jf3b15onzua",
+          projectId: "8jf3b15onzua",
         },
       });
       console.log(response);
       const data = await response.json();
-      console.log(data);
+      console.log(data.data);
+      setplaylistsongs(data.data?.songs);
     }
   }
 
@@ -66,9 +67,6 @@ export default function Favorites({
           sx={{ fontWeight: "bold", color: "white", flexWrap: "wrap" }}
           component="div">
           {songsList.title}
-        </Typography>
-        <Typography sx={{ mb: 8 }} color="text.secondary">
-          {/* {songsList.artists[0]?.name} */}
         </Typography>
         <Typography variant="body2">{songsList.description}</Typography>
       </CardContent>
@@ -101,7 +99,7 @@ export default function Favorites({
         marginTop: "3rem",
         backgroundImage: `url(${mylikes})`,
         backgroundSize: "cover",
-        height: "100vh",
+        // height: "100vh",
       }}>
       {loader ? (
         <Stack sx={{ color: "grey" }} spacing={2} direction="row">
@@ -196,7 +194,7 @@ export default function Favorites({
                         updateSongPlayCallback(songs._id);
                         togglePlayPause(!isPlaying);
                       }}
-                    />{" "}
+                    />
                     Play
                   </Button>
                   <Button>
@@ -210,19 +208,6 @@ export default function Favorites({
             </div>
           ))}
       </div>
-      {/* <Card style={{ background: "black" }}>
-        <Stack
-          sx={{ color: "grey.500" }}
-          spacing={3}
-          direction="row"
-          display="flex"
-          alignItems="center"
-          justifyContent="center">
-          <CircularProgress color="secondary" />
-          <CircularProgress color="success" />
-          <CircularProgress color="inherit" />
-        </Stack>
-      </Card> */}
     </Card>
   );
 }

@@ -33,7 +33,6 @@ export default function SearchComponents({ searchItem }) {
       const filteredResultsSongs = parsedDataSongs.musicData.filter((item) => {
         return item.title.toLowerCase().includes(searchItem.toLowerCase());
       });
-      // console.log(filteredResultsAlbum);
       console.log(filteredResultsSongs);
       setSearchResultsAlbum(filteredResultsAlbumByName);
       setSearchResultsSongs(filteredResultsSongs);
