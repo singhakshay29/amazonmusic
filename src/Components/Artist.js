@@ -51,7 +51,7 @@ export default function Artist({
     if (user) {
       const parsedData = JSON.parse(user);
 
-      const response = await fetch(baseUrlSong, {
+      await fetch(baseUrlSong, {
         method: "PATCH",
         headers: {
           Accept: "application/json",

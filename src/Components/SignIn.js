@@ -17,6 +17,7 @@ export default function SignIn({ handleNotShow, setSignSuccess, signSuccess }) {
 
   const handleLogin = (e) => {
     e.preventDefault();
+
     if (!password || !email) {
       setErrorMessage("All Fields must be filled");
       setErrorColor("red");
