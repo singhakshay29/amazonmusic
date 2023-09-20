@@ -132,7 +132,16 @@ function App() {
               />
             }
           />
-          <Route path="favorites" element={<Favorites />} />
+          <Route
+            path="favorites"
+            element={
+              <Favorites
+                updateSongPlayCallback={updateSongPlayId}
+                togglePlayPause={togglePlayPause}
+                isPlaying={isPlaying}
+              />
+            }
+          />
           <Route
             path="searchalbum"
             element={

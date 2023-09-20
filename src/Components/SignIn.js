@@ -42,6 +42,13 @@ export default function SignIn({ handleNotShow, setSignSuccess, signSuccess }) {
             }
           );
           if (response.ok) {
+            const responseData = await response.json();
+            localStorage.setItem(
+              "signupDeatils",
+              JSON.stringify({
+                signup: responseData,
+              })
+            );
             setErrorMessage("Login successful!");
             setErrorColor("green");
             setSignSuccess(true);

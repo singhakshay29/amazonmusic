@@ -10,8 +10,10 @@ import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-// import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-// import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import { useTheme } from "@mui/material/styles";
+import MobileStepper from "@mui/material/MobileStepper";
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 
 const Home = ({
   updateSongPlayCallback,
@@ -30,9 +32,48 @@ const Home = ({
   const [sadData, setsadData] = useState([]);
   const [albumData, setAlbum] = useState([]);
   const [isDropdownOpen, setIsDropDownOpen] = useState(false);
-  // const [currentDataIndexAlbum, setCurrentDataIndexAlbum] = useState(1);
-  // const [disabledLeft, setDisableLeft] = useState(true);
-  // const [disabledRight, setDisableRight] = useState(false);
+
+  const theme = useTheme();
+  const [currentDataIndexAlbum, setCurrentDataIndexAlbum] = useState(1);
+  const [currentDataIndexRomantic, setCurrentDataIndexRomantic] = useState(0);
+  const [currentDataIndexHappy, setCurrentDataIndexHappy] = useState(0);
+  const [currentDataIndexExcited, setCurrentDataIndexExcited] = useState(0);
+  const [currentDataIndexSad, setCurrentDataIndexSad] = useState(0);
+
+  const handleNext = () => {
+    setCurrentDataIndexAlbum((prevActiveStep) => prevActiveStep + 1);
+  };
+  const handleBack = () => {
+    setCurrentDataIndexAlbum((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleNextR = () => {
+    setCurrentDataIndexRomantic((prevActiveStep) => prevActiveStep + 1);
+  };
+  const handleBackR = () => {
+    setCurrentDataIndexRomantic((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleNextH = () => {
+    setCurrentDataIndexHappy((prevActiveStep) => prevActiveStep + 1);
+  };
+  const handleBackH = () => {
+    setCurrentDataIndexHappy((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleNextE = () => {
+    setCurrentDataIndexExcited((prevActiveStep) => prevActiveStep + 1);
+  };
+  const handleBackE = () => {
+    setCurrentDataIndexExcited((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleNextS = () => {
+    setCurrentDataIndexSad((prevActiveStep) => prevActiveStep + 1);
+  };
+  const handleBackS = () => {
+    setCurrentDataIndexSad((prevActiveStep) => prevActiveStep - 1);
+  };
 
   async function getThedataRomantic() {
     try {
@@ -102,9 +143,9 @@ const Home = ({
       console.error("Something went wrong");
     }
   }
+  setSearchItem("");
   const baseUrlSong =
     "https://academics.newtonschool.co/api/v1/music/favorites/like";
-  setSearchItem("");
   async function addandRemoveFavItem(songId) {
     console.log(songId);
     const user = localStorage.getItem("signupDeatils");
@@ -158,24 +199,6 @@ const Home = ({
     setIsDropDownOpen(!isDropdownOpen);
   };
 
-  // const handleRightArrowClick = () => {
-  //   if (currentDataIndexAlbum < albumData.length - 1) {
-  //     setCurrentDataIndexAlbum(currentDataIndexAlbum + 1);
-  //   }
-  //   setDisableLeft(false);
-  //   if (currentDataIndexAlbum === albumData.length - 10) {
-  //     setDisableRight(false);
-  //   }
-  // };
-  // const handleLeftArrowClick = () => {
-  //   if (currentDataIndexAlbum > 1) {
-  //     setCurrentDataIndexAlbum(currentDataIndexAlbum - 1);
-  //   }
-  //   if (currentDataIndexAlbum === 1) {
-  //     setDisableLeft(true);
-  //   }
-  // };
-
   useEffect(() => {
     getThedataRomantic();
     getThedataAlbum();
@@ -192,22 +215,44 @@ const Home = ({
         <Typography sx={{ fontWeight: "bold", fontSize: "30px" }} variant="h4">
           Popular Album
         </Typography>
-        {/* <Card style={{ background: "transparent" }}>
-          <Button onClick={handleLeftArrowClick}>
-            {disabledLeft ? (
-              <KeyboardArrowLeftIcon style={{ color: "grey" }} />
-            ) : (
-              <KeyboardArrowLeftIcon style={{ color: "white" }} />
-            )}
-          </Button>
-          <Button onClick={handleRightArrowClick}>
-            {disabledRight ? (
-              <KeyboardArrowRightIcon style={{ color: "grey" }} />
-            ) : (
-              <KeyboardArrowRightIcon style={{ color: "white" }} />
-            )}
-          </Button>
-        </Card> */}
+        <MobileStepper
+          variant="d"
+          steps={6}
+          position="static"
+          activeStep={currentDataIndexAlbum}
+          sx={{ maxWidth: 100, flexGrow: 1 }}
+          style={{ background: "transparent" }}
+          nextButton={
+            <Button
+              size="small"
+              onClick={handleNext}
+              disabled={currentDataIndexAlbum === 30}
+              style={{
+                color: currentDataIndexAlbum === 30 ? "grey" : "white",
+              }}>
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowLeft />
+              ) : (
+                <KeyboardArrowRight />
+              )}
+            </Button>
+          }
+          backButton={
+            <Button
+              size="small"
+              onClick={handleBack}
+              disabled={currentDataIndexAlbum === 1}
+              style={{
+                color: currentDataIndexAlbum === 1 ? "grey" : "white",
+              }}>
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowRight />
+              ) : (
+                <KeyboardArrowLeft />
+              )}
+            </Button>
+          }
+        />
       </Container>
       <div
         style={{
@@ -218,7 +263,7 @@ const Home = ({
         }}>
         {albumData.length > 0 &&
           albumData
-            // .slice(currentDataIndexAlbum, currentDataIndexAlbum + 10)
+            .slice(currentDataIndexAlbum, currentDataIndexAlbum + 10)
             .map((data) => (
               <Card
                 className="container"
@@ -395,6 +440,44 @@ const Home = ({
         <Typography sx={{ fontWeight: "bold", fontSize: "30px" }} variant="h4">
           Romantic Songs
         </Typography>
+        <MobileStepper
+          variant="d"
+          steps={6}
+          position="static"
+          activeStep={currentDataIndexRomantic}
+          sx={{ maxWidth: 100, flexGrow: 1 }}
+          style={{ background: "transparent" }}
+          nextButton={
+            <Button
+              size="small"
+              onClick={handleNextR}
+              disabled={currentDataIndexRomantic === 15}
+              style={{
+                color: currentDataIndexRomantic === 15 ? "grey" : "white",
+              }}>
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowLeft />
+              ) : (
+                <KeyboardArrowRight />
+              )}
+            </Button>
+          }
+          backButton={
+            <Button
+              size="small"
+              onClick={handleBackR}
+              disabled={currentDataIndexRomantic === 0}
+              style={{
+                color: currentDataIndexRomantic === 0 ? "grey" : "white",
+              }}>
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowRight />
+              ) : (
+                <KeyboardArrowLeft />
+              )}
+            </Button>
+          }
+        />
       </Container>
       <div
         style={{
@@ -404,19 +487,21 @@ const Home = ({
           marginTop: "1rem",
         }}>
         {romanticData.length > 0 &&
-          romanticData.map((album, index) => (
-            <CardComponent
-              album={album}
-              index={index}
-              handleMouseEnter={handleMouseEnter}
-              handleMouseLeave={handleMouseLeave}
-              hoverStates={hoverStates}
-              updateSongPlayCallback={updateSongPlayCallback}
-              togglePlayPause={togglePlayPause}
-              isPlaying={isPlaying}
-              signSuccess={signSuccess}
-            />
-          ))}
+          romanticData
+            .slice(currentDataIndexRomantic, currentDataIndexRomantic + 10)
+            .map((album, index) => (
+              <CardComponent
+                album={album}
+                index={index}
+                handleMouseEnter={handleMouseEnter}
+                handleMouseLeave={handleMouseLeave}
+                hoverStates={hoverStates}
+                updateSongPlayCallback={updateSongPlayCallback}
+                togglePlayPause={togglePlayPause}
+                isPlaying={isPlaying}
+                signSuccess={signSuccess}
+              />
+            ))}
       </div>
       <Container
         style={{
@@ -427,6 +512,44 @@ const Home = ({
         <Typography sx={{ fontWeight: "bold", fontSize: "30px" }} variant="h4">
           Happy Songs
         </Typography>
+        <MobileStepper
+          variant="d"
+          steps={6}
+          position="static"
+          activeStep={currentDataIndexHappy}
+          sx={{ maxWidth: 100, flexGrow: 1 }}
+          style={{ background: "transparent" }}
+          nextButton={
+            <Button
+              size="small"
+              onClick={handleNextH}
+              disabled={currentDataIndexHappy === 22}
+              style={{
+                color: currentDataIndexHappy === 22 ? "grey" : "white",
+              }}>
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowLeft />
+              ) : (
+                <KeyboardArrowRight />
+              )}
+            </Button>
+          }
+          backButton={
+            <Button
+              size="small"
+              onClick={handleBackH}
+              disabled={currentDataIndexHappy === 0}
+              style={{
+                color: currentDataIndexHappy === 0 ? "grey" : "white",
+              }}>
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowRight />
+              ) : (
+                <KeyboardArrowLeft />
+              )}
+            </Button>
+          }
+        />
       </Container>
       <div
         style={{
@@ -436,19 +559,21 @@ const Home = ({
           marginTop: "1rem", // Enable horizontal scrolling
         }}>
         {happyData.length > 0 &&
-          happyData.map((album, index) => (
-            <CardComponent
-              album={album}
-              index={index}
-              handleMouseEnter={handleMouseEnter}
-              handleMouseLeave={handleMouseLeave}
-              hoverStates={hoverStates}
-              updateSongPlayCallback={updateSongPlayCallback}
-              togglePlayPause={togglePlayPause}
-              isPlaying={isPlaying}
-              signSuccess={signSuccess}
-            />
-          ))}
+          happyData
+            .slice(currentDataIndexHappy, currentDataIndexHappy + 10)
+            .map((album, index) => (
+              <CardComponent
+                album={album}
+                index={index}
+                handleMouseEnter={handleMouseEnter}
+                handleMouseLeave={handleMouseLeave}
+                hoverStates={hoverStates}
+                updateSongPlayCallback={updateSongPlayCallback}
+                togglePlayPause={togglePlayPause}
+                isPlaying={isPlaying}
+                signSuccess={signSuccess}
+              />
+            ))}
       </div>
       <Container
         style={{
@@ -459,28 +584,68 @@ const Home = ({
         <Typography sx={{ fontWeight: "bold", fontSize: "30px" }} variant="h4">
           Excited Songs
         </Typography>
+        <MobileStepper
+          variant="d"
+          steps={6}
+          position="static"
+          activeStep={currentDataIndexExcited}
+          sx={{ maxWidth: 100, flexGrow: 1 }}
+          style={{ background: "transparent" }}
+          nextButton={
+            <Button
+              size="small"
+              onClick={handleNextE}
+              disabled={currentDataIndexExcited === 22}
+              style={{
+                color: currentDataIndexExcited === 22 ? "grey" : "white",
+              }}>
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowLeft />
+              ) : (
+                <KeyboardArrowRight />
+              )}
+            </Button>
+          }
+          backButton={
+            <Button
+              size="small"
+              onClick={handleBackE}
+              disabled={currentDataIndexExcited === 0}
+              style={{
+                color: currentDataIndexExcited === 0 ? "grey" : "white",
+              }}>
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowRight />
+              ) : (
+                <KeyboardArrowLeft />
+              )}
+            </Button>
+          }
+        />
       </Container>
       <div
         style={{
           display: "flex",
           flexDirection: "row",
           overflowX: "auto",
-          marginTop: "1rem", // Enable horizontal scrolling
+          marginTop: "1rem",
         }}>
         {excitedData.length > 0 &&
-          excitedData.map((album, index) => (
-            <CardComponent
-              album={album}
-              index={index}
-              handleMouseEnter={handleMouseEnter}
-              handleMouseLeave={handleMouseLeave}
-              hoverStates={hoverStates}
-              updateSongPlayCallback={updateSongPlayCallback}
-              togglePlayPause={togglePlayPause}
-              isPlaying={isPlaying}
-              signSuccess={signSuccess}
-            />
-          ))}
+          excitedData
+            .slice(currentDataIndexExcited, currentDataIndexExcited + 10)
+            .map((album, index) => (
+              <CardComponent
+                album={album}
+                index={index}
+                handleMouseEnter={handleMouseEnter}
+                handleMouseLeave={handleMouseLeave}
+                hoverStates={hoverStates}
+                updateSongPlayCallback={updateSongPlayCallback}
+                togglePlayPause={togglePlayPause}
+                isPlaying={isPlaying}
+                signSuccess={signSuccess}
+              />
+            ))}
       </div>
       <Container
         style={{
@@ -491,28 +656,68 @@ const Home = ({
         <Typography sx={{ fontWeight: "bold", fontSize: "30px" }} variant="h4">
           Sad Songs
         </Typography>
+        <MobileStepper
+          variant="d"
+          steps={6}
+          position="static"
+          activeStep={currentDataIndexSad}
+          sx={{ maxWidth: 100, flexGrow: 1 }}
+          style={{ background: "transparent" }}
+          nextButton={
+            <Button
+              size="small"
+              onClick={handleNextS}
+              disabled={currentDataIndexSad === 15}
+              style={{
+                color: currentDataIndexSad === 15 ? "grey" : "white",
+              }}>
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowLeft />
+              ) : (
+                <KeyboardArrowRight />
+              )}
+            </Button>
+          }
+          backButton={
+            <Button
+              size="small"
+              onClick={handleBackS}
+              disabled={currentDataIndexSad === 0}
+              style={{
+                color: currentDataIndexSad === 0 ? "grey" : "white",
+              }}>
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowRight />
+              ) : (
+                <KeyboardArrowLeft />
+              )}
+            </Button>
+          }
+        />
       </Container>
       <div
         style={{
           display: "flex",
           flexDirection: "row",
           overflowX: "auto",
-          marginTop: "1rem", // Enable horizontal scrolling
+          marginTop: "1rem",
         }}>
         {sadData.length > 0 &&
-          sadData.map((album, index) => (
-            <CardComponent
-              album={album}
-              index={index}
-              handleMouseEnter={handleMouseEnter}
-              handleMouseLeave={handleMouseLeave}
-              hoverStates={hoverStates}
-              updateSongPlayCallback={updateSongPlayCallback}
-              togglePlayPause={togglePlayPause}
-              isPlaying={isPlaying}
-              signSuccess={signSuccess}
-            />
-          ))}
+          sadData
+            .slice(currentDataIndexSad, currentDataIndexSad + 10)
+            .map((album, index) => (
+              <CardComponent
+                album={album}
+                index={index}
+                handleMouseEnter={handleMouseEnter}
+                handleMouseLeave={handleMouseLeave}
+                hoverStates={hoverStates}
+                updateSongPlayCallback={updateSongPlayCallback}
+                togglePlayPause={togglePlayPause}
+                isPlaying={isPlaying}
+                signSuccess={signSuccess}
+              />
+            ))}
       </div>
     </Container>
   );

@@ -1,13 +1,11 @@
 import { Box, Container, List, ListItem, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-//import { useLocation } from "react-router-dom";
 
 export default function SearchComponents({ searchItem }) {
   const [searchResultsSongs, setSearchResultsSongs] = useState([]);
   const [searchResultsAlbum, setSearchResultsAlbum] = useState([]);
   const [searchArtist, setArtist] = useState([]);
-  //const [searchHistory, setSearchHistory] = useState([]);
 
   useEffect(() => {
     async function getTheDetails() {
@@ -71,46 +69,54 @@ export default function SearchComponents({ searchItem }) {
           flexDirection: "column",
           alignItems: "flex-start",
         }}>
-        {searchResultsSongs.map((result) => (
-          <List
-            className="listItem"
-            style={{
-              margin: "0.8rem 0rem",
-              cursor: "pointer",
-              width: "100%",
-            }}
-            key={result._id}>
-            <Link to="/showsearchresults" state={{ data: result }}>
-              {result.title}
-            </Link>
-          </List>
-        ))}
-        {searchResultsAlbum.map((result) => (
-          <List
-            className="listItem"
-            style={{
-              margin: "0.8rem 0rem",
-              cursor: "pointer",
-              width: "100%",
-            }}
-            key={result._id}>
-            <Link to={`/playlist/${result._id}`}>{result.title}</Link>
-          </List>
-        ))}
-        {searchArtist.map((result) => (
-          <List
-            className="listItem"
-            style={{
-              margin: "0.8rem 0rem",
-              cursor: "pointer",
-              width: "100%",
-            }}
-            key={result._id}>
-            <Link to="/artist" state={{ data: result }}>
-              {result.artists[0]?.name}
-            </Link>
-          </List>
-        ))}
+        {searchResultsSongs.length === 0 &&
+        searchResultsAlbum.length === 0 &&
+        searchArtist.length === 0 ? (
+          <Typography>No results found</Typography>
+        ) : (
+          <>
+            {searchResultsSongs.map((result) => (
+              <List
+                className="listItem"
+                style={{
+                  margin: "0.8rem 0rem",
+                  cursor: "pointer",
+                  width: "100%",
+                }}
+                key={result._id}>
+                <Link to="/showsearchresults" state={{ data: result }}>
+                  {result.title}
+                </Link>
+              </List>
+            ))}
+            {searchResultsAlbum.map((result) => (
+              <List
+                className="listItem"
+                style={{
+                  margin: "0.8rem 0rem",
+                  cursor: "pointer",
+                  width: "100%",
+                }}
+                key={result._id}>
+                <Link to={`/playlist/${result._id}`}>{result.title}</Link>
+              </List>
+            ))}
+            {searchArtist.map((result) => (
+              <List
+                className="listItem"
+                style={{
+                  margin: "0.8rem 0rem",
+                  cursor: "pointer",
+                  width: "100%",
+                }}
+                key={result._id}>
+                <Link to="/artist" state={{ data: result }}>
+                  {result.artists[0]?.name}
+                </Link>
+              </List>
+            ))}
+          </>
+        )}
       </ListItem>
     </Container>
   );

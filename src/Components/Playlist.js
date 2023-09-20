@@ -20,6 +20,26 @@ function Playlist({ updateSongPlayCallback, togglePlayPause, isPlaying }) {
   const [playlistsongs, setplaylistsongs] = useState([]);
 
   const { id } = useParams();
+  const baseUrlSong =
+    "https://academics.newtonschool.co/api/v1/music/favorites/like";
+  async function addandRemoveFavItem(songId) {
+    console.log(songId);
+    const user = localStorage.getItem("signupDeatils");
+    if (user) {
+      const parsedData = JSON.parse(user);
+
+      const response = await fetch(baseUrlSong, {
+        method: "PATCH",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${parsedData.signup.token}`,
+          projectid: "8jf3b15onzua",
+        },
+        body: JSON.stringify({ songId: songId }),
+      });
+    }
+  }
 
   async function getTheDeatails() {
     const response = await fetch(
@@ -191,7 +211,7 @@ function Playlist({ updateSongPlayCallback, togglePlayPause, isPlaying }) {
                       />
                       Play
                     </Button>
-                    <Button>
+                    <Button onClick={() => addandRemoveFavItem(songs._id)}>
                       <AddIcon style={{ color: "white" }} />
                     </Button>
                     <Button>

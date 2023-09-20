@@ -65,9 +65,7 @@ function Navbar({
           <CardMedia
             component="img"
             style={{
-              backgroundColor: "transparent",
               width: "150px",
-              marginTop: "10px",
             }}
             src="https://d5fx445wy2wpk.cloudfront.net/static/logo.svg"
             alt="amazon music"
@@ -81,8 +79,14 @@ function Navbar({
             width: "482px",
             height: "80px",
             boxShadow: "none",
+            position: "fixed",
+            marginLeft: "10rem",
           }}>
-          <ListItem style={{ fontSize: "1rem", padding: "0" }}>
+          <ListItem
+            style={{
+              fontSize: "1rem",
+              padding: "0",
+            }}>
             <NavLink to="/" style={navLinkStyle}>
               <HomeIcon sx={{ mx: "0.5rem" }} />
               HOME
@@ -148,11 +152,19 @@ function Navbar({
                       Podcasts
                     </ListItem>
                   </NavLink>
-                  <NavLink to="/favorites" style={{ color: "white" }}>
-                    <ListItem style={{ marginBottom: "15px" }}>
-                      Favorites
-                    </ListItem>
-                  </NavLink>
+                  {signSuccess ? (
+                    <NavLink to="/favorites" style={{ color: "white" }}>
+                      <ListItem style={{ marginBottom: "15px" }}>
+                        Favorites
+                      </ListItem>
+                    </NavLink>
+                  ) : (
+                    <NavLink to="/notsignin" style={{ color: "white" }}>
+                      <ListItem style={{ marginBottom: "15px" }}>
+                        Favorites
+                      </ListItem>
+                    </NavLink>
+                  )}
                 </List>
               </Card>
             )}
@@ -160,7 +172,7 @@ function Navbar({
         </Card>
         <Card
           style={{
-            marginLeft: "15rem",
+            marginLeft: "47rem",
             width: "256px",
             borderRadius: "50px",
             cursor: "pointer",

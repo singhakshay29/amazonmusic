@@ -45,6 +45,7 @@ export default function Favorites({
       const data = await response.json();
       console.log(data.data);
       setplaylistsongs(data.data?.songs);
+      setLoader(true);
     }
   }
 
@@ -99,7 +100,6 @@ export default function Favorites({
         marginTop: "3rem",
         backgroundImage: `url(${mylikes})`,
         backgroundSize: "cover",
-        // height: "100vh",
       }}>
       {loader ? (
         <Stack sx={{ color: "grey" }} spacing={2} direction="row">
