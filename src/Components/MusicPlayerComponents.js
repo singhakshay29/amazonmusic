@@ -16,11 +16,11 @@ import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import { useRef, memo } from "react";
 
 export default memo(function MusicPlayerComponents({ songPlayId }) {
-  console.log(songPlayId);
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [isMute, setIsMute] = useState(false);
   const [song, setSong] = useState([]);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
   const audioRef = useRef(null);
 
   async function getTheDeatails(sid, sIndex = null) {
@@ -42,7 +42,6 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
             return false;
           });
         }
-        console.log(filterDataRomantic);
         setSong(filterDataRomantic);
         setIsPlaying(false);
       }
@@ -68,7 +67,6 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
                   }
                   return false;
                 });
-                console.log(filterSongsById);
               }
               if (filterSongsById.length > 0) {
                 broken = true;
@@ -88,6 +86,18 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
   useEffect(() => {
     getTheDeatails(songPlayId);
   }, [songPlayId]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 800);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const playPauseToggle = () => {
     if (audioRef.current) {
@@ -125,103 +135,165 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
 
   return (
     <>
-      <div
-        style={{
-          width: "100vw",
-          height: "15vh",
-          backgroundColor: "rgba(15,17,17,.6)",
-          display: "flex",
-          flexDirection: "row",
-          margin: "1rem 0 0 0",
-          marginTop: "46%",
-          position: "fixed",
-          zIndex: 9,
-          backdropFilter: "blur(30px)",
-        }}>
-        <CardMedia
-          component="img"
-          sx={{ height: "100px", width: "120px" }}
-          image={song[0]?.thumbnail}
-          title={song[0]?.title}
-        />
-
-        <CardContent sx={{ minWidth: 200 }}>
-          <Typography style={{ color: "white" }}>{song[0]?.title}</Typography>
-          <Typography variant="caption" style={{ color: "grey" }}>
-            {song[0]?.artist[0]?.name}
-          </Typography>
-        </CardContent>
-
-        <CardActions
-          sx={{
-            marginLeft: "150px",
-          }}>
-          <Button
-            sx={{
-              background: "transparent",
-              borderRadius: "20px",
-              width: "80px",
-              color: "white",
-            }}
-            onClick={playLoopSong}>
-            <LoopIcon />
-          </Button>
-          <Button
-            sx={{
-              background: "transparent",
-              borderRadius: "20px",
-              color: "white",
-            }}
-            onClick={playPreviousSong}>
-            <SkipPreviousIcon />
-          </Button>
-          <Button
-            sx={{
-              background: "transparent",
-              borderRadius: "20px",
-              color: "white",
-            }}
-            onClick={playPauseToggle}>
-            <audio ref={audioRef} src={song[0]?.audio_url} />
-            {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
-          </Button>
-          <Button
-            sx={{
-              background: "transparent",
-              borderRadius: "20px",
-              color: "white",
-            }}
-            onClick={playNextSong}>
-            <SkipNextIcon />
-          </Button>
-          <Button
-            sx={{
-              background: "transparent",
-              borderRadius: "20px",
-              color: "white",
+      {isSmallScreen ? (
+        <>
+          <div
+            style={{
+              width: "100vw",
+              height: "15vh",
+              backgroundColor: "rgba(15,17,17,.6)",
+              display: "flex",
+              flexDirection: "row",
+              bottom: 0,
+              position: "fixed",
+              zIndex: 9,
+              backdropFilter: "blur(30px)",
+              flexGrow: "1",
             }}>
-            <ShuffleSharpIcon />
-          </Button>
-        </CardActions>
+            <CardMedia
+              component="img"
+              sx={{ height: "100px", width: "120px" }}
+              image={song[0]?.thumbnail}
+              title={song[0]?.title}
+            />
 
-        <Card
-          sx={{
-            background: "transparent",
-            color: "black",
-            display: "flex",
-            paddingLeft: "20px",
-            minWidth: 200,
-            marginLeft: "230px",
-          }}>
-          <Button onClick={muteUnmuteToggle}>
-            {isMute ? (
-              <VolumeOffIcon style={{ fontSize: "35px", color: "white" }} />
-            ) : (
-              <VolumeUpIcon style={{ fontSize: "35px", color: "white" }} />
-            )}
-          </Button>
-        </Card>
-      </div>
+            <CardContent sx={{ minWidth: 200 }}>
+              <Typography style={{ color: "white" }}>
+                {song[0]?.title}
+              </Typography>
+              <Typography variant="caption" style={{ color: "grey" }}>
+                {song[0]?.artist[0]?.name}
+              </Typography>
+            </CardContent>
+
+            <CardActions sx={{ flexGrow: 1 }}>
+              <SkipPreviousIcon onClick={playPreviousSong} />
+
+              <Button
+                sx={{
+                  background: "transparent",
+                  borderRadius: "20px",
+                  color: "white",
+                }}
+                onClick={playPauseToggle}>
+                <audio ref={audioRef} src={song[0]?.audio_url} />
+                {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
+              </Button>
+              <SkipNextIcon onClick={playNextSong} />
+              <Button onClick={muteUnmuteToggle}>
+                {isMute ? (
+                  <VolumeOffIcon style={{ fontSize: "25px", color: "white" }} />
+                ) : (
+                  <VolumeUpIcon style={{ fontSize: "25px", color: "white" }} />
+                )}
+              </Button>
+            </CardActions>
+          </div>
+        </>
+      ) : (
+        <>
+          <div
+            style={{
+              width: "100vw",
+              height: "15vh",
+              backgroundColor: "rgba(15,17,17,.6)",
+              display: "flex",
+              flexDirection: "row",
+              margin: "1rem 0 0 0",
+              bottom: 0,
+              position: "fixed",
+              zIndex: 9,
+              backdropFilter: "blur(30px)",
+              flexGrow: "1",
+            }}>
+            <CardMedia
+              component="img"
+              sx={{ height: "100px", width: "120px" }}
+              image={song[0]?.thumbnail}
+              title={song[0]?.title}
+            />
+
+            <CardContent sx={{ minWidth: 200 }}>
+              <Typography style={{ color: "white" }}>
+                {song[0]?.title}
+              </Typography>
+              <Typography variant="caption" style={{ color: "grey" }}>
+                {song[0]?.artist[0]?.name}
+              </Typography>
+            </CardContent>
+
+            <CardActions
+              sx={{
+                marginLeft: "150px",
+              }}>
+              <Button
+                sx={{
+                  background: "transparent",
+                  borderRadius: "20px",
+                  width: "80px",
+                  color: "white",
+                }}
+                onClick={playLoopSong}>
+                <LoopIcon />
+              </Button>
+              <Button
+                sx={{
+                  background: "transparent",
+                  borderRadius: "20px",
+                  color: "white",
+                }}
+                onClick={playPreviousSong}>
+                <SkipPreviousIcon />
+              </Button>
+              <Button
+                sx={{
+                  background: "transparent",
+                  borderRadius: "20px",
+                  color: "white",
+                }}
+                onClick={playPauseToggle}>
+                <audio ref={audioRef} src={song[0]?.audio_url} />
+                {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
+              </Button>
+              <Button
+                sx={{
+                  background: "transparent",
+                  borderRadius: "20px",
+                  color: "white",
+                }}
+                onClick={playNextSong}>
+                <SkipNextIcon />
+              </Button>
+              <Button
+                sx={{
+                  background: "transparent",
+                  borderRadius: "20px",
+                  color: "white",
+                }}>
+                <ShuffleSharpIcon />
+              </Button>
+            </CardActions>
+
+            <Card
+              sx={{
+                background: "transparent",
+                color: "black",
+                display: "flex",
+                paddingLeft: "20px",
+                minWidth: 200,
+                marginLeft: "230px",
+              }}>
+              <Button onClick={muteUnmuteToggle}>
+                {isMute ? (
+                  <VolumeOffIcon style={{ fontSize: "35px", color: "white" }} />
+                ) : (
+                  <VolumeUpIcon style={{ fontSize: "35px", color: "white" }} />
+                )}
+              </Button>
+            </Card>
+          </div>
+        </>
+      )}
     </>
   );
 });

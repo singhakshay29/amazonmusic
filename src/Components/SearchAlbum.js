@@ -27,7 +27,6 @@ export default function SearchAlbum({
   const [playlistsongs, setplaylistsongs] = useState([]);
   const location = useLocation();
   const { data } = location.state;
-  console.log(data);
   setSearchItem("");
 
   const baseUrl = `https://academics.newtonschool.co/api/v1/music/album/${data.album}`;
@@ -39,7 +38,6 @@ export default function SearchAlbum({
       },
     });
     const data = await response.json();
-    console.log(data);
     setSongsList(data.data);
     const songsArray = data.data.songs;
     setplaylistsongs(songsArray);

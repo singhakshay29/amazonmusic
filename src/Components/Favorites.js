@@ -9,7 +9,6 @@ import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import AddIcon from "@mui/icons-material/Add";
-import ShareIcon from "@mui/icons-material/Share";
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
 import mylikes from "../assests/mylikes.png";
@@ -21,7 +20,7 @@ export default function Favorites({
   isPlaying,
 }) {
   const [songsList, setSongsList] = useState({});
-  const [loader, setLoader] = useState(false);
+  const [loader, setLoader] = useState(true);
   const [playlistsongs, setplaylistsongs] = useState([]);
 
   const baseUrlSong =
@@ -31,7 +30,6 @@ export default function Favorites({
     const user = localStorage.getItem("signupDeatils");
     if (user) {
       const parsedData = JSON.parse(user);
-      console.log(parsedData);
       const response = await fetch(baseUrlSong, {
         method: "GET",
         headers: {
@@ -41,11 +39,9 @@ export default function Favorites({
           projectId: "8jf3b15onzua",
         },
       });
-      console.log(response);
       const data = await response.json();
-      console.log(data.data);
       setplaylistsongs(data.data?.songs);
-      setLoader(true);
+      setLoader(false);
     }
   }
 
@@ -87,9 +83,6 @@ export default function Favorites({
           />
           Play
         </Button>
-        {/* <Button>
-          <AddIcon style={{ color: "black" }} />
-        </Button> */}
       </CardActions>
     </React.Fragment>
   );
@@ -200,9 +193,6 @@ export default function Favorites({
                   <Button>
                     <AddIcon style={{ color: "white" }} />
                   </Button>
-                  {/* <Button>
-                    <ShareIcon style={{ color: "white" }} />
-                  </Button> */}
                 </CardActions>
               </Card>
             </div>

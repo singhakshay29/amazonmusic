@@ -7,8 +7,6 @@ import { CardActionArea } from "@mui/material";
 import Button from "@mui/material/Button";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import AddIcon from "@mui/icons-material/Add";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import PauseIcon from "@mui/icons-material/Pause";
 import { useState, useEffect } from "react";
 
 export default function TrendingPlaylist({

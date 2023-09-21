@@ -52,7 +52,7 @@ export default function Podcasts({
   };
 
   return (
-    <Container sx={{ mt: "7rem", marginLeft: "0" }}>
+    <Container sx={{ mt: "4rem" }}>
       <Grid container spacing={5} sx={{ m: "0.8rem" }}>
         {songs.slice(0, page * cardsPerPage).map((song, index) => (
           <Card

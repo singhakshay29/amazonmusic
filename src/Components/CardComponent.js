@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Typography } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -19,17 +19,14 @@ export default function CardComponent({
   isPlaying,
   signSuccess,
 }) {
-  const [isDropdownOpen, setIsDropDownOpen] = useState(false);
-
   const baseUrlSong =
     "https://academics.newtonschool.co/api/v1/music/favorites/like";
 
   async function addandRemoveFavItem(songId) {
-    console.log(songId);
     const user = localStorage.getItem("signupDeatils");
     if (user) {
       const parsedData = JSON.parse(user);
-      const response = await fetch(baseUrlSong, {
+      await fetch(baseUrlSong, {
         method: "PATCH",
         headers: {
           Accept: "application/json",
@@ -39,13 +36,9 @@ export default function CardComponent({
         },
         body: JSON.stringify({ songId: songId }),
       });
-      console.log(response);
     }
   }
 
-  const toggleDropDown = () => {
-    setIsDropDownOpen(!isDropdownOpen);
-  };
   return (
     <>
       <Card

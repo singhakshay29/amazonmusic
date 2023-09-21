@@ -30,7 +30,6 @@ const Home = ({
   const [excitedData, setExcitedData] = useState([]);
   const [sadData, setsadData] = useState([]);
   const [albumData, setAlbum] = useState([]);
-  const [isDropdownOpen, setIsDropDownOpen] = useState(false);
 
   const theme = useTheme();
   const [currentDataIndexAlbum, setCurrentDataIndexAlbum] = useState(1);
@@ -146,12 +145,11 @@ const Home = ({
   const baseUrlSong =
     "https://academics.newtonschool.co/api/v1/music/favorites/like";
   async function addandRemoveFavItem(songId) {
-    console.log(songId);
     const user = localStorage.getItem("signupDeatils");
     if (user) {
       const parsedData = JSON.parse(user);
 
-      const response = await fetch(baseUrlSong, {
+      await fetch(baseUrlSong, {
         method: "PATCH",
         headers: {
           Accept: "application/json",
@@ -194,9 +192,6 @@ const Home = ({
       console.error("Something went Wrong");
     }
   }
-  const toggleDropDown = () => {
-    setIsDropDownOpen(!isDropdownOpen);
-  };
 
   useEffect(() => {
     getThedataRomantic();
@@ -257,7 +252,7 @@ const Home = ({
         style={{
           display: "flex",
           flexDirection: "row",
-          overflowX: "auto",
+          overflow: "hidden",
           marginTop: "1rem",
         }}>
         {albumData.length > 0 &&
@@ -365,7 +360,7 @@ const Home = ({
                       gutterBottom
                       variant="h6"
                       component="div"
-                      style={{ overflow: "scroll" }}>
+                      style={{ overflow: "hidden" }}>
                       {data.title}
                     </Typography>
                     <Typography
@@ -430,7 +425,7 @@ const Home = ({
         style={{
           display: "flex",
           flexDirection: "row",
-          overflowX: "auto",
+          overflow: "hidden",
           marginTop: "1rem",
         }}>
         {romanticData.length > 0 &&
@@ -502,7 +497,7 @@ const Home = ({
         style={{
           display: "flex",
           flexDirection: "row",
-          overflowX: "auto",
+          overflow: "hidden",
           marginTop: "1rem", // Enable horizontal scrolling
         }}>
         {happyData.length > 0 &&
@@ -574,7 +569,7 @@ const Home = ({
         style={{
           display: "flex",
           flexDirection: "row",
-          overflowX: "auto",
+          overflow: "hidden",
           marginTop: "1rem",
         }}>
         {excitedData.length > 0 &&
@@ -646,7 +641,7 @@ const Home = ({
         style={{
           display: "flex",
           flexDirection: "row",
-          overflowX: "auto",
+          overflow: "hidden",
           marginTop: "1rem",
         }}>
         {sadData.length > 0 &&

@@ -28,6 +28,8 @@ function App() {
   );
   const [signSuccess, setSignSuccess] = useState(false);
 
+  const [useName, setUserName] = useState("");
+
   const handleNotShow = () => {
     setShowNav(false);
   };
@@ -69,6 +71,7 @@ function App() {
             handleTextToSearch={handleTextToSearch}
             handleInputValueToSearch={handleInputValueToSearch}
             signSuccess={signSuccess}
+            useName={useName}
           />
         )}
         <Routes>
@@ -120,6 +123,7 @@ function App() {
                 handleNotShow={handleNotShow}
                 setSignSuccess={setSignSuccess}
                 signSuccess={signSuccess}
+                setUserName={setUserName}
               />
             }
           />
@@ -130,6 +134,7 @@ function App() {
                 handleNotShow={handleNotShow}
                 setSignSuccess={setSignSuccess}
                 signSuccess={signSuccess}
+                setUserName={setUserName}
               />
             }
           />

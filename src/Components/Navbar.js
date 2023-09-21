@@ -19,6 +19,7 @@ function Navbar({
   handleTextToSearch,
   handleInputValueToSearch,
   signSuccess,
+  useName,
 }) {
   const [isDropdownOpen, setIsDropDownOpen] = useState(false);
   const [isDropdownOpenUser, setIsDropDownOpenUser] = useState(false);
@@ -240,8 +241,9 @@ function Navbar({
                                 borderRadius: "50px",
                                 width: "220px",
                                 color: "black",
+                                cursor: "pointer",
                               }}>
-                              LOG OUT
+                              Hey {useName}
                             </Button>
                           </NavLink>
                         ) : (
@@ -254,13 +256,16 @@ function Navbar({
                                 borderRadius: "50px",
                                 width: "220px",
                                 color: "black",
+                                cursor: "pointer",
                               }}>
                               SIGN IN
                             </Button>
                           </NavLink>
                         )}
                         <NavLink to="/subscription" style={{ color: "white" }}>
-                          <ListItem>Subscription</ListItem>
+                          <ListItem style={{ cursor: "pointer" }}>
+                            Subscription
+                          </ListItem>
                         </NavLink>
                       </List>
                     </Card>
@@ -467,19 +472,34 @@ function Navbar({
                       backdropFilter: "blur(30px)",
                     }}>
                     {signSuccess ? (
-                      <NavLink to="/signin">
-                        <Button
-                          style={{
-                            margin: "1rem",
-                            border: "2px solid rgb(37, 209, 218)",
-                            backgroundColor: "rgb(37, 209, 218)",
-                            borderRadius: "50px",
-                            width: "220px",
-                            color: "black",
-                          }}>
-                          LOG OUT
-                        </Button>
-                      </NavLink>
+                      <>
+                        <ListItem>
+                          <Card
+                            style={{
+                              backgroundColor: "rgba(15,17,17,.6)",
+                              color: "white",
+                              border: "1px solid grey",
+                              width: "120px",
+                              marginLeft: "50px",
+                              textAlign: "center",
+                            }}>
+                            Hey! {useName}
+                          </Card>
+                        </ListItem>
+                        <NavLink to="/signin">
+                          <Button
+                            style={{
+                              margin: "1rem",
+                              border: "2px solid rgb(37, 209, 218)",
+                              backgroundColor: "rgb(37, 209, 218)",
+                              borderRadius: "50px",
+                              width: "220px",
+                              color: "black",
+                            }}>
+                            LOG OUT
+                          </Button>
+                        </NavLink>
+                      </>
                     ) : (
                       <NavLink to="/signin">
                         <Button

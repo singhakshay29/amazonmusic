@@ -9,10 +9,9 @@ import {
   Typography,
 } from "@mui/material";
 
-export default function ShowSearchResults({ hoverStates }) {
+export default function ShowSearchResults() {
   const location = useLocation();
   const { data } = location.state;
-  console.log(data);
 
   return (
     <Container sx={{ mt: "6rem" }}>
