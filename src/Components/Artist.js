@@ -14,12 +14,14 @@ import AddIcon from "@mui/icons-material/Add";
 import ShareIcon from "@mui/icons-material/Share";
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
+import { Link } from "react-router-dom";
 
 export default function Artist({
   setSearchItem,
   updateSongPlayCallback,
   togglePlayPause,
   isPlaying,
+  signSuccess,
 }) {
   const [loader, setLoader] = useState(true);
   const [playlistsongs, setplaylistsongs] = useState([]);
@@ -100,9 +102,17 @@ export default function Artist({
           }}>
           <PlayArrowIcon /> Play
         </Button>
-        <Button>
-          <AddIcon style={{ color: "black" }} />
-        </Button>
+        {signSuccess ? (
+          <Button onClick={() => addandRemoveFavItem(artist.songs[0]?._id)}>
+            <AddIcon style={{ color: "black" }} />
+          </Button>
+        ) : (
+          <Link to="/notsignin">
+            <Button>
+              <AddIcon style={{ color: "black" }} />
+            </Button>
+          </Link>
+        )}
       </CardActions>
     </React.Fragment>
   );
@@ -214,12 +224,17 @@ export default function Artist({
                     />
                     Play
                   </Button>
-                  <Button onClick={() => addandRemoveFavItem(songs._id)}>
-                    <AddIcon style={{ color: "white" }} />
-                  </Button>
-                  <Button>
-                    <ShareIcon style={{ color: "white" }} />
-                  </Button>
+                  {signSuccess ? (
+                    <Button onClick={() => addandRemoveFavItem(songs._id)}>
+                      <AddIcon style={{ color: "white" }} />
+                    </Button>
+                  ) : (
+                    <Link to="/notsignin">
+                      <Button>
+                        <AddIcon style={{ color: "white" }} />
+                      </Button>
+                    </Link>
+                  )}
                 </CardActions>
               </Card>
             </div>

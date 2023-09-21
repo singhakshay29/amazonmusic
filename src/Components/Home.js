@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 import CardComponent from "./CardComponent";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { useTheme } from "@mui/material/styles";
 import MobileStepper from "@mui/material/MobileStepper";
@@ -349,58 +348,6 @@ const Home = ({
                           </Button>
                         </Link>
                       )}
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        style={{
-                          position: "absolute",
-                          top: "35%",
-                          left: "80%",
-                          transform: "translate(-50%, -50%)",
-                          zIndex: 1,
-                          background: "transparent",
-                          border: "none",
-                        }}
-                        onClick={toggleDropDown}
-                        onMouseEnter={() => {
-                          handleMouseEnter(data._id);
-                          setIsDropDownOpen(true);
-                        }}
-                        onMouseLeave={() => {
-                          handleMouseLeave(data._id);
-                          setIsDropDownOpen(false);
-                        }}>
-                        <MoreHorizIcon />
-                        {/* {isDropdownOpen && (
-                          <Card
-                            sx={{
-                              position: "absolute",
-                              left: 15,
-                            }}>
-                            <List
-                              style={{
-                                border: "0.5px solid grey",
-                                width: "280px",
-                                borderRadius: "10px",
-                                backgroundColor: "rgba(15,17,17,.7)",
-                                backdropFilter: "blur(30px)",
-                              }}
-                              onMouseEnter={() => setIsDropDownOpen(true)}>
-                              <Link
-                                to="/favorites"
-                                style={{
-                                  color: "white",
-                                }}
-                                onClick={toggleDropDown}>
-                                <ListItem
-                                  onMouseEnter={() => setIsDropDownOpen(true)}>
-                                  Add to Favorites
-                                </ListItem>
-                              </Link>
-                            </List>
-                          </Card>
-                        )} */}
-                      </Button>
                     </>
                   )}
                   <CardContent

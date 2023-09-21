@@ -77,7 +77,11 @@ export default function TrendingPlaylist({
             trendingSongs.map((album, index) => (
               <Card
                 key={album.id}
-                sx={{ width: 190, margin: "10px 20px" }}
+                sx={{
+                  width: 190,
+                  margin: "10px 20px",
+                  background: "transparent",
+                }}
                 className="container">
                 <CardActionArea>
                   <div className="overlay"></div>
@@ -89,6 +93,7 @@ export default function TrendingPlaylist({
                     onMouseOver={() => handleMouseEnter(index)}
                     onMouseLeave={() => handleMouseLeave(index)}
                     style={{
+                      borderRadius: "8px",
                       transition: "opacity 0.1s ease",
                       opacity: hoverStates[index] ? "0.6" : "1",
                       cursor: "pointer",
@@ -114,11 +119,7 @@ export default function TrendingPlaylist({
                           updateSongPlayCallback(album._id);
                           togglePlayPause(!isPlaying);
                         }}>
-                        {isPlaying ? (
-                          <PauseIcon style={{ fontSize: "2.5rem" }} />
-                        ) : (
-                          <PlayArrowIcon style={{ fontSize: "2.5rem" }} />
-                        )}
+                        <PlayArrowIcon style={{ fontSize: "2.5rem" }} />
                       </Button>
                       <Button
                         variant="contained"
@@ -134,22 +135,6 @@ export default function TrendingPlaylist({
                         onMouseEnter={() => handleMouseEnter(index)}
                         onMouseLeave={() => handleMouseLeave(index)}>
                         <AddIcon />
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        style={{
-                          position: "absolute",
-                          top: "35%",
-                          left: "80%",
-                          transform: "translate(-50%, -50%)",
-                          zIndex: 1,
-                          background: "transparent",
-                          border: "none",
-                        }}
-                        onMouseEnter={() => handleMouseEnter(index)}
-                        onMouseLeave={() => handleMouseLeave(index)}>
-                        <MoreHorizIcon />
                       </Button>
                     </>
                   )}

@@ -109,6 +109,7 @@ function App() {
                 updateSongPlayCallback={updateSongPlayId}
                 togglePlayPause={togglePlayPause}
                 isPlaying={isPlaying}
+                signSuccess={signSuccess}
               />
             }
           />
@@ -161,6 +162,7 @@ function App() {
                 updateSongPlayCallback={updateSongPlayId}
                 togglePlayPause={togglePlayPause}
                 isPlaying={isPlaying}
+                signSuccess={signSuccess}
               />
             }
           />

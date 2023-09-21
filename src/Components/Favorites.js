@@ -87,9 +87,9 @@ export default function Favorites({
           />
           Play
         </Button>
-        <Button>
+        {/* <Button>
           <AddIcon style={{ color: "black" }} />
-        </Button>
+        </Button> */}
       </CardActions>
     </React.Fragment>
   );
@@ -200,9 +200,9 @@ export default function Favorites({
                   <Button>
                     <AddIcon style={{ color: "white" }} />
                   </Button>
-                  <Button>
+                  {/* <Button>
                     <ShareIcon style={{ color: "white" }} />
-                  </Button>
+                  </Button> */}
                 </CardActions>
               </Card>
             </div>

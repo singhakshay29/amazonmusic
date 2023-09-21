@@ -7,7 +7,6 @@ import { CardActionArea } from "@mui/material";
 import Button from "@mui/material/Button";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import AddIcon from "@mui/icons-material/Add";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { Link } from "react-router-dom";
 
 export default function CardComponent({
@@ -149,60 +148,6 @@ export default function CardComponent({
                 onMouseLeave={() => handleMouseLeave(album._id)}
                 onClick={() => addandRemoveFavItem(album._id)}>
                 <AddIcon />
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                style={{
-                  position: "absolute",
-                  top: "35%",
-                  left: "80%",
-                  transform: "translate(-50%, -50%)",
-                  zIndex: 1,
-                  background: "transparent",
-                  border: "none",
-                }}
-                onClick={toggleDropDown}
-                onMouseEnter={() => {
-                  handleMouseEnter(album._id);
-                  setIsDropDownOpen(true);
-                }}
-                onMouseLeave={() => {
-                  handleMouseLeave(album._id);
-                  setIsDropDownOpen(false);
-                }}>
-                <MoreHorizIcon />
-                {/* {isDropdownOpen && (
-                  <Card
-                    sx={{
-                      mt: "3rem",
-                      position: "absolute",
-                      left: 15,
-                      zIndex: 99999,
-                    }}>
-                    <List
-                      style={{
-                        position: "fixed",
-                        border: "0.5px solid grey",
-                        width: "280px",
-                        borderRadius: "10px",
-                        backgroundColor: "rgba(15,17,17,.7)",
-                        backdropFilter: "blur(30px)",
-                      }}
-                      onMouseEnter={() => setIsDropDownOpen(true)}>
-                      <NavLink
-                        to="/favorites"
-                        style={{
-                          color: "white",
-                        }}
-                        onClick={toggleDropDown}>
-                        <ListItem onMouseEnter={() => setIsDropDownOpen(true)}>
-                          Add to Favorites
-                        </ListItem>
-                      </NavLink>
-                    </List>
-                  </Card>
-                )} */}
               </Button>
             </>
           )}

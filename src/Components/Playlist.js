@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -10,11 +10,15 @@ import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import AddIcon from "@mui/icons-material/Add";
-import ShareIcon from "@mui/icons-material/Share";
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
 
-function Playlist({ updateSongPlayCallback, togglePlayPause, isPlaying }) {
+function Playlist({
+  updateSongPlayCallback,
+  togglePlayPause,
+  isPlaying,
+  signSuccess,
+}) {
   const [songsList, setSongsList] = useState({});
   const [loader, setLoader] = useState(true);
   const [playlistsongs, setplaylistsongs] = useState([]);
@@ -95,9 +99,17 @@ function Playlist({ updateSongPlayCallback, togglePlayPause, isPlaying }) {
           />
           Play
         </Button>
-        <Button>
-          <AddIcon style={{ color: "black" }} />
-        </Button>
+        {signSuccess ? (
+          <Button onClick={() => addandRemoveFavItem(songsList.songs[0]?._id)}>
+            <AddIcon style={{ color: "black" }} />
+          </Button>
+        ) : (
+          <Link to="/notsignin">
+            <Button>
+              <AddIcon style={{ color: "black" }} />
+            </Button>
+          </Link>
+        )}
       </CardActions>
     </React.Fragment>
   );
@@ -211,12 +223,20 @@ function Playlist({ updateSongPlayCallback, togglePlayPause, isPlaying }) {
                       />
                       Play
                     </Button>
-                    <Button onClick={() => addandRemoveFavItem(songs._id)}>
-                      <AddIcon style={{ color: "white" }} />
-                    </Button>
-                    <Button>
+                    {signSuccess ? (
+                      <Button onClick={() => addandRemoveFavItem(songs._id)}>
+                        <AddIcon style={{ color: "white" }} />
+                      </Button>
+                    ) : (
+                      <Link to="/notsignin">
+                        <Button>
+                          <AddIcon style={{ color: "white" }} />
+                        </Button>
+                      </Link>
+                    )}
+                    {/* <Button>
                       <ShareIcon style={{ color: "white" }} />
-                    </Button>
+                    </Button> */}
                   </CardActions>
                 </Card>
               </div>
