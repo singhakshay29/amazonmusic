@@ -5,8 +5,6 @@ import CardMedia from "@mui/material/CardMedia";
 import { Button, Typography } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
-import LoopIcon from "@mui/icons-material/Loop";
-import ShuffleSharpIcon from "@mui/icons-material/ShuffleSharp";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import CardActions from "@mui/material/CardActions";
 import PauseIcon from "@mui/icons-material/Pause";
@@ -226,7 +224,7 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
               sx={{
                 marginLeft: "150px",
               }}>
-              <Button
+              {/* <Button
                 sx={{
                   background: "transparent",
                   borderRadius: "20px",
@@ -235,7 +233,7 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
                 }}
                 onClick={playLoopSong}>
                 <LoopIcon />
-              </Button>
+              </Button> */}
               <Button
                 sx={{
                   background: "transparent",
@@ -264,14 +262,14 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
                 onClick={playNextSong}>
                 <SkipNextIcon />
               </Button>
-              <Button
+              {/* <Button
                 sx={{
                   background: "transparent",
                   borderRadius: "20px",
                   color: "white",
                 }}>
                 <ShuffleSharpIcon />
-              </Button>
+              </Button> */}
             </CardActions>
 
             <Card

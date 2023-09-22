@@ -108,13 +108,12 @@ export default function Artist({
             borderRadius: "20px",
             width: "80px",
             color: "black",
+          }}
+          onClick={() => {
+            updateSongPlayCallback(artist.songs[0]?._id);
+            togglePlayPause(!isPlaying);
           }}>
-          <PlayArrowIcon
-            onClick={() => {
-              updateSongPlayCallback(artist.songs[0]?._id);
-              togglePlayPause(!isPlaying);
-            }}
-          />
+          <PlayArrowIcon />
           Play
         </Button>
         {signSuccess ? (
@@ -275,13 +274,12 @@ export default function Artist({
 
                         marginTop: "25px",
                         marginLeft: "20px",
+                      }}
+                      onClick={() => {
+                        updateSongPlayCallback(songs._id);
+                        togglePlayPause(!isPlaying);
                       }}>
-                      <PlayArrowIcon
-                        onClick={() => {
-                          updateSongPlayCallback(songs._id);
-                          togglePlayPause(!isPlaying);
-                        }}
-                      />
+                      <PlayArrowIcon />
                       Play
                     </Button>
                     {signSuccess ? (
@@ -406,13 +404,12 @@ export default function Artist({
                             borderRadius: "20px",
                             width: "80px",
                             color: "white",
+                          }}
+                          onClick={() => {
+                            updateSongPlayCallback(songs._id);
+                            togglePlayPause(!isPlaying);
                           }}>
-                          <PlayArrowIcon
-                            onClick={() => {
-                              updateSongPlayCallback(songs._id);
-                              togglePlayPause(!isPlaying);
-                            }}
-                          />
+                          <PlayArrowIcon />
                           Play
                         </Button>
                         {signSuccess ? (

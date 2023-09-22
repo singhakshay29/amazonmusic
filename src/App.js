@@ -27,6 +27,7 @@ function App() {
     Array(Array.length).fill(false)
   );
   const [signSuccess, setSignSuccess] = useState(false);
+  const [showMusic, setShowMusic] = useState(true);
 
   const [useName, setUserName] = useState("");
 
@@ -64,7 +65,9 @@ function App() {
   return (
     <div className="App">
       <Router>
-        {songPlayId && <MusicPlayerComponents songPlayId={songPlayId} />}
+        {songPlayId && showMusic && (
+          <MusicPlayerComponents songPlayId={songPlayId} />
+        )}
         {showNav && (
           <Navbar
             searchItem={searchItem}
@@ -103,7 +106,10 @@ function App() {
           />
           <Route
             path="/subscription"
-            element={<Subscription handleNotShow={handleNotShow} />}
+            Component={() => {
+              setShowMusic(false);
+              return <Subscription handleNotShow={handleNotShow} />;
+            }}
           />
           <Route
             path="playlist/:id"
@@ -118,25 +124,31 @@ function App() {
           />
           <Route
             path="signin"
-            element={
-              <SignIn
-                handleNotShow={handleNotShow}
-                setSignSuccess={setSignSuccess}
-                signSuccess={signSuccess}
-                setUserName={setUserName}
-              />
-            }
+            Component={() => {
+              setShowMusic(false);
+              return (
+                <SignIn
+                  handleNotShow={handleNotShow}
+                  setSignSuccess={setSignSuccess}
+                  signSuccess={signSuccess}
+                  setUserName={setUserName}
+                />
+              );
+            }}
           />
           <Route
             path="signup"
-            element={
-              <SignUp
-                handleNotShow={handleNotShow}
-                setSignSuccess={setSignSuccess}
-                signSuccess={signSuccess}
-                setUserName={setUserName}
-              />
-            }
+            Component={() => {
+              setShowMusic(false);
+              return (
+                <SignUp
+                  handleNotShow={handleNotShow}
+                  setSignSuccess={setSignSuccess}
+                  signSuccess={signSuccess}
+                  setUserName={setUserName}
+                />
+              );
+            }}
           />
           <Route
             path="favorites"

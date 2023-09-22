@@ -102,13 +102,12 @@ function Playlist({
             borderRadius: "20px",
             width: "80px",
             color: "black",
+          }}
+          onClick={() => {
+            updateSongPlayCallback(songsList.songs[0]?._id);
+            togglePlayPause(!isPlaying);
           }}>
-          <PlayArrowIcon
-            onClick={() => {
-              updateSongPlayCallback(songsList.songs[0]?._id);
-              togglePlayPause(!isPlaying);
-            }}
-          />
+          <PlayArrowIcon />
           Play
         </Button>
         {signSuccess ? (
@@ -154,13 +153,12 @@ function Playlist({
             borderRadius: "20px",
             width: "80px",
             color: "black",
+          }}
+          onClick={() => {
+            updateSongPlayCallback(songsList.songs[0]?._id);
+            togglePlayPause(!isPlaying);
           }}>
-          <PlayArrowIcon
-            onClick={() => {
-              updateSongPlayCallback(songsList.songs[0]?._id);
-              togglePlayPause(!isPlaying);
-            }}
-          />
+          <PlayArrowIcon />
           Play
         </Button>
         {signSuccess ? (
@@ -275,13 +273,12 @@ function Playlist({
 
                         marginTop: "25px",
                         marginLeft: "20px",
+                      }}
+                      onClick={() => {
+                        updateSongPlayCallback(songs._id);
+                        togglePlayPause(!isPlaying);
                       }}>
-                      <PlayArrowIcon
-                        onClick={() => {
-                          updateSongPlayCallback(songs._id);
-                          togglePlayPause(!isPlaying);
-                        }}
-                      />
+                      <PlayArrowIcon />
                       Play
                     </Button>
                     {signSuccess ? (
@@ -408,13 +405,12 @@ function Playlist({
                             borderRadius: "20px",
                             width: "80px",
                             color: "white",
+                          }}
+                          onClick={() => {
+                            updateSongPlayCallback(songs._id);
+                            togglePlayPause(!isPlaying);
                           }}>
-                          <PlayArrowIcon
-                            onClick={() => {
-                              updateSongPlayCallback(songs._id);
-                              togglePlayPause(!isPlaying);
-                            }}
-                          />
+                          <PlayArrowIcon />
                           Play
                         </Button>
                         {signSuccess ? (

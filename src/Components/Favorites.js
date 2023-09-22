@@ -74,13 +74,12 @@ export default function Favorites({
             borderRadius: "20px",
             width: "80px",
             color: "black",
+          }}
+          onClick={() => {
+            updateSongPlayCallback(songsList?.songs[0]?._id);
+            togglePlayPause(!isPlaying);
           }}>
-          <PlayArrowIcon
-            onClick={() => {
-              updateSongPlayCallback(songsList?.songs[0]?._id);
-              togglePlayPause(!isPlaying);
-            }}
-          />
+          <PlayArrowIcon />
           Play
         </Button>
       </CardActions>
@@ -181,13 +180,12 @@ export default function Favorites({
                       borderRadius: "20px",
                       width: "80px",
                       color: "white",
+                    }}
+                    onClick={() => {
+                      updateSongPlayCallback(songs._id);
+                      togglePlayPause(!isPlaying);
                     }}>
-                    <PlayArrowIcon
-                      onClick={() => {
-                        updateSongPlayCallback(songs._id);
-                        togglePlayPause(!isPlaying);
-                      }}
-                    />
+                    <PlayArrowIcon />
                     Play
                   </Button>
                   <Button>
