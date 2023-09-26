@@ -1,11 +1,11 @@
-import { Box, Container, List, ListItem, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Box, Container, List, ListItem, Typography } from "@mui/material";
 
 export default function SearchComponents({ searchItem }) {
+  const [searchArtist, setArtist] = useState([]);
   const [searchResultsSongs, setSearchResultsSongs] = useState([]);
   const [searchResultsAlbum, setSearchResultsAlbum] = useState([]);
-  const [searchArtist, setArtist] = useState([]);
 
   useEffect(() => {
     async function getTheDetails() {

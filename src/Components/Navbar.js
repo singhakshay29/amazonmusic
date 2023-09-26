@@ -1,25 +1,31 @@
-import React, { useState, useEffect } from "react";
-import { NavLink, Link } from "react-router-dom";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import InputBase from "@mui/material/InputBase";
-import IconButton from "@mui/material/IconButton";
-import SearchIcon from "@mui/icons-material/Search";
-import Card from "@mui/material/Card";
-import { CardMedia, ListItem, List, Button } from "@mui/material";
+import {
+  Box,
+  Card,
+  List,
+  Button,
+  AppBar,
+  Toolbar,
+  ListItem,
+  CardMedia,
+  InputBase,
+  IconButton,
+} from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
+import { NavLink, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import SearchIcon from "@mui/icons-material/Search";
 import PodcastsIcon from "@mui/icons-material/Podcasts";
 import HeadphonesIcon from "@mui/icons-material/Headphones";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import Box from "@mui/material/Box";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 function Navbar({
+  useName,
   searchItem,
+  signSuccess,
+  setSignSuccess,
   handleTextToSearch,
   handleInputValueToSearch,
-  signSuccess,
-  useName,
 }) {
   const [isDropdownOpen, setIsDropDownOpen] = useState(false);
   const [isDropdownOpenUser, setIsDropDownOpenUser] = useState(false);
@@ -51,6 +57,12 @@ function Navbar({
   const handleMouseLeave = () => {
     setIsDropDownOpen(false);
   };
+
+  const logout = () => {
+    localStorage.removeItem("signupDeatils");
+    setSignSuccess(false);
+  };
+
   useEffect(() => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth < 800);
@@ -232,7 +244,20 @@ function Navbar({
                           backdropFilter: "blur(30px)",
                         }}>
                         {signSuccess ? (
-                          <NavLink to="/signin">
+                          <>
+                            <ListItem>
+                              <Card
+                                style={{
+                                  backgroundColor: "rgba(15,17,17,.6)",
+                                  color: "white",
+                                  border: "1px solid grey",
+                                  width: "120px",
+                                  marginLeft: "50px",
+                                  textAlign: "center",
+                                }}>
+                                Hey! {useName}
+                              </Card>
+                            </ListItem>
                             <Button
                               style={{
                                 margin: "1rem",
@@ -241,11 +266,11 @@ function Navbar({
                                 borderRadius: "50px",
                                 width: "220px",
                                 color: "black",
-                                cursor: "pointer",
-                              }}>
-                              Hey {useName}
+                              }}
+                              onClick={() => logout()}>
+                              LOG OUT
                             </Button>
-                          </NavLink>
+                          </>
                         ) : (
                           <NavLink to="/signin">
                             <Button
@@ -486,19 +511,19 @@ function Navbar({
                             Hey! {useName}
                           </Card>
                         </ListItem>
-                        <NavLink to="/signin">
-                          <Button
-                            style={{
-                              margin: "1rem",
-                              border: "2px solid rgb(37, 209, 218)",
-                              backgroundColor: "rgb(37, 209, 218)",
-                              borderRadius: "50px",
-                              width: "220px",
-                              color: "black",
-                            }}>
-                            LOG OUT
-                          </Button>
-                        </NavLink>
+
+                        <Button
+                          style={{
+                            margin: "1rem",
+                            border: "2px solid rgb(37, 209, 218)",
+                            backgroundColor: "rgb(37, 209, 218)",
+                            borderRadius: "50px",
+                            width: "220px",
+                            color: "black",
+                          }}
+                          onClick={() => logout()}>
+                          LOG OUT
+                        </Button>
                       </>
                     ) : (
                       <NavLink to="/signin">

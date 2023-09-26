@@ -1,9 +1,9 @@
 import React from "react";
-import { Button, Card } from "@mui/material";
-import subpack from "../assests/subpack.png";
-import extrafeatures from "../assests/extrafeatures.png";
-import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
+import subpack from "../assests/subpack.png";
+import { Button, Card } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import extrafeatures from "../assests/extrafeatures.png";
 
 export default function Subscription({ handleNotShow }) {
   handleNotShow();

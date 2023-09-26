@@ -1,24 +1,29 @@
 import React, { useState, useEffect } from "react";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import { CardMedia, TextField, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  Card,
+  Button,
+  TextField,
+  CardMedia,
+  Typography,
+  CardActions,
+  CardContent,
+} from "@mui/material";
 
 export default function SignIn({
-  handleNotShow,
-  setSignSuccess,
   signSuccess,
   setUserName,
+  handleNotShow,
+  setSignSuccess,
 }) {
+  handleNotShow();
+  const navigator = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [errorColor, setErrorColor] = useState("");
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
-  handleNotShow();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -59,6 +64,7 @@ export default function SignIn({
             setErrorMessage("Login successful!");
             setErrorColor("green");
             setSignSuccess(true);
+            navigator("/");
           } else {
             setErrorMessage("Incorrect EmailId or Password");
             setErrorColor("red");

@@ -1,25 +1,26 @@
-import * as React from "react";
-import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
-import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
-import { Button, Typography } from "@mui/material";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import SkipNextIcon from "@mui/icons-material/SkipNext";
-import VolumeUpIcon from "@mui/icons-material/VolumeUp";
-import CardActions from "@mui/material/CardActions";
+import {
+  Card,
+  Button,
+  CardMedia,
+  Typography,
+  CardActions,
+  CardContent,
+} from "@mui/material";
 import PauseIcon from "@mui/icons-material/Pause";
-import { useEffect, useState } from "react";
-import CardContent from "@mui/material/CardContent";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import SkipNextIcon from "@mui/icons-material/SkipNext";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
-import { useRef, memo } from "react";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
+import React, { useEffect, useState, useRef, memo } from "react";
 
 export default memo(function MusicPlayerComponents({ songPlayId }) {
-  const [isPlaying, setIsPlaying] = React.useState(false);
-  const [isMute, setIsMute] = useState(false);
+  const audioRef = useRef(null);
   const [song, setSong] = useState([]);
+  const [isMute, setIsMute] = useState(false);
+  const [isPlaying, setIsPlaying] = React.useState(false);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
-  const audioRef = useRef(null);
 
   async function getTheDeatails(sid, sIndex = null) {
     try {
@@ -53,8 +54,10 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
             filterDataRomantic = [songsArray[sIndex]];
           } else {
             let broken = false;
+            // eslint-disable-next-line
             filterDataRomantic = songsArray.map((data, index) => {
               if (broken) {
+                // eslint-disable-next-line
                 return;
               }
               if (data?.songs?.length > 0) {
@@ -68,6 +71,7 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
               }
               if (filterSongsById.length > 0) {
                 broken = true;
+                // eslint-disable-next-line
                 return;
               }
             });
@@ -125,10 +129,6 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
     audioRef.current.pause();
     getTheDeatails("", currentSongIndex - 1);
     setIsPlaying(false);
-  };
-
-  const playLoopSong = () => {
-    setIsPlaying(true);
   };
 
   return (

@@ -1,33 +1,33 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import { CardActionArea } from "@mui/material";
-import Box from "@mui/material/Box";
-import CardActions from "@mui/material/CardActions";
-import Button from "@mui/material/Button";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import {
+  Box,
+  Card,
+  Stack,
+  Button,
+  CardMedia,
+  Typography,
+  CardActions,
+  CardContent,
+  CardActionArea,
+  CircularProgress,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ShareIcon from "@mui/icons-material/Share";
-import { Link } from "react-router-dom";
-import Stack from "@mui/material/Stack";
-import CircularProgress from "@mui/material/CircularProgress";
+import React, { useState, useEffect } from "react";
+import { useLocation, Link } from "react-router-dom";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 export default function SearchAlbum({
-  setSearchItem,
-  updateSongPlayCallback,
-  togglePlayPause,
   isPlaying,
+  setSearchItem,
+  togglePlayPause,
+  updateSongPlayCallback,
 }) {
-  const [songsList, setSongsList] = useState({});
-  const [loader, setLoader] = useState(true);
-  const [playlistsongs, setplaylistsongs] = useState([]);
+  setSearchItem("");
   const location = useLocation();
   const { data } = location.state;
-  setSearchItem("");
+  const [loader, setLoader] = useState(true);
+  const [songsList, setSongsList] = useState({});
+  const [playlistsongs, setplaylistsongs] = useState([]);
 
   const baseUrl = `https://academics.newtonschool.co/api/v1/music/album/${data.album}`;
 
@@ -45,6 +45,7 @@ export default function SearchAlbum({
   }
   useEffect(() => {
     getTheDeatails();
+    // eslint-disable-next-line
   }, []);
 
   const card = (

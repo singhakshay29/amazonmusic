@@ -1,12 +1,12 @@
-import { Button, Card, CardMedia, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
 import bg from "../assests/bg.jpeg";
 import { Link } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
+import React, { useEffect, useState } from "react";
+import { Button, Card, CardMedia, Typography } from "@mui/material";
 
 export default function NotSignIn({ handleNotShow }) {
-  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
   handleNotShow();
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
 
   useEffect(() => {
     const handleResize = () => {

@@ -1,35 +1,34 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Navbar from "./Components/Navbar";
-import Home from "./Components/Home";
-import Podcasts from "./Components/Podcasts";
-import Subscription from "./Components/Subscription";
-import Playlist from "./Components/Playlist";
 import "./App.css";
-import MusicPlayerComponents from "./Components/MusicPlayerComponents";
-import SignIn from "./Components/SignIn";
 import SignUp from "./SignUp";
-import TrendingPlaylist from "./Components/TrendingPlaylist";
-import NoResultsFound from "./Components/NoResultsFound";
-import SearchComponents from "./Components/SearchComponents";
-import ShowSearchResults from "./Components/ShowSearchResults";
+import Home from "./Components/Home";
+import React, { useState } from "react";
+import SignIn from "./Components/SignIn";
+import Navbar from "./Components/Navbar";
+import Artist from "./Components/Artist";
+import Podcasts from "./Components/Podcasts";
+import Playlist from "./Components/Playlist";
+import NotSignIn from "./Components/NotSignIn";
 import Favorites from "./Components/Favorites";
 import SearchAlbum from "./Components/SearchAlbum";
-import Artist from "./Components/Artist";
-import NotSignIn from "./Components/NotSignIn";
+import Subscription from "./Components/Subscription";
+import NoResultsFound from "./Components/NoResultsFound";
+import TrendingPlaylist from "./Components/TrendingPlaylist";
+import SearchComponents from "./Components/SearchComponents";
+import ShowSearchResults from "./Components/ShowSearchResults";
+import MusicPlayerComponents from "./Components/MusicPlayerComponents";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
-  const [songPlayId, setSongPlayId] = useState("");
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [searchItem, setSearchItem] = useState("");
+  const [useName, setUserName] = useState("");
   const [showNav, setShowNav] = useState(true);
+  const [songPlayId, setSongPlayId] = useState("");
+  const [searchItem, setSearchItem] = useState("");
+  const [showMusic, setShowMusic] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [signSuccess, setSignSuccess] = useState(false);
   const [hoverStates, setHoverStates] = useState(
     Array(Array.length).fill(false)
   );
-  const [signSuccess, setSignSuccess] = useState(false);
-  const [showMusic, setShowMusic] = useState(true);
-
-  const [useName, setUserName] = useState("");
 
   const handleNotShow = () => {
     setShowNav(false);
@@ -39,6 +38,12 @@ function App() {
   };
   const togglePlayPause = () => {
     setIsPlaying(!isPlaying);
+  };
+  function updateSongPlayId(id) {
+    setSongPlayId(id);
+  }
+  const handleTextToSearch = (e) => {
+    setSearchItem(e.target.value);
   };
   const handleMouseEnter = (index) => {
     const newHoverStates = [...hoverStates];
@@ -50,17 +55,10 @@ function App() {
     newHoverStates[index] = false;
     setHoverStates(newHoverStates);
   };
-  const handleTextToSearch = (e) => {
-    setSearchItem(e.target.value);
-  };
   const handleInputValueToSearch = (e) => {
     e.preventDefault();
     setSearchItem("");
   };
-
-  function updateSongPlayId(id) {
-    setSongPlayId(id);
-  }
 
   return (
     <div className="App">
@@ -75,6 +73,7 @@ function App() {
             handleInputValueToSearch={handleInputValueToSearch}
             signSuccess={signSuccess}
             useName={useName}
+            setSignSuccess={setSignSuccess}
           />
         )}
         <Routes>

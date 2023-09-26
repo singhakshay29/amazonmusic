@@ -1,23 +1,25 @@
+import {
+  Card,
+  Button,
+  CardMedia,
+  Typography,
+  CardContent,
+  CardActionArea,
+} from "@mui/material";
 import React from "react";
-import { Typography } from "@mui/material";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import { CardActionArea } from "@mui/material";
-import Button from "@mui/material/Button";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
+import AddIcon from "@mui/icons-material/Add";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 export default function CardComponent({
   album,
-  handleMouseEnter,
-  handleMouseLeave,
-  hoverStates,
-  updateSongPlayCallback,
-  togglePlayPause,
   isPlaying,
   signSuccess,
+  hoverStates,
+  togglePlayPause,
+  handleMouseEnter,
+  handleMouseLeave,
+  updateSongPlayCallback,
 }) {
   const baseUrlSong =
     "https://academics.newtonschool.co/api/v1/music/favorites/like";

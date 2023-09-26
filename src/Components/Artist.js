@@ -1,33 +1,33 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import { CardActionArea } from "@mui/material";
-import Box from "@mui/material/Box";
-import CardActions from "@mui/material/CardActions";
-import Button from "@mui/material/Button";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import {
+  Box,
+  Card,
+  Stack,
+  Button,
+  CardMedia,
+  Typography,
+  CardContent,
+  CardActions,
+  CardActionArea,
+  CircularProgress,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import Stack from "@mui/material/Stack";
-import CircularProgress from "@mui/material/CircularProgress";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, Link } from "react-router-dom";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 export default function Artist({
-  setSearchItem,
-  updateSongPlayCallback,
-  togglePlayPause,
   isPlaying,
   signSuccess,
+  setSearchItem,
+  togglePlayPause,
+  updateSongPlayCallback,
 }) {
+  const location = useLocation();
+  const { data } = location.state;
+  const [artist, setArtist] = useState({});
   const [loader, setLoader] = useState(true);
   const [playlistsongs, setplaylistsongs] = useState([]);
-  const [artist, setArtist] = useState({});
-  const location = useLocation();
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
-  const { data } = location.state;
   setSearchItem("");
 
   const baseUrl = `https://academics.newtonschool.co/api/v1/music/artist/${data.artists[0]?._id}`;
@@ -78,6 +78,7 @@ export default function Artist({
 
   useEffect(() => {
     getTheDeatails();
+    // eslint-disable-next-line
   }, []);
 
   const cardResponsive = (

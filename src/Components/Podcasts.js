@@ -1,17 +1,18 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import { useEffect, useState } from "react";
-import Grid from "@mui/material/Grid";
-import { Container } from "@mui/material";
+import {
+  Box,
+  Card,
+  Grid,
+  CardMedia,
+  Container,
+  Typography,
+  CardContent,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
 
 export default function Podcasts({
-  updateSongPlayCallback,
-  togglePlayPause,
   isPlaying,
+  togglePlayPause,
+  updateSongPlayCallback,
 }) {
   const [songs, setSong] = useState([]);
   const [page, setPage] = useState(1);

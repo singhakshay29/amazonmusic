@@ -1,26 +1,30 @@
-import * as React from "react";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import { CardMedia, TextField, Typography } from "@mui/material";
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import {
+  Card,
+  Button,
+  TextField,
+  CardMedia,
+  Typography,
+  CardActions,
+  CardContent,
+} from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SignUp({
-  handleNotShow,
-  setSignSuccess,
   signSuccess,
   setUserName,
+  handleNotShow,
+  setSignSuccess,
 }) {
+  handleNotShow();
+  const navigator = useNavigate();
+  const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [finalpassword, setfinalPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const [errorColor, setErrorColor] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [finalpassword, setfinalPassword] = useState("");
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
-  handleNotShow();
   setUserName(username);
 
   const handleSignUp = (e) => {
@@ -65,6 +69,7 @@ export default function SignUp({
             setErrorMessage("SignUp successful!");
             setErrorColor("green");
             setSignSuccess(true);
+            navigator("/");
           } else if (response.status === 403) {
             setErrorMessage("User already exists");
             setErrorColor("red");

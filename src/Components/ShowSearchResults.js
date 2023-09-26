@@ -1,13 +1,13 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
 import {
   Box,
   Card,
   CardMedia,
   Container,
-  CardActionArea,
   Typography,
+  CardActionArea,
 } from "@mui/material";
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
 
 export default function ShowSearchResults() {
   const location = useLocation();

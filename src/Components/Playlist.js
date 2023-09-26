@@ -1,26 +1,28 @@
+import {
+  Box,
+  Card,
+  Stack,
+  Button,
+  CardMedia,
+  Typography,
+  CardActions,
+  CardContent,
+  CardActionArea,
+  CircularProgress,
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import { CardActionArea } from "@mui/material";
-import Box from "@mui/material/Box";
-import CardActions from "@mui/material/CardActions";
-import Button from "@mui/material/Button";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import AddIcon from "@mui/icons-material/Add";
-import Stack from "@mui/material/Stack";
-import CircularProgress from "@mui/material/CircularProgress";
 
 function Playlist({
-  updateSongPlayCallback,
-  togglePlayPause,
   isPlaying,
   signSuccess,
+  togglePlayPause,
+  updateSongPlayCallback,
 }) {
-  const [songsList, setSongsList] = useState({});
   const [loader, setLoader] = useState(true);
+  const [songsList, setSongsList] = useState({});
   const [playlistsongs, setplaylistsongs] = useState([]);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
 
@@ -62,6 +64,7 @@ function Playlist({
   }
   useEffect(() => {
     getTheDeatails();
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {

@@ -1,21 +1,24 @@
+import {
+  Card,
+  Button,
+  Container,
+  CardMedia,
+  Typography,
+  CardContent,
+  CardActionArea,
+} from "@mui/material";
 import React from "react";
-import { Container, Typography } from "@mui/material";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import { CardActionArea } from "@mui/material";
-import Button from "@mui/material/Button";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import AddIcon from "@mui/icons-material/Add";
 import { useState, useEffect } from "react";
+import AddIcon from "@mui/icons-material/Add";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 export default function TrendingPlaylist({
+  isPlaying,
+  hoverStates,
+  togglePlayPause,
   handleMouseEnter,
   handleMouseLeave,
   updateSongPlayCallback,
-  togglePlayPause,
-  hoverStates,
-  isPlaying,
 }) {
   const [trendingSongs, setTrendingSong] = useState([]);
 

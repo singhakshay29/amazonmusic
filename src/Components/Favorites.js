@@ -1,25 +1,26 @@
-import { Card } from "@mui/material";
-import React from "react";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import { CardActionArea } from "@mui/material";
-import Box from "@mui/material/Box";
-import CardActions from "@mui/material/CardActions";
-import Button from "@mui/material/Button";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import AddIcon from "@mui/icons-material/Add";
-import Stack from "@mui/material/Stack";
-import CircularProgress from "@mui/material/CircularProgress";
+import {
+  Box,
+  Card,
+  Stack,
+  Button,
+  CardMedia,
+  Typography,
+  CardActions,
+  CardContent,
+  CardActionArea,
+  CircularProgress,
+} from "@mui/material";
 import mylikes from "../assests/mylikes.png";
-import { useState, useEffect } from "react";
+import AddIcon from "@mui/icons-material/Add";
+import React, { useState, useEffect } from "react";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 export default function Favorites({
-  updateSongPlayCallback,
-  togglePlayPause,
   isPlaying,
+  togglePlayPause,
+  updateSongPlayCallback,
 }) {
-  const [songsList, setSongsList] = useState({});
+  const [songsList] = useState({});
   const [loader, setLoader] = useState(true);
   const [playlistsongs, setplaylistsongs] = useState([]);
 

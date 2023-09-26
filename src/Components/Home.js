@@ -1,42 +1,44 @@
-import React, { useEffect, useState } from "react";
-import { Container, Typography } from "@mui/material";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import { CardActionArea } from "@mui/material";
+import {
+  Card,
+  Button,
+  CardMedia,
+  Container,
+  Typography,
+  CardContent,
+  MobileStepper,
+  CardActionArea,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 import CardComponent from "./CardComponent";
-import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { useTheme } from "@mui/material/styles";
-import MobileStepper from "@mui/material/MobileStepper";
+import React, { useEffect, useState } from "react";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 
 const Home = ({
-  updateSongPlayCallback,
+  isPlaying,
+  hoverStates,
+  signSuccess,
+  setSearchItem,
+  handleShowNav,
   togglePlayPause,
   handleMouseEnter,
   handleMouseLeave,
-  isPlaying,
-  hoverStates,
-  handleShowNav,
-  signSuccess,
-  setSearchItem,
+  updateSongPlayCallback,
 }) => {
-  const [romanticData, setromanticData] = useState([]);
-  const [happyData, setHappyData] = useState([]);
-  const [excitedData, setExcitedData] = useState([]);
+  const theme = useTheme();
   const [sadData, setsadData] = useState([]);
   const [albumData, setAlbum] = useState([]);
-
-  const theme = useTheme();
-  const [currentDataIndexAlbum, setCurrentDataIndexAlbum] = useState(1);
-  const [currentDataIndexRomantic, setCurrentDataIndexRomantic] = useState(0);
-  const [currentDataIndexHappy, setCurrentDataIndexHappy] = useState(0);
-  const [currentDataIndexExcited, setCurrentDataIndexExcited] = useState(0);
+  const [happyData, setHappyData] = useState([]);
+  const [excitedData, setExcitedData] = useState([]);
+  const [romanticData, setromanticData] = useState([]);
   const [currentDataIndexSad, setCurrentDataIndexSad] = useState(0);
+  const [currentDataIndexAlbum, setCurrentDataIndexAlbum] = useState(1);
+  const [currentDataIndexHappy, setCurrentDataIndexHappy] = useState(0);
+  const [currentDataIndexRomantic, setCurrentDataIndexRomantic] = useState(0);
+  const [currentDataIndexExcited, setCurrentDataIndexExcited] = useState(0);
 
   const handleNext = () => {
     setCurrentDataIndexAlbum((prevActiveStep) => prevActiveStep + 1);
