@@ -1,5 +1,4 @@
 import {
-  Box,
   Card,
   List,
   Button,
@@ -10,6 +9,9 @@ import {
   InputBase,
   IconButton,
 } from "@mui/material";
+import mini from "../assests/mini.png";
+import { GoHomeFill } from "react-icons/go";
+import { BiSearch } from "react-icons/bi";
 import HomeIcon from "@mui/icons-material/Home";
 import { NavLink, Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
@@ -23,13 +25,14 @@ function Navbar({
   useName,
   searchItem,
   signSuccess,
+  handleNotShow,
   setSignSuccess,
+  handleShowSearch,
   handleTextToSearch,
   handleInputValueToSearch,
 }) {
   const [isDropdownOpen, setIsDropDownOpen] = useState(false);
   const [isDropdownOpenUser, setIsDropDownOpenUser] = useState(false);
-  const [isDropdownOpenSearch, setIsDropDownOpenSearch] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
 
   const navLinkStyle = ({ isActive }) => {
@@ -45,11 +48,6 @@ function Navbar({
   const toggleDropDownUser = () => {
     setIsDropDownOpenUser(!isDropdownOpenUser);
   };
-
-  const toggleDropDownSearch = () => {
-    setIsDropDownOpenSearch(!isDropdownOpenSearch);
-  };
-
   const handleMouseEnter = () => {
     setIsDropDownOpen(true);
   };
@@ -79,235 +77,218 @@ function Navbar({
     <>
       {isSmallScreen ? (
         <>
-          <Box sx={{ flexGrow: 1, m: "0", p: "0" }}>
-            <AppBar position="static">
-              <Toolbar
-                style={{
-                  backgroundColor: "rgba(15,17,17,.6)",
-                  padding: "0",
-                  margin: "0",
-                  position: "fixed",
-                  width: "100%",
-                  borderBottom: "1px solid grey",
-                  zIndex: 1000,
-                  backdropFilter: "blur(30px)",
-                }}>
-                <CardMedia
-                  component="img"
-                  style={{
-                    position: "absolute",
-                    maxWidth: "60px",
-                    marginLeft: "1rem",
-                  }}
-                  src="https://assets.amazonmusic.com/dims4/default/ce000f1/2147483647/strip/true/crop/1000x606+0+0/resize/1800x1091!/quality/90/?url=http%3A%2F%2Famazon-topics-brightspot.s3.amazonaws.com%2Fmusic%2F8c%2F31%2Ff1bef2204534abc4fb62700c0bc5%2Fam-stacked-white.png"
-                  alt="amazon music"
-                />
-                <Box
-                  style={{ display: "flex", justifyContent: "flex-end" }}
-                  sx={{ flexGrow: 1 }}>
-                  <NavLink to="/" style={navLinkStyle}>
-                    <HomeIcon style={{ margin: "0.5rem" }} />
-                  </NavLink>
-                  <NavLink to="/podcasts" style={navLinkStyle}>
-                    <PodcastsIcon sx={{ m: "0.5rem" }} />
-                  </NavLink>
-                  <HeadphonesIcon
-                    sx={{ m: "0.5rem" }}
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
-                  />
-                  {isDropdownOpen && (
-                    <Card
-                      sx={{
-                        mt: "3rem",
-                        position: "absolute",
-                        left: 130,
-                        zIndex: 1,
-                        top: -15,
-                      }}
+          <AppBar
+            className="appbar"
+            style={{ background: "transparent", position: "fixed" }}>
+            <Toolbar
+              className="toolbar"
+              style={{
+                backgroundColor: "none",
+              }}>
+              <List className="nlist">
+                <ListItem className="nl1">
+                  <img src={mini} className="logoS" alt="amazon music" />
+                </ListItem>
+                <List className="nlist">
+                  <ListItem className="nl2">
+                    <NavLink to="/" style={navLinkStyle}>
+                      <GoHomeFill className="i1" />
+                    </NavLink>
+                  </ListItem>
+                  <ListItem>
+                    <NavLink to="/podcasts" style={navLinkStyle}>
+                      <PodcastsIcon className="i2" />
+                    </NavLink>
+                  </ListItem>
+                  <ListItem className="i3">
+                    <HeadphonesIcon
+                      className="i3"
                       onMouseEnter={handleMouseEnter}
-                      onMouseLeave={handleMouseLeave}>
-                      <List
-                        style={{
-                          position: "fixed",
-                          border: "0.5px solid grey",
-                          width: "280px",
-                          borderRadius: "10px",
-                          backgroundColor: "rgba(15,17,17,.7)",
-                          zIndex: 1000,
-                          backdropFilter: "blur(30px)",
-                        }}>
+                      onMouseLeave={handleMouseLeave}
+                    />
+                    {isDropdownOpen && (
+                      <div
+                        className="dropmusic d1"
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}>
                         <NavLink
                           to="/trendingplaylist"
-                          style={{
-                            color: "white",
-                          }}
                           onClick={toggleDropDown}>
-                          <ListItem
+                          <li
                             style={{
-                              borderBottom: "1px solid grey",
-                              height: "50px",
-                            }}>
+                              background: "rgba(15, 17, 17, 0.7)",
+                              backdropFilter: "blur(30px)",
+                            }}
+                            className="d1l1">
                             Music
-                          </ListItem>
+                          </li>
                         </NavLink>
                         <NavLink to="/podcasts" style={{ color: "white" }}>
                           <ListItem
                             style={{
-                              height: "50px",
-                              borderBottom: "1px solid grey",
-                            }}>
+                              background: "rgba(15, 17, 17, 0.7)",
+                              backdropFilter: "blur(30px)",
+                            }}
+                            className="d1l1">
                             Podcasts
                           </ListItem>
                         </NavLink>
                         {signSuccess ? (
                           <NavLink to="/favorites" style={{ color: "white" }}>
-                            <ListItem style={{ marginBottom: "15px" }}>
+                            <ListItem
+                              style={{
+                                background: "rgba(15, 17, 17, 0.7)",
+                                backdropFilter: "blur(30px)",
+                              }}
+                              className="d1l1">
                               Favorites
                             </ListItem>
                           </NavLink>
                         ) : (
                           <NavLink to="/notsignin" style={{ color: "white" }}>
-                            <ListItem style={{ marginBottom: "15px" }}>
+                            <ListItem
+                              style={{
+                                background: "rgba(15, 17, 17, 0.7)",
+                                backdropFilter: "blur(30px)",
+                              }}
+                              className="d1l1">
                               Favorites
                             </ListItem>
                           </NavLink>
                         )}
-                      </List>
-                    </Card>
-                  )}
-                  <SearchIcon
-                    sx={{ m: "0.5rem" }}
-                    onClick={toggleDropDownSearch}
-                  />
-                  {isDropdownOpenSearch && (
-                    <Card
-                      sx={{
-                        mt: "3rem",
-                        position: "absolute",
-                        top: "8%",
-                        left: "48%",
-                        zIndex: 1,
-                        width: "200px",
-                        backgroundColor: "rgba(15,17,17,.7)",
-                        border: "0.5px solid grey",
-                        borderRadius: "10px",
-                      }}>
-                      <ListItem>
-                        <Link to="/searchcomponents">
-                          <Card style={{ display: "flex" }}>
-                            <InputBase
-                              onChange={handleTextToSearch}
-                              placeholder="Search..."
-                              value={searchItem}
-                              style={{
-                                flex: 1,
-                                height: "30px",
-                                backgroundColor: "white",
-                                borderRadius: "10px",
-                                marginTop: "5px",
-                              }}
-                            />
-                            <IconButton
-                              style={{
-                                padding: "6px",
-                                background: "white",
-                              }}>
-                              <SearchIcon onClick={handleInputValueToSearch} />
-                            </IconButton>
-                          </Card>
-                        </Link>
-                      </ListItem>
-                    </Card>
-                  )}
-                  <AccountCircleIcon
-                    sx={{ m: "0.5rem" }}
-                    onClick={toggleDropDownUser}
-                  />
-                  {isDropdownOpenUser && (
-                    <Card
-                      sx={{
-                        mt: "3rem",
-                        position: "absolute",
-                        top: "8%",
-                        left: "48%",
-                        zIndex: 1,
-                      }}>
-                      <List
-                        style={{
-                          position: "fixed",
-                          border: "0.5px solid grey",
-                          width: "250px",
-                          borderRadius: "10px",
-                          backgroundColor: "rgba(15,17,17,.7)",
-                          zIndex: 1000,
-                          backdropFilter: "blur(30px)",
-                        }}>
-                        {signSuccess ? (
-                          <>
-                            <ListItem>
-                              <Card
+                      </div>
+                    )}
+                  </ListItem>
+                  <ListItem>
+                    <Link to="/searchpage">
+                      <BiSearch
+                        className="i4"
+                        onClick={() => {
+                          handleNotShow();
+                          handleShowSearch();
+                        }}
+                      />
+                    </Link>
+                  </ListItem>
+                  <ListItem>
+                    <AccountCircleIcon
+                      className="i5"
+                      onClick={toggleDropDownUser}
+                    />
+                    {isDropdownOpenUser && (
+                      <div className="dropuser du1">
+                        <List
+                          // style={{
+                          //   position: "fixed",
+                          //   border: "0.5px solid grey",
+                          //   width: "250px",
+                          //   borderRadius: "10px",
+                          //   backgroundColor: "rgba(15,17,17,.7)",
+                          //   zIndex: 1000,
+                          //   backdropFilter: "blur(30px)",
+                          // }}
+                          sx={{
+                            backgroundColor: "rgba(15,17,17,.7)",
+                            backdropFilter: "blur(30px)",
+                          }}>
+                          {signSuccess ? (
+                            <>
+                              <ListItem>
+                                <Card
+                                  style={{
+                                    backgroundColor: "rgba(15,17,17,.6)",
+                                    color: "white",
+                                    border: "1px solid grey",
+                                    width: "120px",
+                                    marginLeft: "50px",
+                                    textAlign: "center",
+                                  }}>
+                                  Hey! {useName}
+                                </Card>
+                              </ListItem>
+                              <Button
                                 style={{
-                                  backgroundColor: "rgba(15,17,17,.6)",
-                                  color: "white",
-                                  border: "1px solid grey",
-                                  width: "120px",
-                                  marginLeft: "50px",
-                                  textAlign: "center",
+                                  margin: "1rem",
+                                  border: "2px solid rgb(37, 209, 218)",
+                                  backgroundColor: "rgb(37, 209, 218)",
+                                  borderRadius: "50px",
+                                  width: "220px",
+                                  color: "black",
+                                }}
+                                onClick={() => logout()}>
+                                LOG OUT
+                              </Button>
+                            </>
+                          ) : (
+                            <NavLink to="/signin">
+                              <Button
+                                // style={{
+                                //   margin: "1rem",
+                                //   border: "2px solid rgb(37, 209, 218)",
+                                //   backgroundColor: "rgb(37, 209, 218)",
+                                //   borderRadius: "50px",
+                                //   width: "220px",
+                                //   color: "black",
+                                //   cursor: "pointer",
+                                // }}
+                                sx={{
+                                  m: "1rem",
+                                  border: "2px solid transparent",
+                                  "&:hover": {
+                                    backgroundColor: "#a8edf0",
+                                    // fontSize: "15px",
+                                    // width: "225px",
+                                    // paddingInlineStart: "5px",
+                                    // paddingInlineEnd: "5px",
+                                    // border: "2px solid transparent",
+                                    width: "211px",
+                                  },
+                                  backgroundColor: "rgb(37, 209, 218)",
+                                  borderRadius: "50px",
+                                  width: "210px",
+                                  color: "black",
+                                  "&:active": {
+                                    // Add styles for the "active" state
+                                    backgroundColor: "#a8edf0", // You can customize this color
+                                    fontSize: "15px", // You can customize the font size
+                                    width: "225px", // You can customize the width
+                                  },
                                 }}>
-                                Hey! {useName}
-                              </Card>
+                                Sign In
+                              </Button>
+                            </NavLink>
+                          )}
+                          <NavLink
+                            to="/subscription"
+                            style={{ color: "white" }}>
+                            <ListItem style={{ cursor: "pointer" }}>
+                              Subscription
                             </ListItem>
-                            <Button
-                              style={{
-                                margin: "1rem",
-                                border: "2px solid rgb(37, 209, 218)",
-                                backgroundColor: "rgb(37, 209, 218)",
-                                borderRadius: "50px",
-                                width: "220px",
-                                color: "black",
-                              }}
-                              onClick={() => logout()}>
-                              LOG OUT
-                            </Button>
-                          </>
-                        ) : (
-                          <NavLink to="/signin">
-                            <Button
-                              style={{
-                                margin: "1rem",
-                                border: "2px solid rgb(37, 209, 218)",
-                                backgroundColor: "rgb(37, 209, 218)",
-                                borderRadius: "50px",
-                                width: "220px",
-                                color: "black",
-                                cursor: "pointer",
-                              }}>
-                              SIGN IN
-                            </Button>
                           </NavLink>
-                        )}
-                        <NavLink to="/subscription" style={{ color: "white" }}>
-                          <ListItem style={{ cursor: "pointer" }}>
-                            Subscription
-                          </ListItem>
-                        </NavLink>
-                      </List>
-                    </Card>
-                  )}
-                </Box>
-              </Toolbar>
-            </AppBar>
-          </Box>
+                        </List>
+                      </div>
+                    )}
+                  </ListItem>
+                </List>
+              </List>
+            </Toolbar>
+          </AppBar>
         </>
       ) : (
         <>
-          <AppBar position="static">
+          <AppBar
+            position="static"
+            // className="appbar" style={{ background: "transparent" }}
+          >
             <Toolbar
+              // className="toolbar"
+              // style={{
+              //   background:"none"
+              // }}
               style={{
                 display: "flex",
                 justifyContent: "space-between",
-                borderBottom: "1px solid grey",
+                border: "solid rgba(255, 255, 255, 0.15)",
                 position: "fixed",
                 backgroundColor: "rgba(15,17,17,.6)",
                 zIndex: 1000,
@@ -528,15 +509,27 @@ function Navbar({
                     ) : (
                       <NavLink to="/signin">
                         <Button
-                          style={{
-                            margin: "1rem",
-                            border: "2px solid rgb(37, 209, 218)",
+                          sx={{
+                            m: "1rem",
+                            border: "2px solid transparent",
+                            "&:hover": {
+                              backgroundColor: "#a8edf0",
+                              fontSize: "15px",
+                              width: "225px",
+                              border: "2px solid transparent",
+                            },
                             backgroundColor: "rgb(37, 209, 218)",
                             borderRadius: "50px",
                             width: "220px",
                             color: "black",
+                            "&:active": {
+                              // Add styles for the "active" state
+                              backgroundColor: "#a8edf0", // You can customize this color
+                              fontSize: "15px", // You can customize the font size
+                              width: "225px", // You can customize the width
+                            },
                           }}>
-                          SIGN IN
+                          Sign In
                         </Button>
                       </NavLink>
                     )}

@@ -18,9 +18,13 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 function Playlist({
   isPlaying,
   signSuccess,
+  handleShowNav,
   togglePlayPause,
+  handleNotShowSearch,
   updateSongPlayCallback,
 }) {
+  handleNotShowSearch();
+  handleShowNav();
   const [loader, setLoader] = useState(true);
   const [songsList, setSongsList] = useState({});
   const [playlistsongs, setplaylistsongs] = useState([]);

@@ -18,17 +18,21 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 export default function Artist({
   isPlaying,
   signSuccess,
+  handleShowNav,
   setSearchItem,
   togglePlayPause,
+  handleNotShowSearch,
   updateSongPlayCallback,
 }) {
+  handleShowNav();
+  setSearchItem("");
+  handleNotShowSearch();
   const location = useLocation();
   const { data } = location.state;
   const [artist, setArtist] = useState({});
   const [loader, setLoader] = useState(true);
   const [playlistsongs, setplaylistsongs] = useState([]);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
-  setSearchItem("");
 
   const baseUrl = `https://academics.newtonschool.co/api/v1/music/artist/${data.artists[0]?._id}`;
 

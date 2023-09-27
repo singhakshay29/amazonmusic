@@ -18,11 +18,15 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 export default function SearchAlbum({
   isPlaying,
+  handleShowNav,
   setSearchItem,
   togglePlayPause,
+  handleNotShowSearch,
   updateSongPlayCallback,
 }) {
+  handleShowNav();
   setSearchItem("");
+  handleNotShowSearch();
   const location = useLocation();
   const { data } = location.state;
   const [loader, setLoader] = useState(true);
