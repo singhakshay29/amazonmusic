@@ -1,11 +1,14 @@
 import "./App.css";
 import SignUp from "./SignUp";
+import Pod from "./Components/Pod";
+import Term from "./Components/Term";
 import Home from "./Components/Home";
 import React, { useState } from "react";
 import SignIn from "./Components/SignIn";
-import Navbar from "./Components/Navbar";
 import Artist from "./Components/Artist";
-import Podcasts from "./Components/Podcasts";
+import Navbar from "./Components/Navbar";
+import GetHelp from "./Components/GetHelp";
+import Profile from "./Components/Profile";
 import Playlist from "./Components/Playlist";
 import NotSignIn from "./Components/NotSignIn";
 import Searchbar from "./Components/Searchbar";
@@ -13,6 +16,7 @@ import Favorites from "./Components/Favorites";
 import SearchPage from "./Components/SearchPage";
 import SearchAlbum from "./Components/SearchAlbum";
 import Subscription from "./Components/Subscription";
+import SetUpProfile from "./Components/SetUpProfile";
 import NoResultsFound from "./Components/NoResultsFound";
 import TrendingPlaylist from "./Components/TrendingPlaylist";
 import SearchComponents from "./Components/SearchComponents";
@@ -98,7 +102,8 @@ function App() {
           />
         )}
         <Routes>
-          <Route path="/searchpage" element={<SearchPage />} />
+          <Route path="searchpage" element={<SearchPage />} />
+          <Route path="gethelp" element={<GetHelp />} />
           <Route
             path="notsignin"
             element={<NotSignIn handleNotShow={handleNotShow} />}
@@ -107,10 +112,12 @@ function App() {
             path="noresultfound"
             element={<NoResultsFound searchItem={searchItem} />}
           />
+
           <Route
             path="searchcomponents"
             element={<SearchComponents searchItem={searchItem} />}
           />
+
           <Route
             path="/subscription"
             Component={() => {
@@ -119,9 +126,9 @@ function App() {
             }}
           />
           <Route
-            path="/podcasts"
+            path="favorites"
             element={
-              <Podcasts
+              <Favorites
                 isPlaying={isPlaying}
                 togglePlayPause={togglePlayPause}
                 updateSongPlayCallback={updateSongPlayId}
@@ -129,11 +136,18 @@ function App() {
             }
           />
           <Route
-            path="favorites"
+            path="/pod"
             element={
-              <Favorites
+              <Pod
+                searchItem={searchItem}
                 isPlaying={isPlaying}
+                signSuccess={signSuccess}
+                hoverStates={hoverStates}
+                handleShowNav={handleShowNav}
+                setSearchItem={setSearchItem}
                 togglePlayPause={togglePlayPause}
+                handleMouseEnter={handleMouseEnter}
+                handleMouseLeave={handleMouseLeave}
                 updateSongPlayCallback={updateSongPlayId}
               />
             }
@@ -243,6 +257,12 @@ function App() {
                 updateSongPlayCallback={updateSongPlayId}
               />
             }
+          />
+          <Route path="term" element={<Term handleNotShow={handleNotShow} />} />
+          <Route path="setup" element={<SetUpProfile />} />
+          <Route
+            path="profile"
+            element={<Profile handleShowNav={handleShowNav} />}
           />
         </Routes>
       </Router>

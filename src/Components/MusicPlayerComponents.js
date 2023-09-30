@@ -1,10 +1,10 @@
 import {
   Card,
   Button,
-  CardMedia,
   Typography,
   CardActions,
   CardContent,
+  ListItem,
 } from "@mui/material";
 import PauseIcon from "@mui/icons-material/Pause";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
@@ -20,7 +20,7 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
   const [isMute, setIsMute] = useState(false);
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
-  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 660);
 
   async function getTheDeatails(sid, sIndex = null) {
     try {
@@ -91,7 +91,7 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsSmallScreen(window.innerWidth < 800);
+      setIsSmallScreen(window.innerWidth < 660);
     };
 
     window.addEventListener("resize", handleResize);
@@ -148,44 +148,72 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
               backdropFilter: "blur(30px)",
               flexGrow: "1",
             }}>
-            <CardMedia
-              component="img"
-              sx={{ height: "100px", width: "120px" }}
-              image={song[0]?.thumbnail}
-              title={song[0]?.title}
-            />
+            <ListItem sx={{ padding: 0, maxWidth: 120 }}>
+              <img
+                src={song[0]?.thumbnail}
+                alt={song[0]?.title}
+                style={{
+                  maxWidth: 100,
+                  maxHeight: 80,
+                  borderRadius: "4px",
+                }}
+              />
+            </ListItem>
+            <ListItem
+              sx={{
+                maxWidth: 320,
+                overflow: "hidden",
+                padding: 0,
+              }}>
+              <Typography
+                style={{
+                  color: "white",
 
-            <CardContent sx={{ minWidth: 200 }}>
-              <Typography style={{ color: "white" }}>
+                  padding: 0,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  maxWidth: 150,
+                }}>
                 {song[0]?.title}
               </Typography>
               <Typography variant="caption" style={{ color: "grey" }}>
                 {song[0]?.artist[0]?.name}
               </Typography>
-            </CardContent>
+            </ListItem>
+            <ListItem
+              sx={{
+                maxWidth: 200,
+                display: "flex",
+                justifyContent: "center",
+              }}>
+              <CardActions sx={{ flexGrow: 1, maxWidth: 180 }}>
+                <SkipPreviousIcon onClick={playPreviousSong} />
 
-            <CardActions sx={{ flexGrow: 1 }}>
-              <SkipPreviousIcon onClick={playPreviousSong} />
-
-              <Button
-                sx={{
-                  background: "transparent",
-                  borderRadius: "20px",
-                  color: "white",
-                }}
-                onClick={playPauseToggle}>
-                <audio ref={audioRef} src={song[0]?.audio_url} />
-                {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
-              </Button>
-              <SkipNextIcon onClick={playNextSong} />
-              <Button onClick={muteUnmuteToggle}>
-                {isMute ? (
-                  <VolumeOffIcon style={{ fontSize: "25px", color: "white" }} />
-                ) : (
-                  <VolumeUpIcon style={{ fontSize: "25px", color: "white" }} />
-                )}
-              </Button>
-            </CardActions>
+                <Button
+                  sx={{
+                    background: "transparent",
+                    borderRadius: "20px",
+                    color: "white",
+                  }}
+                  onClick={playPauseToggle}>
+                  <audio ref={audioRef} src={song[0]?.audio_url} />
+                  {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
+                </Button>
+                <SkipNextIcon onClick={playNextSong} />
+                <Button onClick={muteUnmuteToggle}>
+                  {isMute ? (
+                    <VolumeOffIcon
+                      style={{ fontSize: "25px", color: "white" }}
+                    />
+                  ) : (
+                    <VolumeUpIcon
+                      style={{ fontSize: "25px", color: "white" }}
+                    />
+                  )}
+                </Button>
+              </CardActions>
+            </ListItem>
           </div>
         </>
       ) : (
@@ -193,7 +221,7 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
           <div
             style={{
               width: "100vw",
-              height: "15vh",
+              minHeight: "15vh",
               backgroundColor: "rgba(15,17,17,.6)",
               display: "flex",
               flexDirection: "row",
@@ -204,27 +232,36 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
               backdropFilter: "blur(30px)",
               flexGrow: "1",
             }}>
-            <CardMedia
-              component="img"
-              sx={{ height: "100px", width: "120px" }}
-              image={song[0]?.thumbnail}
-              title={song[0]?.title}
-            />
-
-            <CardContent sx={{ minWidth: 200 }}>
-              <Typography style={{ color: "white" }}>
-                {song[0]?.title}
-              </Typography>
-              <Typography variant="caption" style={{ color: "grey" }}>
-                {song[0]?.artist[0]?.name}
-              </Typography>
-            </CardContent>
-
-            <CardActions
+            <ListItem sx={{ maxWidth: 130 }}>
+              <img
+                src={song[0]?.thumbnail}
+                alt={song[0]?.title}
+                style={{
+                  maxWidth: "100px",
+                  borderRadius: "4px",
+                  maxHeight: 80,
+                }}
+              />
+            </ListItem>
+            <ListItem sx={{ maxWidth: 180 }}>
+              <CardContent sx={{ minWidth: 150, padding: 0 }}>
+                <Typography style={{ color: "white" }}>
+                  {song[0]?.title}
+                </Typography>
+                <Typography variant="caption" style={{ color: "grey" }}>
+                  {song[0]?.artist[0]?.name}
+                </Typography>
+              </CardContent>
+            </ListItem>
+            <ListItem
               sx={{
-                marginLeft: "150px",
+                justifyContent: "center",
+                display: "flex",
+                alignItems: "center",
+                maxWidth: 800,
               }}>
-              {/* <Button
+              <CardActions>
+                {/* <Button
                 sx={{
                   background: "transparent",
                   borderRadius: "20px",
@@ -234,35 +271,35 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
                 onClick={playLoopSong}>
                 <LoopIcon />
               </Button> */}
-              <Button
-                sx={{
-                  background: "transparent",
-                  borderRadius: "20px",
-                  color: "white",
-                }}
-                onClick={playPreviousSong}>
-                <SkipPreviousIcon />
-              </Button>
-              <Button
-                sx={{
-                  background: "transparent",
-                  borderRadius: "20px",
-                  color: "white",
-                }}
-                onClick={playPauseToggle}>
-                <audio ref={audioRef} src={song[0]?.audio_url} />
-                {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
-              </Button>
-              <Button
-                sx={{
-                  background: "transparent",
-                  borderRadius: "20px",
-                  color: "white",
-                }}
-                onClick={playNextSong}>
-                <SkipNextIcon />
-              </Button>
-              {/* <Button
+                <Button
+                  sx={{
+                    background: "transparent",
+                    borderRadius: "20px",
+                    color: "white",
+                  }}
+                  onClick={playPreviousSong}>
+                  <SkipPreviousIcon />
+                </Button>
+                <Button
+                  sx={{
+                    background: "transparent",
+                    borderRadius: "20px",
+                    color: "white",
+                  }}
+                  onClick={playPauseToggle}>
+                  <audio ref={audioRef} src={song[0]?.audio_url} />
+                  {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
+                </Button>
+                <Button
+                  sx={{
+                    background: "transparent",
+                    borderRadius: "20px",
+                    color: "white",
+                  }}
+                  onClick={playNextSong}>
+                  <SkipNextIcon />
+                </Button>
+                {/* <Button
                 sx={{
                   background: "transparent",
                   borderRadius: "20px",
@@ -270,25 +307,39 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
                 }}>
                 <ShuffleSharpIcon />
               </Button> */}
-            </CardActions>
+              </CardActions>
+            </ListItem>
+            <ListItem sx={{ maxWidth: 200 }}>
+              <Card
+                sx={{
+                  background: "transparent",
+                  color: "black",
+                  display: "flex",
+                  paddingLeft: "20px",
 
-            <Card
-              sx={{
-                background: "transparent",
-                color: "black",
-                display: "flex",
-                paddingLeft: "20px",
-                minWidth: 200,
-                marginLeft: "230px",
-              }}>
-              <Button onClick={muteUnmuteToggle}>
-                {isMute ? (
-                  <VolumeOffIcon style={{ fontSize: "35px", color: "white" }} />
-                ) : (
-                  <VolumeUpIcon style={{ fontSize: "35px", color: "white" }} />
-                )}
-              </Button>
-            </Card>
+                  boxShadow: "none",
+                }}>
+                <Button sx={{ boxShadow: "none" }} onClick={muteUnmuteToggle}>
+                  {isMute ? (
+                    <VolumeOffIcon
+                      style={{
+                        fontSize: "35px",
+                        color: "white",
+                        boxShadow: "none",
+                      }}
+                    />
+                  ) : (
+                    <VolumeUpIcon
+                      style={{
+                        fontSize: "35px",
+                        color: "white",
+                        boxShadow: "none",
+                      }}
+                    />
+                  )}
+                </Button>
+              </Card>
+            </ListItem>
           </div>
         </>
       )}

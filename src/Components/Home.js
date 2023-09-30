@@ -2,7 +2,6 @@ import {
   Card,
   Button,
   CardMedia,
-  Container,
   Typography,
   CardContent,
   MobileStepper,
@@ -10,10 +9,9 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import CardComponent from "./CardComponent";
-import AddIcon from "@mui/icons-material/Add";
 import { useTheme } from "@mui/material/styles";
 import React, { useEffect, useState } from "react";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import { HiChevronRight } from "react-icons/hi";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 
@@ -144,25 +142,25 @@ const Home = ({
     }
   }
   setSearchItem("");
-  const baseUrlSong =
-    "https://academics.newtonschool.co/api/v1/music/favorites/like";
-  async function addandRemoveFavItem(songId) {
-    const user = localStorage.getItem("signupDeatils");
-    if (user) {
-      const parsedData = JSON.parse(user);
+  // const baseUrlSong =
+  //   "https://academics.newtonschool.co/api/v1/music/favorites/like";
+  // async function addandRemoveFavItem(songId) {
+  //   const user = localStorage.getItem("signupDeatils");
+  //   if (user) {
+  //     const parsedData = JSON.parse(user);
 
-      await fetch(baseUrlSong, {
-        method: "PATCH",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${parsedData.signup.token}`,
-          projectid: "8jf3b15onzua",
-        },
-        body: JSON.stringify({ songId: songId }),
-      });
-    }
-  }
+  //     await fetch(baseUrlSong, {
+  //       method: "PATCH",
+  //       headers: {
+  //         Accept: "application/json",
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${parsedData.signup.token}`,
+  //         projectid: "8jf3b15onzua",
+  //       },
+  //       body: JSON.stringify({ songId: songId }),
+  //     });
+  //   }
+  // }
   const baseUrlAlbum =
     "https://academics.newtonschool.co/api/v1/music/album?limit=100";
   handleShowNav();
@@ -198,17 +196,27 @@ const Home = ({
   useEffect(() => {
     getThedataRomantic();
     getThedataAlbum();
+
+    handleShowNav();
+    // eslint-disable-next-line
   }, []);
 
   return (
-    <Container sx={{ mt: "7rem" }}>
-      <Container
+    <div
+      style={{
+        padding: "0",
+        margin: "6rem 0 0 1rem",
+        display: "flex",
+        flexDirection: "column",
+      }}>
+      <div
         style={{
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
+          margin: "0 3rem 0 1rem",
         }}>
-        <Typography sx={{ fontWeight: "bold", fontSize: "30px" }} variant="h4">
+        <Typography sx={{ fontWeight: "700", fontSize: "22px" }} variant="h4">
           Popular Album
         </Typography>
         <MobileStepper
@@ -217,7 +225,9 @@ const Home = ({
           position="static"
           activeStep={currentDataIndexAlbum}
           sx={{ maxWidth: 100, flexGrow: 1 }}
-          style={{ background: "transparent" }}
+          style={{
+            background: "transparent",
+          }}
           nextButton={
             <Button
               size="small"
@@ -249,7 +259,7 @@ const Home = ({
             </Button>
           }
         />
-      </Container>
+      </div>
       <div
         style={{
           display: "flex",
@@ -270,44 +280,61 @@ const Home = ({
                 }}
                 style={{ backgroundColor: "black" }}>
                 <CardActionArea>
-                  <div className="overlay"></div>
-                  <Link to={`/playlist/${data._id}`}>
-                    <CardMedia
-                      component="img"
-                      image={data.image}
-                      alt={data.title}
-                      style={{
-                        borderRadius: "8px",
-                        height: "160px",
-                        width: "160px",
-                      }}
-                      onMouseOver={() => handleMouseEnter(data._id)}
-                      onMouseLeave={() => handleMouseLeave(data._id)}
-                    />
-                  </Link>
+                  <div>
+                    <div className="overlay"></div>
+
+                    <Link to={`/playlist/${data._id}`}>
+                      <CardMedia
+                        component="img"
+                        image={data.image}
+                        alt={data.title}
+                        style={{
+                          borderRadius: "8px",
+                          height: "160px",
+                          width: "160px",
+                        }}
+                        onMouseOver={() => handleMouseEnter(data._id)}
+                        onMouseLeave={() => handleMouseLeave(data._id)}
+                      />
+                    </Link>
+                  </div>
                   {hoverStates[data._id] && (
                     <>
                       <Link to={`/playlist/${data._id}`}>
                         <Button
                           variant="contained"
-                          style={{
+                          sx={{
                             position: "absolute",
-                            top: "35%",
+                            top: "30%",
                             left: "50%",
                             transform: "translate(-50%, -50%)",
                             zIndex: 8,
-                            background: "FFFFFF26",
+                            backdropFilter: "blur(10px)",
                             color: "white",
-                            borderRadius: "81%",
-                            backgroundColor: "rgba(0, 0, 0, 0.5)",
+                            borderRadius: "50%",
+                            backgroundColor: "rgba(255, 255, 255, 0.15)",
                             boxShadow: "none",
+                            width: "55px",
+                            height: "60px",
+                            transition: "width 0.2s ease ,height 0.2s ease",
+
+                            "&:hover": {
+                              backgroundColor: "rgba(255, 255, 255, 0.3)",
+                              width: "65px",
+                              height: "63px",
+                            },
                           }}
                           onMouseEnter={() => handleMouseEnter(data._id)}
                           onMouseLeave={() => handleMouseLeave(data._id)}>
-                          <PlayArrowIcon style={{ fontSize: "2.5rem" }} />
+                          <HiChevronRight
+                            style={{
+                              fontSize: "2.5rem",
+                              transition: "font-size 0.2s",
+                            }}
+                          />
                         </Button>
                       </Link>
-                      {signSuccess ? (
+                      {/* {signSuccess ? (
                         <Button
                           variant="contained"
                           color="primary"
@@ -344,7 +371,7 @@ const Home = ({
                             <AddIcon />
                           </Button>
                         </Link>
-                      )}
+                      )} */}
                     </>
                   )}
                   <CardContent
@@ -375,13 +402,14 @@ const Home = ({
               </Card>
             ))}
       </div>
-      <Container
+      <div
         style={{
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
+          margin: "0rem 3rem 0 1rem",
         }}>
-        <Typography sx={{ fontWeight: "bold", fontSize: "30px" }} variant="h4">
+        <Typography sx={{ fontWeight: "700", fontSize: "22px" }} variant="h4">
           Romantic Songs
         </Typography>
         <MobileStepper
@@ -422,7 +450,7 @@ const Home = ({
             </Button>
           }
         />
-      </Container>
+      </div>
       <div
         style={{
           display: "flex",
@@ -447,13 +475,14 @@ const Home = ({
               />
             ))}
       </div>
-      <Container
+      <div
         style={{
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
+          margin: "0rem 3rem 0 1rem",
         }}>
-        <Typography sx={{ fontWeight: "bold", fontSize: "30px" }} variant="h4">
+        <Typography sx={{ fontWeight: "700", fontSize: "22px" }} variant="h4">
           Happy Songs
         </Typography>
         <MobileStepper
@@ -494,7 +523,7 @@ const Home = ({
             </Button>
           }
         />
-      </Container>
+      </div>
       <div
         style={{
           display: "flex",
@@ -519,13 +548,14 @@ const Home = ({
               />
             ))}
       </div>
-      <Container
+      <div
         style={{
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
+          margin: "0rem 3rem 0 1rem",
         }}>
-        <Typography sx={{ fontWeight: "bold", fontSize: "30px" }} variant="h4">
+        <Typography sx={{ fontWeight: "700", fontSize: "22px" }} variant="h4">
           Excited Songs
         </Typography>
         <MobileStepper
@@ -566,7 +596,7 @@ const Home = ({
             </Button>
           }
         />
-      </Container>
+      </div>
       <div
         style={{
           display: "flex",
@@ -591,13 +621,14 @@ const Home = ({
               />
             ))}
       </div>
-      <Container
+      <div
         style={{
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
+          margin: "0rem 3rem 0 1rem",
         }}>
-        <Typography sx={{ fontWeight: "bold", fontSize: "30px" }} variant="h4">
+        <Typography sx={{ fontWeight: "700", fontSize: "22px" }} variant="h4">
           Sad Songs
         </Typography>
         <MobileStepper
@@ -638,7 +669,7 @@ const Home = ({
             </Button>
           }
         />
-      </Container>
+      </div>
       <div
         style={{
           display: "flex",
@@ -663,7 +694,7 @@ const Home = ({
               />
             ))}
       </div>
-    </Container>
+    </div>
   );
 };
 

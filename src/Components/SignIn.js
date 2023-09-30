@@ -105,8 +105,8 @@ export default function SignIn({
                   borderRadius: "50%",
                   width: "25px",
                   height: "60px",
-                  left: "87.2%",
                   background: "rgba(0, 0, 0, 0.4)",
+                  left: "87.2%",
                 }}>
                 <CloseIcon />
               </Button>
@@ -185,7 +185,7 @@ export default function SignIn({
                           color: "black",
                         }}
                         onClick={handleLogin}>
-                        Sign Up
+                        Sign In
                       </Button>
                     </CardActions>
                     <Typography variant="caption">
@@ -226,8 +226,8 @@ export default function SignIn({
                 style={{
                   position: "absolute",
                   color: "white",
-                  borderRadius: "50%",
-                  width: "25px",
+                  borderRadius: "50px",
+                  width: "20px",
                   height: "60px",
                   left: "94.9%",
                   background: "rgba(0, 0, 0, 0.4)",
@@ -309,7 +309,7 @@ export default function SignIn({
                           color: "black",
                         }}
                         onClick={handleLogin}>
-                        Sign Up
+                        Sign In
                       </Button>
                     </CardActions>
                     <Typography variant="caption">

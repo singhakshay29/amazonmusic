@@ -9,7 +9,7 @@ import {
 import React from "react";
 import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import { BsFillPlayFill } from "react-icons/bs";
 
 export default function CardComponent({
   album,
@@ -55,7 +55,6 @@ export default function CardComponent({
         style={{ backgroundColor: "black" }}>
         <CardActionArea>
           <div className="overlay"></div>
-
           <CardMedia
             component="img"
             image={album.thumbnail}
@@ -64,6 +63,7 @@ export default function CardComponent({
               borderRadius: "8px",
               height: "160px",
               width: "160px",
+              cursor: "default",
             }}
             onMouseOver={() => handleMouseEnter(album._id)}
             onMouseLeave={() => handleMouseLeave(album._id)}></CardMedia>
@@ -71,16 +71,28 @@ export default function CardComponent({
             <>
               <Button
                 variant="contained"
-                style={{
+                sx={{
                   position: "absolute",
-                  top: "35%",
+                  top: "30%",
                   left: "50%",
                   transform: "translate(-50%, -50%)",
                   zIndex: 8,
-                  background: "FFFFFF26",
+                  backdropFilter: "blur(10px)",
                   color: "white",
-                  borderRadius: "81%",
-                  backgroundColor: "rgba(0, 0, 0, 0.5)",
+                  borderRadius: "50%",
+                  backgroundColor: "rgba(255, 255, 255, 0.15)",
+                  boxShadow: "none",
+                  width: "55px",
+                  height: "60px",
+                  transition:
+                    "width 0.2s ease ,height 0.2s ease,padding 0.2s ease",
+                  padding: "14px",
+                  "&:hover": {
+                    backgroundColor: "rgba(255, 255, 255, 0.3)",
+                    width: "65px",
+                    height: "63px",
+                    padding: "0",
+                  },
                 }}
                 onMouseEnter={() => handleMouseEnter(album._id)}
                 onMouseLeave={() => handleMouseLeave(album._id)}
@@ -88,16 +100,17 @@ export default function CardComponent({
                   updateSongPlayCallback(album._id);
                   togglePlayPause(!isPlaying);
                 }}>
-                <PlayArrowIcon style={{ fontSize: "2.5rem" }} />
+                <BsFillPlayFill
+                  style={{ fontSize: "2.5rem", marginLeft: "4px" }}
+                />
               </Button>
-
               {signSuccess ? (
                 <Button
                   variant="contained"
                   color="primary"
                   style={{
                     position: "absolute",
-                    top: "35%",
+                    top: "30%",
                     left: "20%",
                     transform: "translate(-50%, -50%)",
                     zIndex: 1,
@@ -115,35 +128,20 @@ export default function CardComponent({
                     color="primary"
                     style={{
                       position: "absolute",
-                      top: "35%",
+                      top: "30%",
                       left: "20%",
                       transform: "translate(-50%, -50%)",
                       zIndex: 1,
                       background: "transparent",
+                      boxShadow: "none",
                     }}
                     onMouseEnter={() => handleMouseEnter(album._id)}
                     onMouseLeave={() => handleMouseLeave(album._id)}
                     onClick={() => addandRemoveFavItem(album._id)}>
-                    <AddIcon />
+                    <AddIcon style={{ fontSize: "1.5rem" }} />
                   </Button>
                 </Link>
               )}
-              <Button
-                variant="contained"
-                color="primary"
-                style={{
-                  position: "absolute",
-                  top: "35%",
-                  left: "20%",
-                  transform: "translate(-50%, -50%)",
-                  zIndex: 1,
-                  background: "transparent",
-                }}
-                onMouseEnter={() => handleMouseEnter(album._id)}
-                onMouseLeave={() => handleMouseLeave(album._id)}
-                onClick={() => addandRemoveFavItem(album._id)}>
-                <AddIcon />
-              </Button>
             </>
           )}
           <CardContent
