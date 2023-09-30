@@ -372,6 +372,7 @@ background-color: rgba(15, 17, 17, 0.7); */
 .bb {
   display: block;
   margin-left: 20px;
+  margin-bottom: "2rem";
 }
 .pI {
   display: flex;
@@ -395,7 +396,7 @@ background-color: rgba(15, 17, 17, 0.7); */
 }
 .sL {
   height: 80px;
-  width: 189px;
+  width: 320px;
   background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: row;

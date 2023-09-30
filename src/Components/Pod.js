@@ -1,17 +1,10 @@
-import {
-  Card,
-  Button,
-  CardMedia,
-  Typography,
-  CardContent,
-  MobileStepper,
-  CardActionArea,
-} from "@mui/material";
+import { Button, Typography, MobileStepper } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import CardComponent from "./CardComponent";
 import { useTheme } from "@mui/material/styles";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import { useLocation } from "react-router-dom";
 
 export default function Pod({
   isPlaying,
@@ -22,6 +15,7 @@ export default function Pod({
   togglePlayPause,
   handleMouseEnter,
   handleMouseLeave,
+  handleNotShowSearch,
   updateSongPlayCallback,
 }) {
   const theme = useTheme();
@@ -33,78 +27,38 @@ export default function Pod({
   const handleBackR = () => {
     setCurrentDataIndexRomantic((prevActiveStep) => prevActiveStep - 1);
   };
-  async function getThedataRomantic() {
-    try {
-      const storedData = localStorage.getItem("musicData");
-      if (storedData) {
-        const parsedData = JSON.parse(storedData);
-        const songsArray = parsedData.musicData;
-        const filterDataRomantic = songsArray.filter(
-          (songs) => songs.mood === "romantic"
-        );
-        setromanticData(filterDataRomantic);
-
-        const filterDataExcited = songsArray.filter(
-          (songs) => songs.mood === "excited"
-        );
-        // setExcitedData(filterDataExcited);
-        const filterDataHappy = songsArray.filter(
-          (songs) => songs.mood === "happy"
-        );
-        // setHappyData(filterDataHappy);
-
-        const filterDataSad = songsArray.filter(
-          (songs) => songs.mood === "sad"
-        );
-      }
-    } catch (error) {
-      console.error("Something went wrong");
-    }
-  }
-  // setsadData(filterDataSad);
-  //   } else {
-  //     // Fetch data from the API
-  //     const baseUrlSong =
-  //       "https://academics.newtonschool.co/api/v1/music/song?limit=100";
-  //     const response = await fetch(baseUrlSong, {
-  //       method: "GET",
-  //       headers: {
-  //         projectId: "8jf3b15onzua",
-  //       },
-  //     });
-  //     const data = await response.json();
-  //     const musicDataSet = data.data;
-
-  //     const filterDataRomantic = musicDataSet.filter(
-  //       (songs) => songs.mood === "romantic"
-  //     );
-  //     setromanticData(filterDataRomantic);
-
-  //     const filterDataExcited = musicDataSet.filter(
-  //       (songs) => songs.mood === "excited"
-  //     );
-  //     // setExcitedData(filterDataExcited);
-
-  //     const filterDataHappy = musicDataSet.filter(
-  //       (songs) => songs.mood === "happy"
-  //     );
-  //     // setHappyData(filterDataHappy);
-
-  //     const filterDataSad = musicDataSet.filter(
-  //       (songs) => songs.mood === "sad"
-  //     );
-  //     // setsadData(filterDataSad);
-
-  //     localStorage.setItem(
-  //       "musicData",
-  //       JSON.stringify({
-  //         musicData: musicDataSet,
-  //       })
-  //     );
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const mood = queryParams.get("mood");
 
   useEffect(() => {
+    handleNotShowSearch();
+    handleShowNav();
+    async function getThedataRomantic() {
+      try {
+        const storedData = localStorage.getItem("musicData");
+        if (storedData) {
+          const parsedData = JSON.parse(storedData);
+          const songsArray = parsedData.musicData;
+          let filterData = [];
+          if (mood === "party") {
+            filterData = songsArray.filter((songs) => songs.mood === "happy");
+          } else if (!mood || mood === "chill") {
+            filterData = songsArray.filter((songs) => songs.mood === "excited");
+          } else {
+            filterData = songsArray.filter((songs) => songs.mood === mood);
+          }
+          setromanticData(filterData);
+        }
+      } catch (error) {
+        console.error("Something went wrong");
+      }
+    }
+
     getThedataRomantic();
+    // eslint-disable-next-line
   }, []);
+
   return (
     <>
       <div
@@ -120,8 +74,14 @@ export default function Pod({
             justifyContent: "space-between",
             margin: "2rem 3rem 0 1rem",
           }}>
-          <Typography sx={{ fontWeight: "700", fontSize: "22px" }} variant="h4">
-            Most Popular Podcasts
+          <Typography
+            sx={{
+              fontWeight: "700",
+              fontSize: "22px",
+              textTransform: "capitalize",
+            }}
+            variant="h4">
+            {mood ? mood : "Most Popular Podacast"}
           </Typography>
           <MobileStepper
             variant="d"

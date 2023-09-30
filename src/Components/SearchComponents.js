@@ -75,44 +75,46 @@ export default function SearchComponents({ searchItem }) {
         ) : (
           <>
             {searchResultsSongs.map((result) => (
-              <List
-                className="listItem"
-                style={{
-                  margin: "0.8rem 0rem",
-                  cursor: "pointer",
-                  width: "100%",
-                }}
-                key={result._id}>
-                <Link to="/showsearchresults" state={{ data: result }}>
+              <Link to="/showsearchresults" state={{ data: result }}>
+                <List
+                  className="listItem"
+                  style={{
+                    margin: "0.8rem 0rem",
+                    cursor: "pointer",
+                    width: "90vw",
+                  }}
+                  key={result._id}>
                   {result.title}
-                </Link>
-              </List>
+                </List>
+              </Link>
             ))}
             {searchResultsAlbum.map((result) => (
-              <List
-                className="listItem"
-                style={{
-                  margin: "0.8rem 0rem",
-                  cursor: "pointer",
-                  width: "100%",
-                }}
-                key={result._id}>
-                <Link to={`/playlist/${result._id}`}>{result.title}</Link>
-              </List>
+              <Link to={`/playlist/${result._id}`}>
+                <List
+                  className="listItem"
+                  style={{
+                    margin: "0.8rem 0rem",
+                    cursor: "pointer",
+                    width: "90vw",
+                  }}
+                  key={result._id}>
+                  {result.title}
+                </List>
+              </Link>
             ))}
             {searchArtist.map((result) => (
-              <List
-                className="listItem"
-                style={{
-                  margin: "0.8rem 0rem",
-                  cursor: "pointer",
-                  width: "100%",
-                }}
-                key={result._id}>
-                <Link to="/artist" state={{ data: result }}>
+              <Link to="/artist" state={{ data: result }}>
+                <List
+                  className="listItem"
+                  style={{
+                    margin: "0.8rem 0rem",
+                    cursor: "pointer",
+                    width: "90vw",
+                  }}
+                  key={result._id}>
                   {result.artists[0]?.name}
-                </Link>
-              </List>
+                </List>
+              </Link>
             ))}
           </>
         )}

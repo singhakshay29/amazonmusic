@@ -22,7 +22,6 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 function Navbar({
-  useName,
   searchItem,
   signSuccess,
   handleNotShow,
@@ -33,7 +32,7 @@ function Navbar({
 }) {
   const [isDropdownOpen, setIsDropDownOpen] = useState(false);
   const [isDropdownOpenUser, setIsDropDownOpenUser] = useState(false);
-  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 700);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1200);
 
   const navLinkStyle = ({ isActive }) => {
     return {

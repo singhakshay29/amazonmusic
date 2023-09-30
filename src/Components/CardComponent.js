@@ -155,7 +155,16 @@ export default function CardComponent({
               color: "white",
               padding: "16px 8px",
             }}>
-            <Typography gutterBottom variant="h6" component="div">
+            <Typography
+              gutterBottom
+              variant="h6"
+              component="div"
+              style={{
+                whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                width: "9.8rem",
+              }}>
               {album.title}
             </Typography>
             <Typography variant="body2" color="rgba(255, 255, 255, 0.6)">

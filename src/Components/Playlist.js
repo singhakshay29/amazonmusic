@@ -20,8 +20,6 @@ function Playlist({
   handleNotShowSearch,
   updateSongPlayCallback,
 }) {
-  handleNotShowSearch();
-  handleShowNav();
   const [, setLoader] = useState(true);
   const [songsList, setSongsList] = useState({});
   const [playlistsongs, setplaylistsongs] = useState([]);
@@ -63,21 +61,23 @@ function Playlist({
     setplaylistsongs(songsArray);
     setLoader(false);
   }
-  useEffect(() => {
-    getTheDeatails();
-    // eslint-disable-next-line
-  }, []);
 
   useEffect(() => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth < 880);
     };
-
+    const handleEffects = () => {
+      handleNotShowSearch();
+      handleShowNav();
+      getTheDeatails();
+    };
     window.addEventListener("resize", handleResize);
-
+    handleEffects();
     return () => {
       window.removeEventListener("resize", handleResize);
+      handleEffects();
     };
+    // eslint-disable-next-line
   }, []);
 
   const card = (
@@ -102,14 +102,11 @@ function Playlist({
         <Typography
           variant="h4"
           sx={{
-            width: "50rem",
-            height: "18rem",
             color: "white",
             fontFamily: "Gabarito",
             fontSize: "5rem",
-            // overflow: "hidden",
-            textOverflow: "ellipsis",
-            whiteSpace: "wrap",
+            overflow: "hidden",
+            maxHeight: "19rem",
           }}
           className="font"
           component="div">
@@ -130,13 +127,22 @@ function Playlist({
               updateSongPlayCallback(songsList.songs[0]?._id);
               togglePlayPause(!isPlaying);
             }}>
-            <BsFillPlayFill style={{ fontSize: "1.5rem" }} />
+            <BsFillPlayFill
+              onClick={() => {
+                updateSongPlayCallback(songsList.songs[0]?._id);
+                togglePlayPause(!isPlaying);
+              }}
+              style={{ fontSize: "1.5rem" }}
+            />
             Play
           </button>
           {signSuccess ? (
             <Button
               onClick={() => addandRemoveFavItem(songsList.songs[0]?._id)}>
-              <AddIcon style={{ color: "white", marginBottom: "10px" }} />
+              <AddIcon
+                onClick={() => addandRemoveFavItem(songsList.songs[0]?._id)}
+                style={{ color: "white", marginBottom: "10px" }}
+              />
             </Button>
           ) : (
             <Link to="/notsignin">
@@ -202,12 +208,20 @@ function Playlist({
             updateSongPlayCallback(songsList.songs[0]?._id);
             togglePlayPause(!isPlaying);
           }}>
-          <PlayArrowIcon />
+          <PlayArrowIcon
+            onClick={() => {
+              updateSongPlayCallback(songsList.songs[0]?._id);
+              togglePlayPause(!isPlaying);
+            }}
+          />
           Play
         </Button>
         {signSuccess ? (
           <Button onClick={() => addandRemoveFavItem(songsList.songs[0]?._id)}>
-            <AddIcon style={{ color: "white" }} />
+            <AddIcon
+              onClick={() => addandRemoveFavItem(songsList.songs[0]?._id)}
+              style={{ color: "white" }}
+            />
           </Button>
         ) : (
           <Link to="/notsignin">
@@ -252,7 +266,7 @@ function Playlist({
             }}>
             {playlistsongs.length > 0 &&
               playlistsongs.map((songs, index) => (
-                <List className="listDisplay">
+                <List key={index} className="listDisplay">
                   <List className="sL">
                     <ListItem
                       sx={{
@@ -295,14 +309,22 @@ function Playlist({
                           updateSongPlayCallback(songs._id);
                           togglePlayPause(!isPlaying);
                         }}>
-                        <PlayArrowIcon />
+                        <PlayArrowIcon
+                          onClick={() => {
+                            updateSongPlayCallback(songs._id);
+                            togglePlayPause(!isPlaying);
+                          }}
+                        />
                         Play
                       </Button>
                     </ListItem>
                     <ListItem sx={{ minWidth: "30px" }}>
                       {signSuccess ? (
                         <Button onClick={() => addandRemoveFavItem(songs._id)}>
-                          <AddIcon style={{ color: "white" }} />
+                          <AddIcon
+                            style={{ color: "white" }}
+                            onClick={() => addandRemoveFavItem(songs._id)}
+                          />
                         </Button>
                       ) : (
                         <Link to="/notsignin">
@@ -349,10 +371,14 @@ function Playlist({
               {card}
             </div>
           </div>
-          <div>
+          <div
+            style={{
+              width: "100%",
+              marginBottom: "5rem",
+            }}>
             {playlistsongs.length > 0 &&
               playlistsongs.map((songs, index) => (
-                <List className="listDisplay">
+                <List key={index} className="listDisplay">
                   <List className="sL">
                     <ListItem
                       sx={{
@@ -372,14 +398,10 @@ function Playlist({
                     </div>
                     <ListItem
                       sx={{
-                        minWidth: "90px",
+                        minWidth: "190px",
                         display: "flex",
                         paddingLeft: "10px",
-                        overflow: "hidden",
                         fontSize: "15px",
-                        boxSizing: "border-box",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
                       }}>
                       {songs.title}
                     </ListItem>
@@ -395,14 +417,22 @@ function Playlist({
                           updateSongPlayCallback(songs._id);
                           togglePlayPause(!isPlaying);
                         }}>
-                        <PlayArrowIcon />
+                        <PlayArrowIcon
+                          onClick={() => {
+                            updateSongPlayCallback(songs._id);
+                            togglePlayPause(!isPlaying);
+                          }}
+                        />
                         Play
                       </Button>
                     </ListItem>
                     <ListItem sx={{ minWidth: "30px" }}>
                       {signSuccess ? (
                         <Button onClick={() => addandRemoveFavItem(songs._id)}>
-                          <AddIcon style={{ color: "white" }} />
+                          <AddIcon
+                            style={{ color: "white" }}
+                            onClick={() => addandRemoveFavItem(songs._id)}
+                          />
                         </Button>
                       ) : (
                         <Link to="/notsignin">

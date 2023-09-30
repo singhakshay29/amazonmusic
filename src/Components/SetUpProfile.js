@@ -4,6 +4,7 @@ import { Button, CardMedia, Container, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
 import user from "../assests/user.png";
+//Responsive pending
 
 export default function SetUpProfile() {
   const [userName, setUserName] = useState(null);

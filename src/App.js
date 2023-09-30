@@ -25,7 +25,6 @@ import MusicPlayerComponents from "./Components/MusicPlayerComponents";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
-  const [useName, setUserName] = useState("");
   const [showNav, setShowNav] = useState(true);
   const [songPlayId, setSongPlayId] = useState("");
   const [searchItem, setSearchItem] = useState("");
@@ -91,7 +90,6 @@ function App() {
         )}
         {showNav && (
           <Navbar
-            useName={useName}
             searchItem={searchItem}
             signSuccess={signSuccess}
             handleNotShow={handleNotShow}
@@ -149,6 +147,7 @@ function App() {
                 handleMouseEnter={handleMouseEnter}
                 handleMouseLeave={handleMouseLeave}
                 updateSongPlayCallback={updateSongPlayId}
+                handleNotShowSearch={handleNotShowSearch}
               />
             }
           />
@@ -172,7 +171,6 @@ function App() {
               return (
                 <SignIn
                   signSuccess={signSuccess}
-                  setUserName={setUserName}
                   handleNotShow={handleNotShow}
                   setSignSuccess={setSignSuccess}
                 />
@@ -186,7 +184,6 @@ function App() {
               return (
                 <SignUp
                   signSuccess={signSuccess}
-                  setUserName={setUserName}
                   handleNotShow={handleNotShow}
                   setSignSuccess={setSignSuccess}
                 />
@@ -220,6 +217,7 @@ function App() {
             element={
               <SearchAlbum
                 isPlaying={isPlaying}
+                signSuccess={signSuccess}
                 handleShowNav={handleShowNav}
                 setSearchItem={setSearchItem}
                 togglePlayPause={togglePlayPause}

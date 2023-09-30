@@ -9,21 +9,16 @@ import {
   Typography,
   CardActions,
   CardContent,
+  Container,
 } from "@mui/material";
+//pending
 
-export default function SignIn({
-  signSuccess,
-  setUserName,
-  handleNotShow,
-  setSignSuccess,
-}) {
-  handleNotShow();
+export default function SignIn({ signSuccess, handleNotShow, setSignSuccess }) {
   const navigator = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [errorColor, setErrorColor] = useState("");
-  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -54,7 +49,6 @@ export default function SignIn({
           );
           if (response.ok) {
             const responseData = await response.json();
-            setUserName(responseData.data.name);
             localStorage.setItem(
               "signupDeatils",
               JSON.stringify({
@@ -77,267 +71,155 @@ export default function SignIn({
   };
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsSmallScreen(window.innerWidth < 800);
-    };
-
-    window.addEventListener("resize", handleResize);
+    handleNotShow();
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      handleNotShow();
     };
+    // eslint-disable-next-line
   }, []);
 
   return (
     <>
-      {isSmallScreen ? (
-        <>
-          <Card
-            style={{
-              backgroundColor: "white",
-              height: "100vh",
-            }}>
-            <Link to="/">
-              <Button
-                style={{
-                  position: "absolute",
-                  color: "white",
-                  borderRadius: "50%",
-                  width: "25px",
-                  height: "60px",
-                  background: "rgba(0, 0, 0, 0.4)",
-                  left: "87.2%",
-                }}>
-                <CloseIcon />
-              </Button>
-            </Link>
-            <CardMedia
+      <Card
+        style={{
+          backgroundColor: "white",
+          height: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}>
+        <Container
+          sx={{
+            width: "100%",
+            maxWidth: "400px",
+            height: "50px",
+            position: "absolute",
+            top: 40,
+            textAlign: "right",
+          }}>
+          <Link to="/">
+            <Button
               sx={{
-                height: "100px",
-                width: "220px",
-                marginLeft: "25.9%",
-                marginTop: "4rem",
-              }}
-              image="https://static.toiimg.com/photo/msid-59847732/59847732.jpg"
-              title="logo"
+                backdropFilter: "blur(10px)",
+                color: "white",
+                borderRadius: "50%",
+                backgroundColor: "rgba(0, 0, 0, 0.1)",
+                boxShadow: "none",
+                width: "55px",
+                height: "60px",
+                "&:hover": {
+                  backgroundColor: "rgba(0, 0, 0, 0.7)",
+                  width: "58px",
+                  height: "61px",
+                },
+              }}>
+              <CloseIcon />
+            </Button>
+          </Link>
+        </Container>
+
+        <CardMedia
+          sx={{
+            height: "100px",
+            width: "220px",
+            marginTop: "1rem",
+          }}
+          image="https://static.toiimg.com/photo/msid-59847732/59847732.jpg"
+          title="logo"
+        />
+        <Card sx={{ maxWidth: 345 }}>
+          <CardContent>
+            <Typography variant="h4" gutterBottom>
+              Sign in
+            </Typography>
+            <Typography
+              variant="body1"
+              fontWeight="bold"
+              marginBottom="5px"
+              gutterBottom>
+              Email
+            </Typography>
+
+            <TextField
+              type="email"
+              variant="outlined"
+              fullWidth
+              size="small"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
-            <Card sx={{ maxWidth: 345, marginLeft: "18%" }}>
-              <CardContent>
-                <Typography variant="h4" gutterBottom>
-                  Sign in
-                </Typography>
-                <Typography
-                  variant="body1"
-                  fontWeight="bold"
-                  marginBottom="5px"
-                  gutterBottom>
-                  Email
-                </Typography>
-
-                <TextField
-                  type="email"
-                  variant="outlined"
-                  fullWidth
-                  size="small"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                <Typography
-                  variant="body1"
-                  fontWeight="bold"
-                  marginBottom="5px"
-                  marginTop="10px">
-                  Password
-                </Typography>
-                <TextField
-                  type="password"
-                  variant="outlined"
-                  fullWidth
-                  size="small"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <Typography className="error" style={{ color: errorColor }}>
-                  {errorMessage}
-                </Typography>
-                {signSuccess ? (
-                  <>
-                    <Link to="/">
-                      <Button
-                        style={{
-                          backgroundColor: "black",
-                          color: "white",
-                          marginTop: "1rem",
-                        }}>
-                        Go to Home
-                      </Button>
-                    </Link>
-                  </>
-                ) : (
-                  <>
-                    <CardActions>
-                      <Button
-                        variant="contained"
-                        fullWidth
-                        type="submit"
-                        style={{
-                          backgroundColor: "rgba(255,216,18,255)",
-                          color: "black",
-                        }}
-                        onClick={handleLogin}>
-                        Sign In
-                      </Button>
-                    </CardActions>
-                    <Typography variant="caption">
-                      By continuing, you agree to Amazon's Conditions of Use and
-                      Privacy Notice.
-                    </Typography>
-
-                    <CardActions>
-                      <Link to="/signup">
-                        <Button
-                          variant="contained"
-                          fullWidth
-                          type="submit"
-                          style={{
-                            backgroundColor: "white",
-                            color: "black",
-                          }}>
-                          Create your amazon account
-                        </Button>
-                      </Link>
-                    </CardActions>
-                  </>
-                )}
-              </CardContent>
-            </Card>
-          </Card>
-        </>
-      ) : (
-        <>
-          <Card
-            style={{
-              backgroundColor: "white",
-              height: "100vh",
-              marginTop: "0rem",
-            }}>
-            <Link to="/">
-              <Button
-                style={{
-                  position: "absolute",
-                  color: "white",
-                  borderRadius: "50px",
-                  width: "20px",
-                  height: "60px",
-                  left: "94.9%",
-                  background: "rgba(0, 0, 0, 0.4)",
-                }}>
-                <CloseIcon />
-              </Button>
-            </Link>
-            <CardMedia
-              sx={{
-                height: "100px",
-                width: "220px",
-                marginLeft: "39.9%",
-                marginTop: "4rem",
-              }}
-              image="https://static.toiimg.com/photo/msid-59847732/59847732.jpg"
-              title="logo"
+            <Typography
+              variant="body1"
+              fontWeight="bold"
+              marginBottom="5px"
+              marginTop="10px">
+              Password
+            </Typography>
+            <TextField
+              type="password"
+              variant="outlined"
+              fullWidth
+              size="small"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
-            <Card sx={{ maxWidth: 345, marginLeft: "35%" }}>
-              <CardContent>
-                <Typography variant="h4" gutterBottom>
-                  Sign in
-                </Typography>
-                <Typography
-                  variant="body1"
-                  fontWeight="bold"
-                  marginBottom="5px"
-                  gutterBottom>
-                  Email
+            <Typography className="error" style={{ color: errorColor }}>
+              {errorMessage}
+            </Typography>
+            {signSuccess ? (
+              <>
+                <Link to="/">
+                  <Button
+                    style={{
+                      backgroundColor: "black",
+                      color: "white",
+                      marginTop: "1rem",
+                    }}>
+                    Go to Home
+                  </Button>
+                </Link>
+              </>
+            ) : (
+              <>
+                <CardActions>
+                  <Button
+                    variant="contained"
+                    fullWidth
+                    type="submit"
+                    style={{
+                      backgroundColor: "rgba(255,216,18,255)",
+                      color: "black",
+                    }}
+                    onClick={handleLogin}>
+                    Sign In
+                  </Button>
+                </CardActions>
+                <Typography variant="caption">
+                  By continuing, you agree to Amazon's Conditions of Use and
+                  Privacy Notice.
                 </Typography>
 
-                <TextField
-                  type="email"
-                  variant="outlined"
-                  fullWidth
-                  size="small"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                <Typography
-                  variant="body1"
-                  fontWeight="bold"
-                  marginBottom="5px"
-                  marginTop="10px">
-                  Password
-                </Typography>
-                <TextField
-                  type="password"
-                  variant="outlined"
-                  fullWidth
-                  size="small"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <Typography className="error" style={{ color: errorColor }}>
-                  {errorMessage}
-                </Typography>
-                {signSuccess ? (
-                  <>
-                    <Link to="/">
-                      <Button
-                        style={{
-                          backgroundColor: "black",
-                          color: "white",
-                          marginTop: "1rem",
-                        }}>
-                        Go to Home
-                      </Button>
-                    </Link>
-                  </>
-                ) : (
-                  <>
-                    <CardActions>
-                      <Button
-                        variant="contained"
-                        fullWidth
-                        type="submit"
-                        style={{
-                          backgroundColor: "rgba(255,216,18,255)",
-                          color: "black",
-                        }}
-                        onClick={handleLogin}>
-                        Sign In
-                      </Button>
-                    </CardActions>
-                    <Typography variant="caption">
-                      By continuing, you agree to Amazon's Conditions of Use and
-                      Privacy Notice.
-                    </Typography>
-
-                    <CardActions>
-                      <Link to="/signup">
-                        <Button
-                          variant="contained"
-                          fullWidth
-                          type="submit"
-                          style={{
-                            backgroundColor: "white",
-                            color: "black",
-                          }}>
-                          Create your amazon account
-                        </Button>
-                      </Link>
-                    </CardActions>
-                  </>
-                )}
-              </CardContent>
-            </Card>
-          </Card>
-        </>
-      )}
+                <CardActions>
+                  <Link to="/signup">
+                    <Button
+                      variant="contained"
+                      fullWidth
+                      type="submit"
+                      style={{
+                        backgroundColor: "white",
+                        color: "black",
+                      }}>
+                      Create your amazon account
+                    </Button>
+                  </Link>
+                </CardActions>
+              </>
+            )}
+          </CardContent>
+        </Card>
+      </Card>
     </>
   );
 }

@@ -1,9 +1,12 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React from "react";
+import React, { useEffect } from "react";
 import Amazon from "../assests/Amazon.pdf";
 
 export default function Term({ handleNotShow }) {
-  handleNotShow();
+  useEffect(() => {
+    handleNotShow();
+    // eslint-disable-next-line
+  }, []);
   return (
     <>
       <div style={{ marginTop: "-4rem" }}>

@@ -389,7 +389,11 @@ const Home = ({
                       gutterBottom
                       variant="h6"
                       component="div"
-                      style={{ overflow: "hidden" }}>
+                      style={{
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
+                      }}>
                       {data.title}
                     </Typography>
                     <Typography
