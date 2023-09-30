@@ -26,12 +26,15 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
   const [showNav, setShowNav] = useState(true);
-  const [songPlayId, setSongPlayId] = useState("");
-  const [searchItem, setSearchItem] = useState("");
   const [showMusic, setShowMusic] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [songPlayId, setSongPlayId] = useState(null);
+  const [searchItem, setSearchItem] = useState(null);
   const [showSearch, setShowSearch] = useState(false);
   const [signSuccess, setSignSuccess] = useState(false);
+  const [playpausesong, setPlayPauseSong] = useState(
+    Array(Array.length).fill(false)
+  );
   const [hoverStates, setHoverStates] = useState(
     Array(Array.length).fill(false)
   );
@@ -62,6 +65,15 @@ function App() {
     e.preventDefault();
     setSearchItem("");
   };
+
+  const handleTogglePlayPause = (index) => {
+    const songplay = [...playpausesong];
+    songplay[index] = !songplay[index];
+    console.log(songplay[index]);
+    // Toggle the state (true to false, or false to true)
+    setPlayPauseSong(songplay);
+  };
+
   const handleMouseEnter = (index) => {
     const newHoverStates = [...hoverStates];
     newHoverStates[index] = true;
@@ -247,12 +259,14 @@ function App() {
                 isPlaying={isPlaying}
                 signSuccess={signSuccess}
                 hoverStates={hoverStates}
+                playpausesong={playpausesong}
                 handleShowNav={handleShowNav}
                 setSearchItem={setSearchItem}
                 togglePlayPause={togglePlayPause}
                 handleMouseEnter={handleMouseEnter}
                 handleMouseLeave={handleMouseLeave}
                 updateSongPlayCallback={updateSongPlayId}
+                handleTogglePlayPause={handleTogglePlayPause}
               />
             }
           />

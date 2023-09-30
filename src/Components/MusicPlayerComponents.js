@@ -18,7 +18,7 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
   const audioRef = useRef(null);
   const [song, setSong] = useState([]);
   const [isMute, setIsMute] = useState(false);
-  const [isPlaying, setIsPlaying] = React.useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 660);
 
@@ -41,9 +41,27 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
             return false;
           });
         }
+        if (audioRef.current && !audioRef.current.paused) {
+          audioRef.current.pause();
+        }
+        if (audioRef.current) {
+          audioRef.current.pause();
+          audioRef.current.currentTime = 0;
+        }
+
         setSong(filterDataRomantic);
         setIsPlaying(false);
+
+        setTimeout(() => {
+          if (audioRef.current) {
+            audioRef.current.currentTime = 0;
+            // Reset the audio time
+            audioRef.current.play();
+            setIsPlaying(true);
+          }
+        }, 100);
       }
+
       if (filterDataRomantic.length === 0) {
         const storedDataAlbum = localStorage.getItem("albumData");
         let filterSongsById = [];
@@ -77,13 +95,33 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
             });
           }
         }
+        if (audioRef.current && !audioRef.current.paused) {
+          audioRef.current.pause();
+          setIsPlaying(false);
+        }
+        if (audioRef.current) {
+          audioRef.current.pause();
+          audioRef.current.currentTime = 0;
+          setIsPlaying(false);
+        }
         setSong(filterSongsById);
         setIsPlaying(false);
+        setTimeout(() => {
+          if (audioRef.current) {
+            audioRef.current.currentTime = 0;
+            // Reset the audio time
+            audioRef.current.play();
+            setIsPlaying(true);
+          }
+        }, 100);
       }
     } catch (error) {
       console.error("Something went Wrong");
     }
   }
+  const handleSongEnd = () => {
+    setIsPlaying(false);
+  };
 
   useEffect(() => {
     getTheDeatails(songPlayId);
@@ -94,11 +132,18 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
       setIsSmallScreen(window.innerWidth < 660);
     };
 
+    if (audioRef.current) {
+      audioRef.current.addEventListener("ended", handleSongEnd);
+    }
+
     window.addEventListener("resize", handleResize);
 
     return () => {
       window.removeEventListener("resize", handleResize);
+      // eslint-disable-next-line
+      audioRef.current.removeEventListener("ended", handleSongEnd);
     };
+    // eslint-disable-next-line
   }, []);
 
   const playPauseToggle = () => {
@@ -168,7 +213,6 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
               <Typography
                 style={{
                   color: "white",
-
                   padding: 0,
                   overflow: "hidden",
                   textOverflow: "ellipsis",
@@ -176,9 +220,6 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
                   maxWidth: 150,
                 }}>
                 {song[0]?.title}
-              </Typography>
-              <Typography variant="caption" style={{ color: "grey" }}>
-                {song[0]?.artist[0]?.name}
               </Typography>
             </ListItem>
             <ListItem

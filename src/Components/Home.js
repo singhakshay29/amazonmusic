@@ -20,10 +20,12 @@ const Home = ({
   hoverStates,
   signSuccess,
   setSearchItem,
+  playpausesong,
   handleShowNav,
   togglePlayPause,
   handleMouseEnter,
   handleMouseLeave,
+  handleTogglePlayPause,
   updateSongPlayCallback,
 }) => {
   const theme = useTheme();
@@ -141,29 +143,10 @@ const Home = ({
       console.error("Something went wrong");
     }
   }
-  setSearchItem("");
-  // const baseUrlSong =
-  //   "https://academics.newtonschool.co/api/v1/music/favorites/like";
-  // async function addandRemoveFavItem(songId) {
-  //   const user = localStorage.getItem("signupDeatils");
-  //   if (user) {
-  //     const parsedData = JSON.parse(user);
 
-  //     await fetch(baseUrlSong, {
-  //       method: "PATCH",
-  //       headers: {
-  //         Accept: "application/json",
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${parsedData.signup.token}`,
-  //         projectid: "8jf3b15onzua",
-  //       },
-  //       body: JSON.stringify({ songId: songId }),
-  //     });
-  //   }
-  // }
   const baseUrlAlbum =
     "https://academics.newtonschool.co/api/v1/music/album?limit=100";
-  handleShowNav();
+
   async function getThedataAlbum() {
     try {
       const storedData = localStorage.getItem("albumData");
@@ -196,8 +179,15 @@ const Home = ({
   useEffect(() => {
     getThedataRomantic();
     getThedataAlbum();
-
     handleShowNav();
+    setSearchItem("");
+
+    return () => {
+      getThedataRomantic();
+      getThedataAlbum();
+      handleShowNav();
+      setSearchItem("");
+    };
     // eslint-disable-next-line
   }, []);
 
@@ -469,13 +459,15 @@ const Home = ({
               <CardComponent
                 album={album}
                 index={index}
+                isPlaying={isPlaying}
+                hoverStates={hoverStates}
+                signSuccess={signSuccess}
+                playpausesong={playpausesong}
+                togglePlayPause={togglePlayPause}
                 handleMouseEnter={handleMouseEnter}
                 handleMouseLeave={handleMouseLeave}
-                hoverStates={hoverStates}
+                handleTogglePlayPause={handleTogglePlayPause}
                 updateSongPlayCallback={updateSongPlayCallback}
-                togglePlayPause={togglePlayPause}
-                isPlaying={isPlaying}
-                signSuccess={signSuccess}
               />
             ))}
       </div>
@@ -542,13 +534,15 @@ const Home = ({
               <CardComponent
                 album={album}
                 index={index}
-                handleMouseEnter={handleMouseEnter}
-                handleMouseLeave={handleMouseLeave}
-                hoverStates={hoverStates}
-                updateSongPlayCallback={updateSongPlayCallback}
-                togglePlayPause={togglePlayPause}
                 isPlaying={isPlaying}
                 signSuccess={signSuccess}
+                hoverStates={hoverStates}
+                playpausesong={playpausesong}
+                togglePlayPause={togglePlayPause}
+                handleMouseEnter={handleMouseEnter}
+                handleMouseLeave={handleMouseLeave}
+                handleTogglePlayPause={handleTogglePlayPause}
+                updateSongPlayCallback={updateSongPlayCallback}
               />
             ))}
       </div>
@@ -615,13 +609,15 @@ const Home = ({
               <CardComponent
                 album={album}
                 index={index}
-                handleMouseEnter={handleMouseEnter}
-                handleMouseLeave={handleMouseLeave}
-                hoverStates={hoverStates}
-                updateSongPlayCallback={updateSongPlayCallback}
-                togglePlayPause={togglePlayPause}
                 isPlaying={isPlaying}
                 signSuccess={signSuccess}
+                hoverStates={hoverStates}
+                playpausesong={playpausesong}
+                togglePlayPause={togglePlayPause}
+                handleMouseEnter={handleMouseEnter}
+                handleMouseLeave={handleMouseLeave}
+                handleTogglePlayPause={handleTogglePlayPause}
+                updateSongPlayCallback={updateSongPlayCallback}
               />
             ))}
       </div>
@@ -688,13 +684,15 @@ const Home = ({
               <CardComponent
                 album={album}
                 index={index}
-                handleMouseEnter={handleMouseEnter}
-                handleMouseLeave={handleMouseLeave}
-                hoverStates={hoverStates}
-                updateSongPlayCallback={updateSongPlayCallback}
-                togglePlayPause={togglePlayPause}
                 isPlaying={isPlaying}
                 signSuccess={signSuccess}
+                hoverStates={hoverStates}
+                playpausesong={playpausesong}
+                togglePlayPause={togglePlayPause}
+                handleMouseEnter={handleMouseEnter}
+                handleMouseLeave={handleMouseLeave}
+                handleTogglePlayPause={handleTogglePlayPause}
+                updateSongPlayCallback={updateSongPlayCallback}
               />
             ))}
       </div>

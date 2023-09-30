@@ -17,7 +17,6 @@ export default function Favorites({
   togglePlayPause,
   updateSongPlayCallback,
 }) {
-  const [songsList] = useState({});
   const [, setLoader] = useState(true);
   const [playlistsongs, setplaylistsongs] = useState([]);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 880);
@@ -41,6 +40,22 @@ export default function Favorites({
       const data = await response.json();
       setplaylistsongs(data.data?.songs);
       setLoader(false);
+    }
+  }
+  async function addandRemoveFavItem(songId) {
+    const user = localStorage.getItem("signupDeatils");
+    if (user) {
+      const parsedData = JSON.parse(user);
+      await fetch(baseUrlSong, {
+        method: "PATCH",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${parsedData.signup.token}`,
+          projectId: "8jf3b15onzua",
+        },
+        body: JSON.stringify({ songId: songId }),
+      });
     }
   }
 
@@ -79,7 +94,6 @@ export default function Favorites({
         <Typography
           variant="h4"
           sx={{
-            // maxHeight: "5rem",
             color: "white",
             fontFamily: "Gabarito",
             fontSize: "5rem",
@@ -94,7 +108,7 @@ export default function Favorites({
           <button
             className="spbplay"
             onClick={() => {
-              updateSongPlayCallback(songsList.songs[0]?._id);
+              updateSongPlayCallback(playlistsongs[0]?._id);
               togglePlayPause(!isPlaying);
             }}>
             <BsFillPlayFill style={{ fontSize: "1.5rem" }} />
@@ -132,20 +146,15 @@ export default function Favorites({
         </Typography>
       </CardContent>
       <CardActions style={{ display: "flex", justifyContent: "center" }}>
-        <Button
-          sx={{
-            background: "rgb(37, 209, 218)",
-            borderRadius: "20px",
-            width: "80px",
-            color: "black",
-          }}
+        <button
+          className="spbplay"
           onClick={() => {
-            updateSongPlayCallback(songsList.songs[0]?._id);
+            updateSongPlayCallback(playlistsongs[0]?._id);
             togglePlayPause(!isPlaying);
           }}>
-          <PlayArrowIcon />
+          <BsFillPlayFill style={{ fontSize: "1.5rem" }} />
           Play
-        </Button>
+        </button>
       </CardActions>
     </React.Fragment>
   );
@@ -227,9 +236,7 @@ export default function Favorites({
                         </Button>
                       </ListItem>
                       <ListItem sx={{ minWidth: "30px" }}>
-                        <Button
-                        // onClick={() => addandRemoveFavItem(songs._id)}
-                        >
+                        <Button onClick={() => addandRemoveFavItem(songs._id)}>
                           <MdRemoveCircleOutline
                             style={{ color: "white", fontSize: "1.3rem" }}
                           />
