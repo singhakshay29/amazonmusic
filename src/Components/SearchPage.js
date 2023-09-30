@@ -20,11 +20,13 @@ export default function SearchPage() {
       </Typography>
       <Card style={{ marginTop: "3rem" }}>
         <Grid container spacing={1} sx={{ backgroundColor: "black" }}>
-          <Card
-            style={{ backgroundImage: `url(${b1})`, backgroundSize: "cover" }}
-            className="spC">
-            Romantic
-          </Card>
+          <Link to="/pod">
+            <Card
+              style={{ backgroundImage: `url(${b1})`, backgroundSize: "cover" }}
+              className="spC">
+              Romantic
+            </Card>
+          </Link>
           <Card
             style={{ backgroundImage: `url(${b2})`, backgroundSize: "cover" }}
             className="spC">

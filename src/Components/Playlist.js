@@ -132,56 +132,56 @@ function Playlist({
     </React.Fragment>
   );
 
-  const cardResponsive = (
-    <React.Fragment>
-      <CardContent>
-        <Typography
-          sx={{ fontWeight: "bold" }}
-          color="rgb(37, 209, 218)"
-          textTransform={"uppercase"}
-          gutterBottom>
-          Playlist
-        </Typography>
-        <Typography
-          variant="h4"
-          sx={{ fontWeight: "bold", color: "white", flexWrap: "wrap" }}
-          component="div">
-          {songsList.title}
-        </Typography>
-        <Typography sx={{ mb: 8 }} color="text.secondary"></Typography>
-        <Typography style={{ color: "white" }} variant="body2">
-          {songsList.description}
-        </Typography>
-      </CardContent>
-      <CardActions style={{ display: "flex", justifyContent: "center" }}>
-        <Button
-          sx={{
-            background: "rgb(37, 209, 218)",
-            borderRadius: "20px",
-            width: "80px",
-            color: "black",
-          }}
-          onClick={() => {
-            updateSongPlayCallback(songsList.songs[0]?._id);
-            togglePlayPause(!isPlaying);
-          }}>
-          <PlayArrowIcon />
-          Play
-        </Button>
-        {signSuccess ? (
-          <Button onClick={() => addandRemoveFavItem(songsList.songs[0]?._id)}>
-            <AddIcon style={{ color: "white" }} />
-          </Button>
-        ) : (
-          <Link to="/notsignin">
-            <Button>
-              <AddIcon style={{ color: "white" }} />
-            </Button>
-          </Link>
-        )}
-      </CardActions>
-    </React.Fragment>
-  );
+  // const cardResponsive = (
+  //   <React.Fragment>
+  //     <CardContent>
+  //       <Typography
+  //         sx={{ fontWeight: "bold" }}
+  //         color="rgb(37, 209, 218)"
+  //         textTransform={"uppercase"}
+  //         gutterBottom>
+  //         Playlist
+  //       </Typography>
+  //       <Typography
+  //         variant="h4"
+  //         sx={{ fontWeight: "bold", color: "white", flexWrap: "wrap" }}
+  //         component="div">
+  //         {songsList.title}
+  //       </Typography>
+  //       <Typography sx={{ mb: 8 }} color="text.secondary"></Typography>
+  //       <Typography style={{ color: "white" }} variant="body2">
+  //         {songsList.description}
+  //       </Typography>
+  //     </CardContent>
+  //     <CardActions style={{ display: "flex", justifyContent: "center" }}>
+  //       <Button
+  //         sx={{
+  //           background: "rgb(37, 209, 218)",
+  //           borderRadius: "20px",
+  //           width: "80px",
+  //           color: "black",
+  //         }}
+  //         onClick={() => {
+  //           updateSongPlayCallback(songsList.songs[0]?._id);
+  //           togglePlayPause(!isPlaying);
+  //         }}>
+  //         <PlayArrowIcon />
+  //         Play
+  //       </Button>
+  //       {signSuccess ? (
+  //         <Button onClick={() => addandRemoveFavItem(songsList.songs[0]?._id)}>
+  //           <AddIcon style={{ color: "white" }} />
+  //         </Button>
+  //       ) : (
+  //         <Link to="/notsignin">
+  //           <Button>
+  //             <AddIcon style={{ color: "white" }} />
+  //           </Button>
+  //         </Link>
+  //       )}
+  //     </CardActions>
+  //   </React.Fragment>
+  // );
 
   return (
     <>
@@ -190,17 +190,22 @@ function Playlist({
           <div
             style={{
               backgroundImage: `url(${songsList.image})`,
-              height: "100vh",
-              filter: "blur(6px)",
-              backgroundRepeat: "no-repeat",
+              // maxWidth: "200px",
+              // maxHeight: "300px",
+              // filter: "blur(6px)",
+              // backgroundRepeat: "no-repeat",
+              backgroundSize: "contain",
+              backgroundPosition: "center center",
+              width: "100%",
+              height: "100%",
+              marginTop: "3rem",
             }}></div>
-          <div
+          {/* <div
             style={{
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               position: "absolute",
-              margin: 0,
             }}>
             <Card
               sx={{
@@ -308,7 +313,7 @@ function Playlist({
                   </Box>
                 </div>
               ))}
-          </div>
+          </div> */}
         </>
       ) : (
         <>
