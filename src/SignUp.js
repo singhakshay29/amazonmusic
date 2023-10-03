@@ -8,11 +8,12 @@ import {
   CardActions,
   CardContent,
 } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import AuthContext from "./AuthContex";
 import { Link, useNavigate } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
+import React, { useState, useContext } from "react";
 
-export default function SignUp({ signSuccess, handleNotShow, setSignSuccess }) {
+export default function SignUp() {
   const navigator = useNavigate();
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -20,6 +21,7 @@ export default function SignUp({ signSuccess, handleNotShow, setSignSuccess }) {
   const [errorColor, setErrorColor] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [finalpassword, setfinalPassword] = useState("");
+  const { saveSignupData, signSuccess } = useContext(AuthContext);
 
   const handleSignUp = (e) => {
     e.preventDefault();
@@ -54,15 +56,9 @@ export default function SignUp({ signSuccess, handleNotShow, setSignSuccess }) {
           );
           if (response.ok) {
             const responseData = await response.json();
-            localStorage.setItem(
-              "signupDeatils",
-              JSON.stringify({
-                signup: responseData,
-              })
-            );
+            saveSignupData(responseData);
             setErrorMessage("SignUp successful!");
             setErrorColor("green");
-            setSignSuccess(true);
             navigator("/");
           } else if (response.status === 403) {
             setErrorMessage("User already exists");
@@ -77,14 +73,6 @@ export default function SignUp({ signSuccess, handleNotShow, setSignSuccess }) {
       })();
     }
   };
-
-  useEffect(() => {
-    handleNotShow();
-    return () => {
-      handleNotShow();
-    };
-    // eslint-disable-next-line
-  }, []);
 
   return (
     <>

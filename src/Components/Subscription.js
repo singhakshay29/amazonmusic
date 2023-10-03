@@ -6,7 +6,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import extrafeatures from "../assests/extrafeatures.png";
 
 export default function Subscription({ handleNotShow }) {
-  handleNotShow();
+  handleNotShow?.();
   return (
     <Card>
       <Link to="/">

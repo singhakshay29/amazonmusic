@@ -6,34 +6,22 @@ import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import { useLocation } from "react-router-dom";
 
-export default function Pod({
-  isPlaying,
-  hoverStates,
-  signSuccess,
-  setSearchItem,
-  handleShowNav,
-  togglePlayPause,
-  handleMouseEnter,
-  handleMouseLeave,
-  handleNotShowSearch,
-  updateSongPlayCallback,
-}) {
+export default function Pod({ setSearchItem, updateSongPlayCallback }) {
   const theme = useTheme();
+  const location = useLocation();
   const [romanticData, setromanticData] = useState([]);
   const [currentDataIndexRomantic, setCurrentDataIndexRomantic] = useState(0);
+
   const handleNextR = () => {
     setCurrentDataIndexRomantic((prevActiveStep) => prevActiveStep + 1);
   };
   const handleBackR = () => {
     setCurrentDataIndexRomantic((prevActiveStep) => prevActiveStep - 1);
   };
-  const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const mood = queryParams.get("mood");
 
   useEffect(() => {
-    handleNotShowSearch();
-    handleShowNav();
     async function getThedataRomantic() {
       try {
         const storedData = localStorage.getItem("musicData");
@@ -136,13 +124,7 @@ export default function Pod({
                 <CardComponent
                   album={album}
                   index={index}
-                  handleMouseEnter={handleMouseEnter}
-                  handleMouseLeave={handleMouseLeave}
-                  hoverStates={hoverStates}
                   updateSongPlayCallback={updateSongPlayCallback}
-                  togglePlayPause={togglePlayPause}
-                  isPlaying={isPlaying}
-                  signSuccess={signSuccess}
                 />
               ))}
         </div>

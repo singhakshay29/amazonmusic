@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import React, { useEffect, useState } from "react";
 import { Button, Typography, Container } from "@mui/material";
-export default function NotSignIn({ handleNotShow }) {
-  handleNotShow();
+export default function NotSignIn() {
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
 
   useEffect(() => {

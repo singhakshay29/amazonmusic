@@ -9,20 +9,28 @@ export default function SearchComponents({ searchItem }) {
 
   useEffect(() => {
     async function getTheDetails() {
+      const storedArtist = localStorage.getItem("artistData");
       const storedAlbum = localStorage.getItem("albumData");
       const storedSongs = localStorage.getItem("musicData");
       const parsedDataSongs = JSON.parse(storedSongs);
       const parsedDataAlbum = JSON.parse(storedAlbum);
+      const parsedDataArtist = JSON.parse(storedArtist);
+      const filteredResultsArtist = parsedDataArtist.artistData.filter(
+        (item) => {
+          return item.name.toLowerCase().includes(searchItem.toLowerCase());
+        }
+      );
+      setArtist(filteredResultsArtist);
 
-      const filteredResultsAlbum = parsedDataAlbum.albumData.filter((item) => {
-        const filterArraysArtist = item.artists.filter((artistItem) => {
-          return artistItem.name
-            .toLowerCase()
-            .includes(searchItem.toLowerCase());
-        });
-        return filterArraysArtist.length > 0;
-      });
-      setArtist(filteredResultsAlbum);
+      // const filteredResultsAlbum = parsedDataAlbum.albumData.filter((item) => {
+      //   const filterArraysArtist = item.artists.filter((artistItem) => {
+      //     return artistItem.name
+      //       .toLowerCase()
+      //       .includes(searchItem.toLowerCase());
+      //   });
+      //   return filterArraysArtist.length > 0;
+      // });
+
       const filteredResultsAlbumByName = parsedDataAlbum.albumData.filter(
         (item) => {
           return item.title.toLowerCase().includes(searchItem.toLowerCase());
@@ -83,8 +91,8 @@ export default function SearchComponents({ searchItem }) {
                     cursor: "pointer",
                     width: "90vw",
                   }}
-                  key={result._id}>
-                  {result.title}
+                  key={result?._id}>
+                  {result?.title}
                 </List>
               </Link>
             ))}
@@ -97,8 +105,8 @@ export default function SearchComponents({ searchItem }) {
                     cursor: "pointer",
                     width: "90vw",
                   }}
-                  key={result._id}>
-                  {result.title}
+                  key={result?._id}>
+                  {result?.title}
                 </List>
               </Link>
             ))}
@@ -111,8 +119,8 @@ export default function SearchComponents({ searchItem }) {
                     cursor: "pointer",
                     width: "90vw",
                   }}
-                  key={result._id}>
-                  {result.artists[0]?.name}
+                  key={result?._id}>
+                  {result?.name}
                 </List>
               </Link>
             ))}

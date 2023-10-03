@@ -1,24 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link, useNavigate } from "react-router-dom";
+import AuthContext from "../AuthContex";
 import {
   Card,
   Button,
+  Container,
   TextField,
   CardMedia,
   Typography,
   CardActions,
   CardContent,
-  Container,
 } from "@mui/material";
-//pending
 
-export default function SignIn({ signSuccess, handleNotShow, setSignSuccess }) {
+export default function SignIn() {
   const navigator = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [errorColor, setErrorColor] = useState("");
+  const { saveSignupData, signSuccess } = useContext(AuthContext);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -49,15 +50,9 @@ export default function SignIn({ signSuccess, handleNotShow, setSignSuccess }) {
           );
           if (response.ok) {
             const responseData = await response.json();
-            localStorage.setItem(
-              "signupDeatils",
-              JSON.stringify({
-                signup: responseData,
-              })
-            );
+            saveSignupData(responseData);
             setErrorMessage("Login successful!");
             setErrorColor("green");
-            setSignSuccess(true);
             navigator("/");
           } else {
             setErrorMessage("Incorrect EmailId or Password");
@@ -69,15 +64,6 @@ export default function SignIn({ signSuccess, handleNotShow, setSignSuccess }) {
       })();
     }
   };
-
-  useEffect(() => {
-    handleNotShow();
-
-    return () => {
-      handleNotShow();
-    };
-    // eslint-disable-next-line
-  }, []);
 
   return (
     <>

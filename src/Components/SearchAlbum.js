@@ -7,24 +7,20 @@ import {
   CardContent,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import AuthContext from "../AuthContex";
 import { BsFillPlayFill } from "react-icons/bs";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useLocation, Link } from "react-router-dom";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
-export default function SearchAlbum({
-  isPlaying,
-  signSuccess,
-  handleShowNav,
-  setSearchItem,
-  togglePlayPause,
-  handleNotShowSearch,
-  updateSongPlayCallback,
-}) {
+export default function SearchAlbum({ setSearchItem, updateSongPlayCallback }) {
   const location = useLocation();
   const { data } = location.state;
-  const [, setLoader] = useState(true);
+  const [loder, setLoader] = useState(true);
   const [songsList, setSongsList] = useState({});
+  const { signSuccess, isPlaying, togglePlayPause } = useContext(AuthContext);
   const [playlistsongs, setplaylistsongs] = useState([]);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 880);
 
@@ -40,7 +36,9 @@ export default function SearchAlbum({
     const songsArray = data.data.songs;
     setSongsList(data.data);
     setplaylistsongs(songsArray);
-    setLoader(false);
+    setTimeout(() => {
+      setLoader(false);
+    }, 700);
   }
 
   const baseUrlSong =
@@ -67,8 +65,6 @@ export default function SearchAlbum({
       setIsSmallScreen(window.innerWidth < 880);
     };
     const handleEffects = () => {
-      handleNotShowSearch();
-      handleShowNav();
       setSearchItem("");
       getTheDeatails();
     };
@@ -76,7 +72,6 @@ export default function SearchAlbum({
     handleEffects();
     return () => {
       window.removeEventListener("resize", handleResize);
-      handleEffects();
     };
 
     // eslint-disable-next-line
@@ -321,103 +316,122 @@ export default function SearchAlbum({
         </>
       ) : (
         <>
-          <div
-            style={{
-              backgroundImage: `url(${songsList.image})`,
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              width: "100%",
-              height: "40rem",
-              filter: "blur(10px)",
-              marginTop: "1rem",
-            }}></div>
-          <img
-            src={songsList.image}
-            alt={songsList.title}
-            className="pI imgP playlistMainI"
-          />
-          <div className="pI playlistMainI">
-            <div
-              style={{
-                background: "transparent",
-                boxShadow: "none",
-                marginLeft: "2rem",
-              }}>
-              {card}
-            </div>
-          </div>
-          <div
-            style={{
-              width: "100%",
-              marginBottom: "5rem",
-            }}>
-            {playlistsongs.length > 0 &&
-              playlistsongs.map((songs, index) => (
-                <List key={index} className="listDisplay">
-                  <List className="sL">
-                    <ListItem
-                      sx={{
-                        minWidth: "20px",
-                        fontSize: "17px",
-                        color: "gray",
-                        paddingX: "15px",
-                      }}>
-                      {index + 1}
-                    </ListItem>
-                    <div style={{ minWidth: "74px", padding: "0" }}>
-                      <img
-                        src={songs.thumbnail}
-                        alt={songs.title}
-                        className="imageList"
-                      />
-                    </div>
-                    <ListItem
-                      sx={{
-                        minWidth: "190px",
-                        display: "flex",
-                        paddingLeft: "10px",
-                        fontSize: "15px",
-                      }}>
-                      {songs.title}
-                    </ListItem>
-                  </List>
-                  <List className="sL">
-                    <ListItem sx={{ minWidth: "50px" }}>
-                      <Button
-                        sx={{
-                          borderRadius: "20px",
-                          color: "white",
-                        }}
-                        onClick={() => {
-                          updateSongPlayCallback(songs._id);
-                          togglePlayPause(!isPlaying);
-                        }}>
-                        <PlayArrowIcon />
-                        Play
-                      </Button>
-                    </ListItem>
-                    <ListItem sx={{ minWidth: "30px" }}>
-                      {signSuccess ? (
-                        <Button onClick={() => addandRemoveFavItem(songs._id)}>
-                          <AddIcon style={{ color: "white" }} />
-                        </Button>
-                      ) : (
-                        <Link to="/notsignin">
+          {loder ? (
+            <>
+              <Box
+                sx={{
+                  display: "flex",
+                  width: "100%",
+                  height: "40rem",
+                  marginTop: "3rem",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}>
+                <CircularProgress sx={{ color: "rgb(37, 209, 218)" }} />
+              </Box>
+            </>
+          ) : (
+            <>
+              <div
+                style={{
+                  backgroundImage: `url(${songsList.image})`,
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  width: "100%",
+                  height: "40rem",
+                  filter: "blur(10px)",
+                  marginTop: "1rem",
+                }}></div>
+              <img
+                src={songsList.image}
+                alt={songsList.title}
+                className="pI imgP playlistMainI"
+              />
+              <div className="pI playlistMainI">
+                <div
+                  style={{
+                    background: "transparent",
+                    boxShadow: "none",
+                    marginLeft: "2rem",
+                  }}>
+                  {card}
+                </div>
+              </div>
+              <div
+                style={{
+                  width: "100%",
+                  marginBottom: "5rem",
+                }}>
+                {playlistsongs.length > 0 &&
+                  playlistsongs.map((songs, index) => (
+                    <List key={index} className="listDisplay">
+                      <List className="sL">
+                        <ListItem
+                          sx={{
+                            minWidth: "20px",
+                            fontSize: "17px",
+                            color: "gray",
+                            paddingX: "15px",
+                          }}>
+                          {index + 1}
+                        </ListItem>
+                        <div style={{ minWidth: "74px", padding: "0" }}>
+                          <img
+                            src={songs.thumbnail}
+                            alt={songs.title}
+                            className="imageList"
+                          />
+                        </div>
+                        <ListItem
+                          sx={{
+                            minWidth: "190px",
+                            display: "flex",
+                            paddingLeft: "10px",
+                            fontSize: "15px",
+                          }}>
+                          {songs.title}
+                        </ListItem>
+                      </List>
+                      <List className="sL">
+                        <ListItem sx={{ minWidth: "50px" }}>
                           <Button
                             sx={{
                               borderRadius: "20px",
                               color: "white",
+                            }}
+                            onClick={() => {
+                              updateSongPlayCallback(songs._id);
+                              togglePlayPause(!isPlaying);
                             }}>
-                            <AddIcon style={{ color: "white" }} />
+                            <PlayArrowIcon />
+                            Play
                           </Button>
-                        </Link>
-                      )}
-                    </ListItem>
-                  </List>
-                </List>
-              ))}
-          </div>
+                        </ListItem>
+                        <ListItem sx={{ minWidth: "30px" }}>
+                          {signSuccess ? (
+                            <Button
+                              onClick={() => addandRemoveFavItem(songs._id)}>
+                              <AddIcon style={{ color: "white" }} />
+                            </Button>
+                          ) : (
+                            <Link to="/notsignin">
+                              <Button
+                                sx={{
+                                  borderRadius: "20px",
+                                  color: "white",
+                                }}>
+                                <AddIcon style={{ color: "white" }} />
+                              </Button>
+                            </Link>
+                          )}
+                        </ListItem>
+                      </List>
+                    </List>
+                  ))}
+              </div>
+            </>
+          )}
         </>
       )}
     </>

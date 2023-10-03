@@ -16,12 +16,8 @@ export default function SetUpProfile() {
       if (userData) {
         const parseData = JSON.parse(userData);
         parseData.signup.data.name = updateName;
-        console.log(updateName);
-        console.log(parseData);
-
         localStorage.setItem("signupDeatils", JSON.stringify(parseData));
       }
-      console.log(userData);
     }
   };
 
@@ -29,7 +25,6 @@ export default function SetUpProfile() {
     const userData = localStorage.getItem("signupDeatils");
     if (userData) {
       const parseData = JSON.parse(userData);
-      // console.log(parseData.signup.data);
       setUserName(parseData.signup?.data.name);
     }
   }
@@ -128,6 +123,7 @@ export default function SetUpProfile() {
           </Typography>
           <input
             placeholder="Change user name"
+            type="text"
             value={updateName}
             onChange={(e) => setupdateName(e.target.value)}
             className="hoveractive"></input>

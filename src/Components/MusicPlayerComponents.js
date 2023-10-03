@@ -12,15 +12,18 @@ import SkipNextIcon from "@mui/icons-material/SkipNext";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
-import React, { useEffect, useState, useRef, memo } from "react";
+import React, { useEffect, useState, memo, useContext, useRef } from "react";
+import AuthContext from "../AuthContex";
+import { useLocation } from "react-router-dom";
 
 export default memo(function MusicPlayerComponents({ songPlayId }) {
-  const audioRef = useRef(null);
+  const audioRef = useRef();
+  const location = useLocation();
   const [song, setSong] = useState([]);
   const [isMute, setIsMute] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 660);
+  const { isPlaying, setIsPlaying, handleSongEnd } = useContext(AuthContext);
 
   async function getTheDeatails(sid, sIndex = null) {
     try {
@@ -119,12 +122,10 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
       console.error("Something went Wrong");
     }
   }
-  const handleSongEnd = () => {
-    setIsPlaying(false);
-  };
 
   useEffect(() => {
     getTheDeatails(songPlayId);
+    // eslint-disable-next-line
   }, [songPlayId]);
 
   useEffect(() => {
@@ -175,6 +176,14 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
     getTheDeatails("", currentSongIndex - 1);
     setIsPlaying(false);
   };
+
+  if (
+    location.pathname === "/subscription" ||
+    location.pathname === "/signin" ||
+    location.pathname === "/signup"
+  ) {
+    return null;
+  }
 
   return (
     <>

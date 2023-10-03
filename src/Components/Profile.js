@@ -4,23 +4,22 @@ import React, { useState, useEffect } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-export default function Profile({ handleShowNav }) {
-  handleShowNav();
+export default function Profile() {
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 880);
-  const [userName, setUserName] = useState(null);
-  const [gmail, setGmail] = useState(null);
+  const [userName, setUserName] = useState("");
+  const [gmail, setGmail] = useState("");
 
   function getTheUserDetails() {
     const userData = localStorage.getItem("signupDeatils");
     if (userData) {
       const parseData = JSON.parse(userData);
-      console.log(parseData.signup.data);
       setUserName(parseData.signup?.data.name);
       setGmail(parseData.signup?.data.email);
     }
   }
   useEffect(() => {
     getTheUserDetails();
+    // eslint-disable-next-line
   }, []);
 
   const card = (

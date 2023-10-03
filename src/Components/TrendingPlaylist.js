@@ -7,20 +7,21 @@ import {
   CardContent,
   CardActionArea,
 } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import AuthContext from "../AuthContex";
 
-export default function TrendingPlaylist({
-  isPlaying,
-  hoverStates,
-  togglePlayPause,
-  handleMouseEnter,
-  handleMouseLeave,
-  updateSongPlayCallback,
-}) {
+export default function TrendingPlaylist({ updateSongPlayCallback }) {
   const [trendingSongs, setTrendingSong] = useState([]);
+  const {
+    isPlaying,
+    togglePlayPause,
+    hoverStates,
+    handleMouseEnter,
+    handleMouseLeave,
+  } = useContext(AuthContext);
 
   async function getThedataRomantic() {
     try {
@@ -77,7 +78,7 @@ export default function TrendingPlaylist({
           {trendingSongs.length > 0 &&
             trendingSongs.map((album, index) => (
               <Card
-                key={album.id}
+                key={album._id}
                 sx={{
                   width: 190,
                   margin: "10px 20px",
