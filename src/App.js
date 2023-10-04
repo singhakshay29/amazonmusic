@@ -24,6 +24,8 @@ import SearchComponents from "./Components/SearchComponents";
 import ShowSearchResults from "./Components/ShowSearchResults";
 import MusicPlayerComponents from "./Components/MusicPlayerComponents";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import ComingSoon from "./Components/ComingSoon";
+import DataContextProvider from "./DataContextProvider";
 
 function App() {
   const [songPlayId, setSongPlayId] = useState("");
@@ -39,102 +41,106 @@ function App() {
     e.preventDefault();
     setSearchItem("");
   };
-
   return (
     <>
       <AuthContextProvider>
-        <Router>
-          {songPlayId && <MusicPlayerComponents songPlayId={songPlayId} />}
-          <Navbar
-            searchItem={searchItem}
-            handleTextToSearch={handleTextToSearch}
-            handleInputValueToSearch={handleInputValueToSearch}
-          />
-          <Routes>
-            <Route path="searchpage" element={<SearchPage />} />
-            <Route path="gethelp" element={<GetHelp />} />
-            <Route path="notsignin" element={<NotSignIn />} />
-            <Route
-              path="noresultfound"
-              element={<NoResultsFound searchItem={searchItem} />}
+        <DataContextProvider>
+          <Router>
+            {songPlayId && <MusicPlayerComponents songPlayId={songPlayId} />}
+            <Navbar
+              searchItem={searchItem}
+              handleTextToSearch={handleTextToSearch}
+              handleInputValueToSearch={handleInputValueToSearch}
             />
+            <Routes>
+              <Route path="searchpage" element={<SearchPage />} />
+              <Route path="gethelp" element={<GetHelp />} />
+              <Route path="notsignin" element={<NotSignIn />} />
+              <Route
+                path="noresultfound"
+                element={<NoResultsFound searchItem={searchItem} />}
+              />
 
-            <Route
-              path="searchcomponents"
-              element={<SearchComponents searchItem={searchItem} />}
-            />
-            <Route path="/subscription" element={<Subscription />} />
-            <Route
-              path="favorites"
-              element={<Favorites updateSongPlayCallback={updateSongPlayId} />}
-            />
-            <Route
-              path="pod"
-              element={
-                <Pod
-                  searchItem={searchItem}
-                  setSearchItem={setSearchItem}
-                  updateSongPlayCallback={updateSongPlayId}
-                />
-              }
-            />
-            <Route
-              path="playlist/:id"
-              element={
-                <Playlist
-                  setSearchItem={setSearchItem}
-                  updateSongPlayCallback={updateSongPlayId}
-                />
-              }
-            />
-            <Route path="signin" element={<SignIn />} />
-            <Route path="signup" element={<SignUp />} />
-            <Route
-              path="showsearchresults"
-              element={<ShowSearchResults searchItem={searchItem} />}
-            />
-            <Route
-              path="trendingplaylist"
-              element={
-                <TrendingPlaylist updateSongPlayCallback={updateSongPlayId} />
-              }
-            />
-            <Route
-              path="searchalbum"
-              element={
-                <SearchAlbum
-                  setSearchItem={setSearchItem}
-                  updateSongPlayCallback={updateSongPlayId}
-                />
-              }
-            />
-            <Route
-              path="artist"
-              element={
-                <Artist
-                  setSearchItem={setSearchItem}
-                  updateSongPlayCallback={updateSongPlayId}
-                />
-              }
-            />
-            <Route
-              path="/"
-              element={
-                <Home
-                  setSearchItem={setSearchItem}
-                  updateSongPlayCallback={updateSongPlayId}
-                />
-              }
-            />
-            <Route path="term" element={<Term />} />
-            <Route path="setup" element={<SetUpProfile />} />
-            <Route path="profile" element={<Profile />} />
-            <Route
-              path="seeall"
-              element={<SeeAll updateSongPlayCallback={updateSongPlayId} />}
-            />
-          </Routes>
-        </Router>
+              <Route
+                path="searchcomponents"
+                element={<SearchComponents searchItem={searchItem} />}
+              />
+              <Route path="/subscription" element={<Subscription />} />
+              <Route
+                path="favorites"
+                element={
+                  <Favorites updateSongPlayCallback={updateSongPlayId} />
+                }
+              />
+              <Route
+                path="pod"
+                element={
+                  <Pod
+                    searchItem={searchItem}
+                    setSearchItem={setSearchItem}
+                    updateSongPlayCallback={updateSongPlayId}
+                  />
+                }
+              />
+              <Route
+                path="playlist/:id"
+                element={
+                  <Playlist
+                    setSearchItem={setSearchItem}
+                    updateSongPlayCallback={updateSongPlayId}
+                  />
+                }
+              />
+              <Route path="signin" element={<SignIn />} />
+              <Route path="signup" element={<SignUp />} />
+              <Route
+                path="showsearchresults"
+                element={<ShowSearchResults searchItem={searchItem} />}
+              />
+              <Route
+                path="trendingplaylist"
+                element={
+                  <TrendingPlaylist updateSongPlayCallback={updateSongPlayId} />
+                }
+              />
+              <Route
+                path="searchalbum"
+                element={
+                  <SearchAlbum
+                    setSearchItem={setSearchItem}
+                    updateSongPlayCallback={updateSongPlayId}
+                  />
+                }
+              />
+              <Route
+                path="artist"
+                element={
+                  <Artist
+                    setSearchItem={setSearchItem}
+                    updateSongPlayCallback={updateSongPlayId}
+                  />
+                }
+              />
+              <Route
+                path="/"
+                element={
+                  <Home
+                    setSearchItem={setSearchItem}
+                    updateSongPlayCallback={updateSongPlayId}
+                  />
+                }
+              />
+              <Route path="term" element={<Term />} />
+              <Route path="setup" element={<SetUpProfile />} />
+              <Route path="profile" element={<Profile />} />
+              <Route
+                path="seeall"
+                element={<SeeAll updateSongPlayCallback={updateSongPlayId} />}
+              />
+              <Route path="comingSoon" element={<ComingSoon />} />
+            </Routes>
+          </Router>
+        </DataContextProvider>
       </AuthContextProvider>
     </>
   );

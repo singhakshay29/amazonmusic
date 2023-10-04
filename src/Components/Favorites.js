@@ -7,7 +7,6 @@ import {
   CardContent,
 } from "@mui/material";
 import Box from "@mui/material/Box";
-import AuthContext from "../AuthContex";
 import mylikes from "../assests/mylikes.png";
 import { BsFillPlayFill } from "react-icons/bs";
 import { MdRemoveCircleOutline } from "react-icons/md";
@@ -15,68 +14,27 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import React, { useState, useEffect, useContext } from "react";
+import DataContext from "../DataContext";
 
 export default function Favorites({ updateSongPlayCallback }) {
-  const { isPlaying, togglePlayPause } = useContext(AuthContext);
-  const [loder, setLoader] = useState(true);
-  const [playlistsongs, setplaylistsongs] = useState([]);
+  const {
+    isPlaying,
+    loader,
+    togglePlayPause,
+    playlistsongs,
+    addandRemoveFavItem,
+  } = useContext(DataContext);
+
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 880);
 
-  async function getTheFavList() {
-    const user = localStorage.getItem("signupDeatils");
-    if (user) {
-      const baseUrlSong =
-        "https://academics.newtonschool.co/api/v1/music/favorites/like";
-
-      const parsedData = JSON.parse(user);
-      const response = await fetch(baseUrlSong, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${parsedData.signup.token}`,
-          projectId: "8jf3b15onzua",
-        },
-      });
-      const data = await response.json();
-
-      setplaylistsongs(data.data?.songs);
-      setTimeout(() => {
-        setLoader(false);
-      }, 700);
-    }
-  }
-
-  async function addandRemoveFavItem(songId) {
-    const user = localStorage.getItem("signupDeatils");
-    if (user) {
-      const parsedData = JSON.parse(user);
-      const baseUrlSong =
-        "https://academics.newtonschool.co/api/v1/music/favorites/like";
-
-      await fetch(baseUrlSong, {
-        method: "PATCH",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${parsedData.signup.token}`,
-          projectId: "8jf3b15onzua",
-        },
-        body: JSON.stringify({ songId: songId }),
-      });
-    }
-    getTheFavList();
-  }
   useEffect(() => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth < 880);
     };
-    getTheFavList();
     window.addEventListener("resize", handleResize);
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      getTheFavList();
     };
   }, []);
 
@@ -116,7 +74,7 @@ export default function Favorites({ updateSongPlayCallback }) {
           <button
             className="spbplay"
             onClick={() => {
-              updateSongPlayCallback(playlistsongs[0]?._id);
+              updateSongPlayCallback(playlistsongs?.[0]?._id);
               togglePlayPause(!isPlaying);
             }}>
             <BsFillPlayFill style={{ fontSize: "1.5rem" }} />
@@ -236,7 +194,7 @@ export default function Favorites({ updateSongPlayCallback }) {
                             color: "white",
                           }}
                           onClick={() => {
-                            updateSongPlayCallback(songs._id);
+                            updateSongPlayCallback(songs?._id);
                             togglePlayPause(!isPlaying);
                           }}>
                           <PlayArrowIcon />
@@ -246,7 +204,7 @@ export default function Favorites({ updateSongPlayCallback }) {
                       <ListItem sx={{ minWidth: "30px" }}>
                         <Button>
                           <MdRemoveCircleOutline
-                            onClick={() => addandRemoveFavItem(songs._id)}
+                            onClick={() => addandRemoveFavItem(songs?._id)}
                             style={{ color: "white", fontSize: "1.3rem" }}
                           />
                         </Button>
@@ -258,7 +216,7 @@ export default function Favorites({ updateSongPlayCallback }) {
           </>
         ) : (
           <>
-            {loder ? (
+            {loader ? (
               <>
                 <Box
                   sx={{
@@ -305,7 +263,7 @@ export default function Favorites({ updateSongPlayCallback }) {
                     width: "100%",
                     marginBottom: "5rem",
                   }}>
-                  {playlistsongs.length > 0 &&
+                  {playlistsongs?.length > 0 &&
                     playlistsongs.map((songs, index) => (
                       <List key={index} className="listDisplay">
                         <List className="sL">
@@ -330,11 +288,7 @@ export default function Favorites({ updateSongPlayCallback }) {
                               minWidth: "190px",
                               display: "flex",
                               paddingLeft: "10px",
-
                               fontSize: "15px",
-                              // boxSizing: "border-box",
-                              // textOverflow: "ellipsis",
-                              // whiteSpace: "nowrap",
                             }}>
                             {songs.title}
                           </ListItem>
@@ -347,7 +301,7 @@ export default function Favorites({ updateSongPlayCallback }) {
                                 color: "white",
                               }}
                               onClick={() => {
-                                updateSongPlayCallback(songs._id);
+                                updateSongPlayCallback(songs?._id);
                                 togglePlayPause(!isPlaying);
                               }}>
                               <PlayArrowIcon />
@@ -358,7 +312,7 @@ export default function Favorites({ updateSongPlayCallback }) {
                             <Button>
                               <MdRemoveCircleOutline
                                 style={{ color: "white", fontSize: "1.3rem" }}
-                                onClick={() => addandRemoveFavItem(songs._id)}
+                                onClick={() => addandRemoveFavItem(songs?._id)}
                               />
                             </Button>
                           </ListItem>

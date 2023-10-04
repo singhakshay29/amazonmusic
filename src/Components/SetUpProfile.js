@@ -7,7 +7,7 @@ import user from "../assests/user.png";
 //Responsive pending
 
 export default function SetUpProfile() {
-  const [userName, setUserName] = useState(null);
+  const [userName, setUserName] = useState("");
   const [updateName, setupdateName] = useState();
   const handleChange = (e) => {
     e.preventDefault();
@@ -19,6 +19,7 @@ export default function SetUpProfile() {
         localStorage.setItem("signupDeatils", JSON.stringify(parseData));
       }
     }
+    getTheUserDetails();
   };
 
   function getTheUserDetails() {

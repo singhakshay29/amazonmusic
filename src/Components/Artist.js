@@ -14,6 +14,8 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import AuthContext from "../AuthContex";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
+import DataContext from "../DataContext";
+import { MdRemoveCircleOutline } from "react-icons/md";
 
 export default function Artist({ setSearchItem, updateSongPlayCallback }) {
   const location = useLocation();
@@ -21,7 +23,9 @@ export default function Artist({ setSearchItem, updateSongPlayCallback }) {
   const [artist, setArtist] = useState([]);
   const [loder, setLoader] = useState(true);
   const [playlistsongs, setplaylistsongs] = useState([]);
-  const { signSuccess, isPlaying, togglePlayPause } = useContext(AuthContext);
+  const { signSuccess } = useContext(AuthContext);
+  const { isPlaying, togglePlayPause, addandRemoveFavItem, favoritesId } =
+    useContext(DataContext);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
 
   const baseUrl = `https://academics.newtonschool.co/api/v1/music/artist/${data?._id}`;
@@ -35,30 +39,16 @@ export default function Artist({ setSearchItem, updateSongPlayCallback }) {
     const artistDetails = await response.json();
     setArtist(artistDetails.data);
     const songsArray = artistDetails.data.songs;
+
     setplaylistsongs(songsArray);
     setTimeout(() => {
       setLoader(false);
     }, 700);
   }
-  const baseUrlSong =
-    "https://academics.newtonschool.co/api/v1/music/favorites/like";
-  async function addandRemoveFavItem(songId) {
-    const user = localStorage.getItem("signupDeatils");
-    if (user) {
-      const parsedData = JSON.parse(user);
 
-      await fetch(baseUrlSong, {
-        method: "PATCH",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${parsedData.signup.token}`,
-          projectid: "8jf3b15onzua",
-        },
-        body: JSON.stringify({ songId: songId }),
-      });
-    }
-  }
+  const isAlbumInFavorites = (songId) => {
+    return favoritesId.includes(songId);
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -112,16 +102,33 @@ export default function Artist({ setSearchItem, updateSongPlayCallback }) {
             color: "black",
           }}
           onClick={() => {
-            updateSongPlayCallback(artist.songs[0]?._id);
+            updateSongPlayCallback(artist?.songs[0]?._id);
             togglePlayPause(!isPlaying);
           }}>
           <PlayArrowIcon />
           Play
         </Button>
         {signSuccess ? (
-          <Button onClick={() => addandRemoveFavItem(artist.songs[0]?._id)}>
-            <AddIcon style={{ color: "white" }} />
-          </Button>
+          <>
+            {artist?.songs?.[0]?._id &&
+            isAlbumInFavorites(artist?.songs[0]?._id) ? (
+              <>
+                <Button
+                  onClick={() => addandRemoveFavItem(artist.songs[0]?._id)}>
+                  <MdRemoveCircleOutline
+                    style={{ color: "white", fontSize: "1.5rem" }}
+                  />
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  onClick={() => addandRemoveFavItem(artist.songs[0]?._id)}>
+                  <AddIcon style={{ color: "white" }} />
+                </Button>
+              </>
+            )}
+          </>
         ) : (
           <Link to="/notsignin">
             <Button>
@@ -155,7 +162,6 @@ export default function Artist({ setSearchItem, updateSongPlayCallback }) {
         <Typography
           variant="h4"
           sx={{
-            // maxWidth: "20rem",
             color: "white",
             fontFamily: "Gabarito",
             fontSize: "5rem",
@@ -164,7 +170,7 @@ export default function Artist({ setSearchItem, updateSongPlayCallback }) {
           }}
           className="font"
           component="div">
-          {artist.name}
+          {artist?.name}
         </Typography>
         <Typography
           sx={{
@@ -172,22 +178,39 @@ export default function Artist({ setSearchItem, updateSongPlayCallback }) {
             fontWeight: "500",
             fontSize: "1.1rem",
           }}>
-          {artist.description}
+          {artist?.description}
         </Typography>
         <CardActions>
           <button
             className="spbplay"
             onClick={() => {
-              updateSongPlayCallback(artist.songs[0]?._id);
+              updateSongPlayCallback(artist?.songs[0]?._id);
               togglePlayPause(!isPlaying);
             }}>
             <BsFillPlayFill style={{ fontSize: "1.5rem" }} />
             Play
           </button>
           {signSuccess ? (
-            <Button onClick={() => addandRemoveFavItem(artist.songs[0]?._id)}>
-              <AddIcon style={{ color: "white", marginBottom: "10px" }} />
-            </Button>
+            <>
+              {artist?.songs?.[0]?._id &&
+              isAlbumInFavorites(artist?.songs[0]?._id) ? (
+                <>
+                  <Button
+                    onClick={() => addandRemoveFavItem(artist.songs[0]?._id)}>
+                    <MdRemoveCircleOutline
+                      style={{ color: "white", fontSize: "1.5rem" }}
+                    />
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    onClick={() => addandRemoveFavItem(artist.songs[0]?._id)}>
+                    <AddIcon style={{ color: "white" }} />
+                  </Button>
+                </>
+              )}
+            </>
           ) : (
             <Link to="/notsignin">
               <Button>
@@ -285,9 +308,25 @@ export default function Artist({ setSearchItem, updateSongPlayCallback }) {
                     </ListItem>
                     <ListItem sx={{ minWidth: "30px" }}>
                       {signSuccess ? (
-                        <Button onClick={() => addandRemoveFavItem(songs._id)}>
-                          <AddIcon style={{ color: "white" }} />
-                        </Button>
+                        <>
+                          {isAlbumInFavorites(songs?._id) ? (
+                            <>
+                              <Button
+                                onClick={() => addandRemoveFavItem(songs?._id)}>
+                                <MdRemoveCircleOutline
+                                  style={{ color: "white", fontSize: "1.5rem" }}
+                                />
+                              </Button>
+                            </>
+                          ) : (
+                            <>
+                              <Button
+                                onClick={() => addandRemoveFavItem(songs?._id)}>
+                                <AddIcon style={{ color: "white" }} />
+                              </Button>
+                            </>
+                          )}
+                        </>
                       ) : (
                         <Link to="/notsignin">
                           <Button
@@ -401,10 +440,32 @@ export default function Artist({ setSearchItem, updateSongPlayCallback }) {
                         </ListItem>
                         <ListItem sx={{ minWidth: "30px" }}>
                           {signSuccess ? (
-                            <Button
-                              onClick={() => addandRemoveFavItem(songs._id)}>
-                              <AddIcon style={{ color: "white" }} />
-                            </Button>
+                            <>
+                              {isAlbumInFavorites(songs?._id) ? (
+                                <>
+                                  <Button
+                                    onClick={() =>
+                                      addandRemoveFavItem(songs?._id)
+                                    }>
+                                    <MdRemoveCircleOutline
+                                      style={{
+                                        color: "white",
+                                        fontSize: "1.5rem",
+                                      }}
+                                    />
+                                  </Button>
+                                </>
+                              ) : (
+                                <>
+                                  <Button
+                                    onClick={() =>
+                                      addandRemoveFavItem(songs?._id)
+                                    }>
+                                    <AddIcon style={{ color: "white" }} />
+                                  </Button>
+                                </>
+                              )}
+                            </>
                           ) : (
                             <Link to="/notsignin">
                               <Button

@@ -25,7 +25,6 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
   const cardRef = useRef(null);
   const inputRef = useRef(null);
-  const focusRef = useRef(null);
   const location = useLocation();
   const [showCard, setShowCard] = useState(false);
   const [isDropdownOpen, setIsDropDownOpen] = useState(false);
@@ -43,9 +42,6 @@ function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
   const handleShowLargeNav = () => {
     setShowCard(true);
     setEnableClickOutside(true);
-  };
-  const handleFocusSecondInput = () => {
-    focusRef?.current?.focus();
   };
 
   const navLinkStyle = ({ isActive }) => {
@@ -578,7 +574,6 @@ function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
                             id="amazon"
                             onClick={() => {
                               handleShowLargeSearch();
-                              handleFocusSecondInput();
                             }}
                             type="text"
                             onChange={handleTextToSearch}
@@ -616,7 +611,6 @@ function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
                           style={{ backgroundColor: "none" }}>
                           <Link to="/searchcomponents">
                             <input
-                              ref={focusRef}
                               id="table"
                               onClick={(e) => handleShowLargeSearch(e)}
                               onChange={handleTextToSearch}
@@ -631,7 +625,12 @@ function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
                   )}
                 </Container>
 
-                <ListItem ref={cardRef}>
+                <ListItem
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                  }}
+                  ref={cardRef}>
                   <Button
                     sx={{
                       color: "white",
@@ -729,32 +728,6 @@ function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
                                 </ListItem>
                               </List>
                             </Card>
-                            {/* <ListItem>
-                                <Card
-                                  style={{
-                                    backgroundColor: "rgba(15,17,17,.6)",
-                                    color: "white",
-                                    border: "1px solid grey",
-                                    width: "120px",
-                                    marginLeft: "50px",
-                                    textAlign: "center",
-                                  }}>
-                                  Hey! {useName}
-                                </Card>
-                              </ListItem>
-
-                              <Button
-                                style={{
-                                  margin: "1rem",
-                                  border: "2px solid rgb(37, 209, 218)",
-                                  backgroundColor: "rgb(37, 209, 218)",
-                                  borderRadius: "50px",
-                                  width: "220px",
-                                  color: "black",
-                                }}
-                                onClick={() => logout()}>
-                                LOG OUT
-                              </Button> */}
                           </>
                         ) : (
                           <>
@@ -786,21 +759,15 @@ function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
                                         fontSize: "16.5px",
                                         // width: "225px",
                                         border: "2px solid transparent",
-                                        paddingLeft: "15px", // Increase padding on the left side
-                                        paddingRight: "15px", // Increase padding on the right side
+                                        paddingLeft: "15px",
+                                        paddingRight: "15px",
                                       },
                                       backgroundColor: "rgb(37, 209, 218)",
                                       borderRadius: "50px",
-                                      paddingLeft: "20px", // Initial padding on the left side
-                                      paddingRight: "20px", // Initial padding on the right side
+                                      paddingLeft: "20px",
+                                      paddingRight: "20px",
                                       width: "220px",
                                       color: "black",
-                                      "&:active": {
-                                        // Add styles for the "active" state
-                                        backgroundColor: "#a8edf0", // You can customize this color
-                                        fontSize: "15px", // You can customize the font size
-                                        width: "225px", // You can customize the width
-                                      },
                                     }}>
                                     Sign In
                                   </ListItem>

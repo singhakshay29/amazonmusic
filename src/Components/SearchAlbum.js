@@ -6,21 +6,24 @@ import {
   CardActions,
   CardContent,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
+import Box from "@mui/material/Box";
 import AuthContext from "../AuthContex";
+import DataContext from "../DataContext";
+import AddIcon from "@mui/icons-material/Add";
 import { BsFillPlayFill } from "react-icons/bs";
 import React, { useState, useEffect, useContext } from "react";
 import { useLocation, Link } from "react-router-dom";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import { MdRemoveCircleOutline } from "react-icons/md";
 import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
 
 export default function SearchAlbum({ setSearchItem, updateSongPlayCallback }) {
   const location = useLocation();
   const { data } = location.state;
   const [loder, setLoader] = useState(true);
   const [songsList, setSongsList] = useState({});
-  const { signSuccess, isPlaying, togglePlayPause } = useContext(AuthContext);
+  const { signSuccess } = useContext(AuthContext);
+  const { isPlaying, togglePlayPause,addandRemoveFavItem, favoritesId } = useContext(DataContext);
   const [playlistsongs, setplaylistsongs] = useState([]);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 880);
 
@@ -41,25 +44,11 @@ export default function SearchAlbum({ setSearchItem, updateSongPlayCallback }) {
     }, 700);
   }
 
-  const baseUrlSong =
-    "https://academics.newtonschool.co/api/v1/music/favorites/like";
-  async function addandRemoveFavItem(songId) {
-    const user = localStorage.getItem("signupDeatils");
-    if (user) {
-      const parsedData = JSON.parse(user);
+  const isAlbumInFavorites = (songId) => {
+    return favoritesId.includes(songId);
+  };
 
-      await fetch(baseUrlSong, {
-        method: "PATCH",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${parsedData.signup.token}`,
-          projectid: "8jf3b15onzua",
-        },
-        body: JSON.stringify({ songId: songId }),
-      });
-    }
-  }
+  
   useEffect(() => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth < 880);
@@ -73,7 +62,6 @@ export default function SearchAlbum({ setSearchItem, updateSongPlayCallback }) {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-
     // eslint-disable-next-line
   }, []);
 
@@ -129,10 +117,30 @@ export default function SearchAlbum({ setSearchItem, updateSongPlayCallback }) {
             Play
           </button>
           {signSuccess ? (
-            <Button
-              onClick={() => addandRemoveFavItem(songsList.songs[0]?._id)}>
-              <AddIcon style={{ color: "white", marginBottom: "10px" }} />
-            </Button>
+            <>
+            {songsList?.songs?.[0]?._id &&
+            isAlbumInFavorites(songsList.songs[0]?._id) ? (
+              <>
+                <Button
+                  onClick={() =>
+                    addandRemoveFavItem(songsList?.songs?.[0]?._id)
+                  }>
+                  <MdRemoveCircleOutline
+                    style={{ color: "white", fontSize: "1.5rem" }}
+                  />
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  onClick={() =>
+                    addandRemoveFavItem(songsList?.songs?.[0]?._id)
+                  }>
+                  <AddIcon style={{ color: "white" }} />
+                </Button>
+              </>
+            )}
+          </>
           ) : (
             <Link to="/notsignin">
               <Button>
@@ -193,16 +201,37 @@ export default function SearchAlbum({ setSearchItem, updateSongPlayCallback }) {
             color: "black",
           }}
           onClick={() => {
-            updateSongPlayCallback(songsList.songs[0]?._id);
+            updateSongPlayCallback(songsList?.songs[0]?._id);
             togglePlayPause(!isPlaying);
           }}>
           <PlayArrowIcon />
           Play
         </Button>
         {signSuccess ? (
-          <Button onClick={() => addandRemoveFavItem(songsList.songs[0]?._id)}>
-            <AddIcon style={{ color: "white" }} />
-          </Button>
+          <>
+          {songsList?.songs?.[0]?._id &&
+          isAlbumInFavorites(songsList.songs[0]?._id) ? (
+            <>
+              <Button
+                onClick={() =>
+                  addandRemoveFavItem(songsList?.songs?.[0]?._id)
+                }>
+                <MdRemoveCircleOutline
+                  style={{ color: "white", fontSize: "1.5rem" }}
+                />
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                onClick={() =>
+                  addandRemoveFavItem(songsList?.songs?.[0]?._id)
+                }>
+                <AddIcon style={{ color: "white" }} />
+              </Button>
+            </>
+          )}
+        </>
         ) : (
           <Link to="/notsignin">
             <Button>
@@ -230,9 +259,9 @@ export default function SearchAlbum({ setSearchItem, updateSongPlayCallback }) {
             }}></div>
           <div className="pI">
             <img
-              src={songsList.image}
+              src={songsList?.image}
               className="image"
-              alt={songsList.title}
+              alt={songsList?.title}
             />
             <div className="iD">{cardResponsive}</div>
           </div>
@@ -285,7 +314,7 @@ export default function SearchAlbum({ setSearchItem, updateSongPlayCallback }) {
                           color: "white",
                         }}
                         onClick={() => {
-                          updateSongPlayCallback(songs._id);
+                          updateSongPlayCallback(songs?._id);
                           togglePlayPause(!isPlaying);
                         }}>
                         <PlayArrowIcon />
@@ -294,9 +323,30 @@ export default function SearchAlbum({ setSearchItem, updateSongPlayCallback }) {
                     </ListItem>
                     <ListItem sx={{ minWidth: "30px" }}>
                       {signSuccess ? (
-                        <Button onClick={() => addandRemoveFavItem(songs._id)}>
-                          <AddIcon style={{ color: "white" }} />
-                        </Button>
+                        <>
+                        {songsList?.songs?.[0]?._id &&
+                        isAlbumInFavorites(songs?._id) ? (
+                          <>
+                            <Button
+                              onClick={() =>
+                                addandRemoveFavItem(songs?._id)
+                              }>
+                              <MdRemoveCircleOutline
+                                style={{ color: "white", fontSize: "1.5rem" }}
+                              />
+                            </Button>
+                          </>
+                        ) : (
+                          <>
+                            <Button
+                              onClick={() =>
+                                addandRemoveFavItem(songs?._id)
+                              }>
+                              <AddIcon style={{ color: "white" }} />
+                            </Button>
+                          </>
+                        )}
+                      </>
                       ) : (
                         <Link to="/notsignin">
                           <Button
@@ -334,7 +384,7 @@ export default function SearchAlbum({ setSearchItem, updateSongPlayCallback }) {
             <>
               <div
                 style={{
-                  backgroundImage: `url(${songsList.image})`,
+                  backgroundImage: `url(${songsList?.image})`,
                   backgroundRepeat: "no-repeat",
                   backgroundSize: "cover",
                   backgroundPosition: "center",
@@ -410,10 +460,30 @@ export default function SearchAlbum({ setSearchItem, updateSongPlayCallback }) {
                         </ListItem>
                         <ListItem sx={{ minWidth: "30px" }}>
                           {signSuccess ? (
-                            <Button
-                              onClick={() => addandRemoveFavItem(songs._id)}>
-                              <AddIcon style={{ color: "white" }} />
-                            </Button>
+                            <>
+                            {songsList?.songs?.[0]?._id &&
+                            isAlbumInFavorites(songs?._id) ? (
+                              <>
+                                <Button
+                                  onClick={() =>
+                                    addandRemoveFavItem(songs?._id)
+                                  }>
+                                  <MdRemoveCircleOutline
+                                    style={{ color: "white", fontSize: "1.5rem" }}
+                                  />
+                                </Button>
+                              </>
+                            ) : (
+                              <>
+                                <Button
+                                  onClick={() =>
+                                    addandRemoveFavItem(songs?._id)
+                                  }>
+                                  <AddIcon style={{ color: "white" }} />
+                                </Button>
+                              </>
+                            )}
+                          </>
                           ) : (
                             <Link to="/notsignin">
                               <Button

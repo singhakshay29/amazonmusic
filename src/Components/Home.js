@@ -14,23 +14,23 @@ import React, { useContext, useEffect, useState } from "react";
 import { HiChevronRight } from "react-icons/hi";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-import AuthContext from "../AuthContex";
+import DataContext from "../DataContext";
 
 const Home = ({ setSearchItem, updateSongPlayCallback }) => {
-  const theme = useTheme();
-  const [sadData, setsadData] = useState([]);
-  const [albumData, setAlbum] = useState([]);
-  const [artistData, setArtist] = useState([]);
-  const [happyData, setHappyData] = useState([]);
   const {
-    setSeeAllData,
+    sadData,
+    happyData,
+    albumData,
+    artistData,
+    setHeading,
     hoverStates,
+    excitedData,
+    romanticData,
+    setSeeAllData,
     handleMouseEnter,
     handleMouseLeave,
-    setHeading,
-  } = useContext(AuthContext);
-  const [excitedData, setExcitedData] = useState([]);
-  const [romanticData, setromanticData] = useState([]);
+  } = useContext(DataContext);
+  const theme = useTheme();
   const [currentDataIndexSad, setCurrentDataIndexSad] = useState(0);
   const [currentDataIndexAlbum, setCurrentDataIndexAlbum] = useState(1);
   const [currentDataIndexArtist, setCurrentDataIndexArtist] = useState(0);
@@ -85,179 +85,8 @@ const Home = ({ setSearchItem, updateSongPlayCallback }) => {
     setHeading(heading);
   };
 
-  async function getThedataRomantic() {
-    try {
-      const storedData = localStorage.getItem("musicData");
-      if (storedData) {
-        const parsedData = JSON.parse(storedData);
-        const songsArray = parsedData.musicData;
-        const filterDataRomantic = songsArray.filter(
-          (songs) => songs.mood === "romantic"
-        );
-        setromanticData(filterDataRomantic);
-
-        const filterDataExcited = songsArray.filter(
-          (songs) => songs.mood === "excited"
-        );
-        setExcitedData(filterDataExcited);
-        const filterDataHappy = songsArray.filter(
-          (songs) => songs.mood === "happy"
-        );
-        setHappyData(filterDataHappy);
-
-        const filterDataSad = songsArray.filter(
-          (songs) => songs.mood === "sad"
-        );
-        setsadData(filterDataSad);
-      } else {
-        // Fetch data from the API
-        const baseUrlSong =
-          "https://academics.newtonschool.co/api/v1/music/song?limit=100";
-        const response = await fetch(baseUrlSong, {
-          method: "GET",
-          headers: {
-            projectId: "8jf3b15onzua",
-          },
-        });
-        const data = await response.json();
-        const musicDataSet = data.data;
-
-        const filterDataRomantic = musicDataSet.filter(
-          (songs) => songs.mood === "romantic"
-        );
-        setromanticData(filterDataRomantic);
-
-        const filterDataExcited = musicDataSet.filter(
-          (songs) => songs.mood === "excited"
-        );
-        setExcitedData(filterDataExcited);
-
-        const filterDataHappy = musicDataSet.filter(
-          (songs) => songs.mood === "happy"
-        );
-        setHappyData(filterDataHappy);
-
-        const filterDataSad = musicDataSet.filter(
-          (songs) => songs.mood === "sad"
-        );
-        setsadData(filterDataSad);
-
-        localStorage.setItem(
-          "musicData",
-          JSON.stringify({
-            musicData: musicDataSet,
-          })
-        );
-      }
-    } catch (error) {
-      console.error("Something went wrong");
-    }
-  }
-  const singersToFilter = [
-    "DIVINE",
-    "Sukhwinder Singh",
-    "Salim Merchant",
-    "K.K.",
-    "Anushka Manchanda",
-    "Alka Yagnik",
-    "Udit Narayan",
-    "Mithoon",
-    "Sonu Nigam",
-    "Shankar Mahadevan",
-    "Jubin Nautiyal",
-    "Tanishk Bagchi",
-    "Darshan Raval",
-    "Vishal-Shekhar",
-    "Shekhar Ravjiani",
-    "Arijit Singh",
-    "Sidhu Moose Wala",
-    "Hariharan",
-    "Pritam",
-    "Mohit Chauhan",
-    "Raftaar",
-  ];
-
-  async function getTheArtist() {
-    try {
-      const storedData = localStorage.getItem("artistData");
-      if (storedData) {
-        const parsedData = JSON.parse(storedData);
-
-        const filteredItems = parsedData.artistData.filter((item) =>
-          singersToFilter.some((name) =>
-            item.name.toLowerCase().includes(name.toLowerCase())
-          )
-        );
-        // setArtist(filteredItems);
-
-        setArtist(filteredItems);
-      } else {
-        const baseUrlArtist =
-          "https://academics.newtonschool.co/api/v1/music/artist?limit=100";
-        const response = await fetch(baseUrlArtist, {
-          method: "GET",
-          headers: {
-            projectId: "8jf3b15onzua",
-          },
-        });
-        const data = await response.json();
-        const artistDataSet = data.data;
-
-        // const actorToFilter =[];
-        const filteredItems = artistDataSet.filter((item) =>
-          singersToFilter.includes(item.name)
-        );
-        setArtist(filteredItems);
-
-        localStorage.setItem(
-          "artistData",
-          JSON.stringify({
-            artistData: artistDataSet,
-          })
-        );
-      }
-    } catch (error) {
-      console.error("Something went Wrong");
-    }
-  }
-
-  async function getThedataAlbum() {
-    try {
-      const storedData = localStorage.getItem("albumData");
-      if (storedData) {
-        const parsedData = JSON.parse(storedData);
-        setAlbum(parsedData.albumData);
-      } else {
-        const baseUrlAlbum =
-          "https://academics.newtonschool.co/api/v1/music/album?limit=100";
-        const response = await fetch(baseUrlAlbum, {
-          method: "GET",
-          headers: {
-            projectId: "8jf3b15onzua",
-          },
-        });
-        const data = await response.json();
-        const albumDataSet = data.data;
-        setAlbum(albumDataSet);
-
-        localStorage.setItem(
-          "albumData",
-          JSON.stringify({
-            albumData: albumDataSet,
-          })
-        );
-      }
-    } catch (error) {
-      console.error("Something went Wrong");
-    }
-  }
-
   useEffect(() => {
-    getThedataRomantic();
-    getThedataAlbum();
-    getTheArtist();
     setSearchItem("");
-
     // eslint-disable-next-line
   }, []);
 

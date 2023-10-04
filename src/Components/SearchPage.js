@@ -11,7 +11,7 @@ import b6 from "../assests/b6.jpg";
 export default function SearchPage() {
   return (
     <Container sx={{ mt: "7rem" }}>
-      <Link to="/podcasts">
+      <Link to="/pod">
         <button className="spb">Podcasts</button>
       </Link>
 

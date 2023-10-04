@@ -6,6 +6,7 @@ import { Button, Container, Typography } from "@mui/material";
 
 export default function GetHelp() {
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 880);
+  const [showButton, setShown] = useState(true);
 
   useEffect(() => {
     const handleResize = () => {
@@ -88,6 +89,14 @@ export default function GetHelp() {
               cursor: "pointer",
             }}>
             Contact Customer Services
+          </Typography>
+          <Typography
+            sx={{
+              color: "rgb(37, 209, 218)",
+              marginY: "1rem",
+              cursor: "pointer",
+            }}>
+            www.amazon.com
           </Typography>
           <Typography
             sx={{
@@ -187,7 +196,7 @@ export default function GetHelp() {
                   width: "400px",
                   height: "50px",
                   position: "absolute",
-                  top: 140,
+                  top: 80,
                   textAlign: "right",
                 }}>
                 <Link to="/">
@@ -215,7 +224,7 @@ export default function GetHelp() {
                   width: "700px",
                   height: "170px",
                   position: "absolute",
-                  top: 200,
+                  top: 140,
                   textAlign: "center",
                   alignItems: "center",
                   justifyContent: "center",
@@ -246,11 +255,10 @@ export default function GetHelp() {
                     marginY: "1rem",
                     cursor: "pointer",
                   }}>
-                  Contact Customer Services
+                  www.amazon.com
                 </Typography>
                 <Typography
                   sx={{
-                    marginTop: "1rem",
                     fontWeight: "900",
                     fontSize: "25px",
                   }}>
@@ -266,14 +274,38 @@ export default function GetHelp() {
                   we can't reply to every customer directly, we do review and
                   consider all comments.
                 </Typography>
-                <Typography
-                  sx={{
-                    color: "rgb(37, 209, 218)",
-                    marginY: "1rem",
-                    cursor: "pointer",
-                  }}>
-                  Send Us Feedback
-                </Typography>
+
+                {showButton ? (
+                  <>
+                    <Button
+                      sx={{
+                        marginTop: "1rem",
+                        color: "rgb(37, 209, 218)",
+                        marginY: "1rem",
+                        cursor: "pointer",
+                        minHeight: "40px",
+                        transition: "",
+                        "&:hover": {
+                          borderBottom: "2px solid rgb(37, 209, 218)",
+                        },
+                      }}
+                      onClick={() => setShown(false)}>
+                      Send Us Feedback
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Typography
+                      sx={{
+                        color: "rgb(37, 209, 218)",
+                        marginY: "1rem",
+                        cursor: "pointer",
+                      }}>
+                      www.amazon.com
+                    </Typography>
+                  </>
+                )}
+                <></>
               </Container>
             </Container>
           </>

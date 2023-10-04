@@ -1,27 +1,10 @@
-import {
-  Card,
-  Button,
-  Container,
-  CardMedia,
-  Typography,
-  CardContent,
-  CardActionArea,
-} from "@mui/material";
-import React, { useContext } from "react";
+import { Container, Typography } from "@mui/material";
+import React from "react";
 import { useState, useEffect } from "react";
-import AddIcon from "@mui/icons-material/Add";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import AuthContext from "../AuthContex";
+import CardComponent from "./CardComponent";
 
 export default function TrendingPlaylist({ updateSongPlayCallback }) {
   const [trendingSongs, setTrendingSong] = useState([]);
-  const {
-    isPlaying,
-    togglePlayPause,
-    hoverStates,
-    handleMouseEnter,
-    handleMouseLeave,
-  } = useContext(AuthContext);
 
   async function getThedataRomantic() {
     try {
@@ -70,97 +53,19 @@ export default function TrendingPlaylist({ updateSongPlayCallback }) {
         <Typography variant="h4">Trending Playlists</Typography>
         <div
           style={{
-            display: "flex",
-            flexDirection: "row",
-            overflowX: "auto",
             margin: "1rem",
+            display: "flex",
           }}>
           {trendingSongs.length > 0 &&
             trendingSongs.map((album, index) => (
-              <Card
-                key={album._id}
-                sx={{
-                  width: 190,
-                  margin: "10px 20px",
-                  background: "transparent",
-                }}
-                className="container">
-                <CardActionArea>
-                  <div className="overlay"></div>
-                  <CardMedia
-                    component="img"
-                    height="200"
-                    image={album.thumbnail}
-                    alt={album.title}
-                    onMouseOver={() => handleMouseEnter(index)}
-                    onMouseLeave={() => handleMouseLeave(index)}
-                    style={{
-                      borderRadius: "8px",
-                      transition: "opacity 0.1s ease",
-                      opacity: hoverStates[index] ? "0.6" : "1",
-                      cursor: "pointer",
-                    }}></CardMedia>
-                  {hoverStates[index] && (
-                    <>
-                      <Button
-                        variant="contained"
-                        style={{
-                          position: "absolute",
-                          top: "35%",
-                          left: "50%",
-                          transform: "translate(-50%, -50%)",
-                          zIndex: 1,
-                          background: "FFFFFF26",
-                          color: "white",
-                          borderRadius: "81%",
-                          backgroundColor: "rgba(0, 0, 0, 0.5)",
-                        }}
-                        onMouseEnter={() => handleMouseEnter(index)}
-                        onMouseLeave={() => handleMouseLeave(index)}
-                        onClick={() => {
-                          updateSongPlayCallback(album._id);
-                          togglePlayPause(!isPlaying);
-                        }}>
-                        <PlayArrowIcon style={{ fontSize: "2.5rem" }} />
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        style={{
-                          position: "absolute",
-                          top: "35%",
-                          left: "20%",
-                          transform: "translate(-50%, -50%)",
-                          zIndex: 1,
-                          background: "transparent",
-                        }}
-                        onMouseEnter={() => handleMouseEnter(index)}
-                        onMouseLeave={() => handleMouseLeave(index)}>
-                        <AddIcon />
-                      </Button>
-                    </>
-                  )}
-                  <CardContent
-                    style={{
-                      height: "100px",
-                      width: "12em",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
-                      background: "black",
-                      color: "white",
-                    }}>
-                    <Typography gutterBottom variant="h6" component="div">
-                      {album.title}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="rgba(255, 255, 255, 0.6)">
-                      {album.artist[0].name}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
+              <>
+                <CardComponent
+                  album={album}
+                  index={index}
+                  updateSongPlayCallback={updateSongPlayCallback}
+                  minWidth="10"
+                />
+              </>
             ))}
         </div>
       </Container>

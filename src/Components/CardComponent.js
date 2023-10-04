@@ -8,47 +8,30 @@ import {
 } from "@mui/material";
 import { MdRemove } from "react-icons/md";
 import { Link } from "react-router-dom";
-// import { BsFillPauseFill } from "react-icons/bs";
 import AddIcon from "@mui/icons-material/Add";
 import { BsFillPlayFill } from "react-icons/bs";
 import AuthContext from "../AuthContex";
 import React, { useContext, useMemo } from "react";
+import DataContext from "../DataContext";
 export default function CardComponent({
   album,
-  updateSongPlayCallback,
   minWidth,
+  updateSongPlayCallback,
 }) {
+  const { signSuccess } = useContext(AuthContext);
+  const { favoritesId, addandRemoveFavItem } = useContext(DataContext);
+
   const {
-    id,
-    isPlaying,
     hoverStates,
-    signSuccess,
+    isPlaying,
     togglePlayPause,
     handleMouseEnter,
     handleMouseLeave,
-  } = useContext(AuthContext);
-  const baseUrlSong =
-    "https://academics.newtonschool.co/api/v1/music/favorites/like";
+  } = useContext(DataContext);
 
-  async function addandRemoveFavItem(songId) {
-    const user = localStorage.getItem("signupDeatils");
-    if (user) {
-      const parsedData = JSON.parse(user);
-      await fetch(baseUrlSong, {
-        method: "PATCH",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${parsedData.signup.token}`,
-          projectId: "8jf3b15onzua",
-        },
-        body: JSON.stringify({ songId: songId }),
-      });
-    }
-  }
   const isAlbumInFavorites = useMemo(() => {
-    return id.includes(album._id);
-  }, [album._id, id]);
+    return favoritesId.includes(album._id);
+  }, [album._id, favoritesId]);
 
   return (
     <>

@@ -7,35 +7,22 @@ import {
   Grid,
   CardActionArea,
 } from "@mui/material";
-import React, {
-  useContext,
-  useState,
-  useEffect,
-  //  useMemo
-} from "react";
+import React, { useContext, useState, useEffect } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
 import { HiChevronRight } from "react-icons/hi";
-import AuthContext from "../AuthContex";
 import CardComponent from "./CardComponent";
-// import { BsFillPlayFill } from "react-icons/bs";
-// import { MdRemove } from "react-icons/md";
-// import AddIcon from "@mui/icons-material/Add";
+import DataContext from "../DataContext";
 
 export default function SeeAll({ updateSongPlayCallback }) {
   const {
-    seeAllData,
+    hoverStates,
     handleMouseEnter,
     handleMouseLeave,
-    hoverStates,
+    seeAllData,
     heading,
-    // togglePlayPause,
-    // signSuccess,
-    // isPlaying,
-    // id,
-    // setId,
-  } = useContext(AuthContext);
+  } = useContext(DataContext);
   const [songsData, setSongsData] = useState(null);
   const [albumData, setAlbumData] = useState(null);
   const [artistData, setartistData] = useState(null);
@@ -44,31 +31,6 @@ export default function SeeAll({ updateSongPlayCallback }) {
   const [totalItems, setTotalItems] = useState(0);
   const renderedItems = seeAllData?.slice(1, displayedItems);
   const [loader, setloader] = useState(false);
-  // const [album, setAlbum] = useState(null);
-
-  // async function addandRemoveFavItem(songId) {
-  //   const user = localStorage.getItem("signupDeatils");
-  //   if (user) {
-  //     const parsedData = JSON.parse(user);
-  //     const baseUrlSong =
-  //       "https://academics.newtonschool.co/api/v1/music/favorites/like";
-
-  //     await fetch(baseUrlSong, {
-  //       method: "PATCH",
-  //       headers: {
-  //         Accept: "application/json",
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${parsedData.signup.token}`,
-  //         projectId: "8jf3b15onzua",
-  //       },
-  //       body: JSON.stringify({ songId: songId }),
-  //     });
-  //   }
-  // }
-  // const isAlbumInFavorites = useMemo(() => {
-  //   return id.includes(album?._id);
-  // }, [album?._id, id]);
-
   const handleScroll = () => {
     if (
       window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
@@ -81,36 +43,7 @@ export default function SeeAll({ updateSongPlayCallback }) {
       }, 100);
     }
   };
-  // const baseUrlSong =
-  //   "https://academics.newtonschool.co/api/v1/music/favorites/like";
   useEffect(() => {
-    // async function getTheFavList() {
-    //   try {
-    //     const user = localStorage.getItem("signupDeatils");
-    //     if (user) {
-    //       const parsedData = JSON.parse(user);
-    //       const response = await fetch(baseUrlSong, {
-    //         method: "GET",
-    //         headers: {
-    //           Accept: "application/json",
-    //           "Content-Type": "application/json",
-    //           Authorization: `Bearer ${parsedData.signup.token}`,
-    //           projectId: "8jf3b15onzua",
-    //         },
-    //       });
-    //       if (!response.ok) {
-    //         throw new Error(`HTTP Error! Status: ${response.status}`);
-    //       }
-    //       const data = await response.json();
-    //       const newIdArray = data.data?.songs.map((item) => item._id);
-    //       setId(newIdArray);
-    //     }
-    //   } catch (error) {
-    //     console.error("Error fetching data:", error);
-    //   }
-    // }
-    // getTheFavList();
-
     setTotalItems(seeAllData?.length);
     const handleCheckData = () => {
       if (heading === "Popular Album") {

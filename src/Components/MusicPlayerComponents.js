@@ -13,8 +13,8 @@ import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import React, { useEffect, useState, memo, useContext, useRef } from "react";
-import AuthContext from "../AuthContex";
 import { useLocation } from "react-router-dom";
+import DataContext from "../DataContext";
 
 export default memo(function MusicPlayerComponents({ songPlayId }) {
   const audioRef = useRef();
@@ -23,7 +23,8 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
   const [isMute, setIsMute] = useState(false);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 660);
-  const { isPlaying, setIsPlaying, handleSongEnd } = useContext(AuthContext);
+
+  const { setIsPlaying, isPlaying } = useContext(DataContext);
 
   async function getTheDeatails(sid, sIndex = null) {
     try {
@@ -131,6 +132,9 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
   useEffect(() => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth < 660);
+    };
+    const handleSongEnd = () => {
+      setIsPlaying((prevState) => !prevState);
     };
 
     if (audioRef.current) {

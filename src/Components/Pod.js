@@ -4,7 +4,7 @@ import CardComponent from "./CardComponent";
 import { useTheme } from "@mui/material/styles";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function Pod({ setSearchItem, updateSongPlayCallback }) {
   const theme = useTheme();
@@ -139,19 +139,21 @@ export default function Pod({ setSearchItem, updateSongPlayCallback }) {
           Find Podcasts in
         </Typography>
         <div className="bb">
-          <button className="spb ">Sports</button>
-          <button className="spb ">News</button>
-          <button className="spb ">Comedy</button>
-          <button className=" spb">True Crime</button>
-          <button className=" spb">Health & fitness</button>
-          <button className="spb ">Technology</button>
-          <button className="spb ">Government</button>
-          <button className="spb ">Education</button>
-          <button className="spb ">Kids & Family</button>
-          <button className="spb ">Science</button>
-          <button className="spb ">History</button>
-          <button className="spb ">Society & Culture</button>
-          <button className="spb ">Religion & Spirituality</button>
+          <Link to="/comingSoon">
+            <button className="spb ">Sports</button>
+            <button className="spb ">News</button>
+            <button className="spb ">Comedy</button>
+            <button className=" spb">True Crime</button>
+            <button className=" spb">Health & fitness</button>
+            <button className="spb ">Technology</button>
+            <button className="spb ">Government</button>
+            <button className="spb ">Education</button>
+            <button className="spb ">Kids & Family</button>
+            <button className="spb ">Science</button>
+            <button className="spb ">History</button>
+            <button className="spb ">Society & Culture</button>
+            <button className="spb ">Religion & Spirituality</button>
+          </Link>
         </div>
       </div>
     </>
