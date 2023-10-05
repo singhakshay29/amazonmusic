@@ -37,6 +37,7 @@ const DataContextProvider = ({ children }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [excitedData, setExcitedData] = useState([]);
   const [romanticData, setromanticData] = useState([]);
+  const [trendingSongs, setTrendingSong] = useState([]);
   const [playlistsongs, setplaylistsongs] = useState([]);
   const [hoverStates, setHoverStates] = useState(
     Array(Array.length).fill(false)
@@ -81,6 +82,10 @@ const DataContextProvider = ({ children }) => {
           (songs) => songs.mood === "sad"
         );
         setsadData(filterDataSad);
+        const filterDataTrending = songsArray.filter(
+          (songs) => songs.featured === "Trending songs"
+        );
+        setTrendingSong(filterDataTrending);
       } else {
         const response = await fetch(request.fetchSongs, {
           method: "GET",
@@ -110,7 +115,10 @@ const DataContextProvider = ({ children }) => {
           (songs) => songs.mood === "sad"
         );
         setsadData(filterDataSad);
-
+        const filterDataTrending = musicDataSet.filter(
+          (songs) => songs.featured === "Trending songs"
+        );
+        setTrendingSong(filterDataTrending);
         localStorage.setItem(
           "musicData",
           JSON.stringify({
@@ -129,7 +137,7 @@ const DataContextProvider = ({ children }) => {
         const parsedData = JSON.parse(storedData);
         setAlbum(parsedData.albumData);
       } else {
-        const response = await fetch(fetch.fetchAlbum, {
+        const response = await fetch(request.fetchAlbum, {
           method: "GET",
           headers: {
             projectId: "8jf3b15onzua",
@@ -166,7 +174,6 @@ const DataContextProvider = ({ children }) => {
         body: JSON.stringify({ songId: songId }),
       });
     }
-    console.log("akshay");
     getTheFavList();
   }
 
@@ -252,16 +259,17 @@ const DataContextProvider = ({ children }) => {
         heading,
         sadData,
         isPlaying,
-        seeAllData,
-        setHeading,
-        favoritesId,
         albumData,
         happyData,
         artistData,
+        seeAllData,
+        setHeading,
         excitedData,
         hoverStates,
+        favoritesId,
         romanticData,
         playlistsongs,
+        trendingSongs,
         setIsPlaying,
         setSeeAllData,
         togglePlayPause,

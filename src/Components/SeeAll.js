@@ -8,8 +8,6 @@ import {
   CardActionArea,
 } from "@mui/material";
 import React, { useContext, useState, useEffect } from "react";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
 import { HiChevronRight } from "react-icons/hi";
 import CardComponent from "./CardComponent";
@@ -26,25 +24,9 @@ export default function SeeAll({ updateSongPlayCallback }) {
   const [songsData, setSongsData] = useState(null);
   const [albumData, setAlbumData] = useState(null);
   const [artistData, setartistData] = useState(null);
-  const [displayedItems, setDisplayedItems] = useState(20);
-  const [itemsToLoad] = useState(10);
-  const [totalItems, setTotalItems] = useState(0);
-  const renderedItems = seeAllData?.slice(1, displayedItems);
-  const [loader, setloader] = useState(false);
-  const handleScroll = () => {
-    if (
-      window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
-      displayedItems < totalItems
-    ) {
-      setDisplayedItems((prevCount) => prevCount + itemsToLoad);
-      // Load more item
-      setTimeout(() => {
-        setloader(false);
-      }, 100);
-    }
-  };
+  const renderedItems = seeAllData;
+
   useEffect(() => {
-    setTotalItems(seeAllData?.length);
     const handleCheckData = () => {
       if (heading === "Popular Album") {
         setAlbumData(seeAllData);
@@ -52,16 +34,9 @@ export default function SeeAll({ updateSongPlayCallback }) {
         setartistData(seeAllData);
       } else {
         setSongsData(seeAllData);
-        // setAlbum(seeAllData);
       }
-      setTotalItems(seeAllData?.length);
     };
     handleCheckData();
-    document.addEventListener("scroll", handleScroll);
-    return () => {
-      // Remove the scroll event listener when the component unmounts
-      document.removeEventListener("scroll", handleScroll);
-    };
     // eslint-disable-next-line
   }, []);
 
@@ -328,24 +303,6 @@ export default function SeeAll({ updateSongPlayCallback }) {
                     ))}
                 </>
               )}
-
-              {loader ? (
-                <>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      width: "100%",
-                      height: "5rem",
-                      marginTop: "3rem",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}>
-                    <CircularProgress sx={{ color: "rgb(37, 209, 218)" }} />
-                  </Box>
-                </>
-              ) : (
-                <></>
-              )}
             </Grid>
           </Card>
         </div>
@@ -353,44 +310,3 @@ export default function SeeAll({ updateSongPlayCallback }) {
     </>
   );
 }
-// <Card
-//   style={{
-//     padding: "0",
-//     margin: "6rem 0 0 1rem",
-//     display: "flex",
-//     flexWrap: "wrap",
-//     flexDirection: "column",
-//     border: "2px solid green",
-//     maxWidth: "77.5rem",
-//   }}>
-//   <Grid
-//     spacing={1}
-//     sx={{
-//       backgroundColor: "orange",
-//       alignItems: "center",
-//       display: "flex",
-//       justifyContent: "center",
-//       flexWrap: "wrap",
-//     }}>
-//     {songsData?.length > 0 && (
-//       <>
-//         {renderedItems?.length > 0 &&
-//           renderedItems.map((album, index) => (
-//             <CardComponent
-//               album={album}
-//               index={index}
-//               updateSongPlayCallback={updateSongPlayCallback}
-//             />
-//           ))}
-//       </>
-//     )}
-//   </Grid>
-//   {/* <div
-//     style={{
-//       display: "grid",
-//       border: "1px solid blue",
-//       gridTemplateColumns: "repeat(6,1fr)",
-//       justifyContent: "space-between",
-//       margin: "0 1rem 0 1rem",
-//     }}> */}
-// </Card>
