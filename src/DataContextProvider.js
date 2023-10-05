@@ -26,7 +26,6 @@ const singersToFilter = [
 ];
 
 const DataContextProvider = ({ children }) => {
-  const [favoritesId, setFavoritesId] = useState([]);
   const [sadData, setsadData] = useState([]);
   const [albumData, setAlbum] = useState([]);
   const [heading, setHeading] = useState("");
@@ -36,6 +35,7 @@ const DataContextProvider = ({ children }) => {
   const [seeAllData, setSeeAllData] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
   const [excitedData, setExcitedData] = useState([]);
+  const [favoritesId, setFavoritesId] = useState([]);
   const [romanticData, setromanticData] = useState([]);
   const [trendingSongs, setTrendingSong] = useState([]);
   const [playlistsongs, setplaylistsongs] = useState([]);

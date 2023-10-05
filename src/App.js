@@ -15,7 +15,6 @@ import NotSignIn from "./Components/NotSignIn";
 import Favorites from "./Components/Favorites";
 import SearchPage from "./Components/SearchPage";
 import SearchAlbum from "./Components/SearchAlbum";
-import Subscription from "./Components/Subscription";
 import SetUpProfile from "./Components/SetUpProfile";
 import AuthContextProvider from "./AuthContexProvider";
 import NoResultsFound from "./Components/NoResultsFound";
@@ -65,7 +64,6 @@ function App() {
                 path="searchcomponents"
                 element={<SearchComponents searchItem={searchItem} />}
               />
-              <Route path="/subscription" element={<Subscription />} />
               <Route
                 path="favorites"
                 element={

@@ -86,15 +86,6 @@ export default function GetHelp() {
             sx={{
               color: "rgb(37, 209, 218)",
               marginY: "1rem",
-              cursor: "pointer",
-            }}>
-            Contact Customer Services
-          </Typography>
-          <Typography
-            sx={{
-              color: "rgb(37, 209, 218)",
-              marginY: "1rem",
-              cursor: "pointer",
             }}>
             www.amazon.com
           </Typography>
@@ -116,14 +107,35 @@ export default function GetHelp() {
             can't reply to every customer directly, we do review and consider
             all comments.
           </Typography>
-          <Typography
-            sx={{
-              color: "rgb(37, 209, 218)",
-              marginY: "1rem",
-              cursor: "pointer",
-            }}>
-            Send Us Feedback
-          </Typography>
+          {showButton ? (
+            <>
+              <Button
+                sx={{
+                  marginTop: "1rem",
+                  color: "rgb(37, 209, 218)",
+                  marginY: "1rem",
+                  cursor: "pointer",
+                  minHeight: "40px",
+                  transition: "",
+                  "&:hover": {
+                    borderBottom: "2px solid rgb(37, 209, 218)",
+                  },
+                }}
+                onClick={() => setShown(false)}>
+                Send Us Feedback
+              </Button>
+            </>
+          ) : (
+            <>
+              <Typography
+                sx={{
+                  color: "rgb(37, 209, 218)",
+                  marginY: "1rem",
+                }}>
+                www.amazon.com
+              </Typography>
+            </>
+          )}
         </Container>
       </Container>
     </React.Fragment>
@@ -253,7 +265,6 @@ export default function GetHelp() {
                   sx={{
                     color: "rgb(37, 209, 218)",
                     marginY: "1rem",
-                    cursor: "pointer",
                   }}>
                   www.amazon.com
                 </Typography>
@@ -299,13 +310,11 @@ export default function GetHelp() {
                       sx={{
                         color: "rgb(37, 209, 218)",
                         marginY: "1rem",
-                        cursor: "pointer",
                       }}>
                       www.amazon.com
                     </Typography>
                   </>
                 )}
-                <></>
               </Container>
             </Container>
           </>

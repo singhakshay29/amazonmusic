@@ -114,7 +114,6 @@ function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
     location.pathname === "/signin" ||
     location.pathname === "/term" ||
     location.pathname === "/signup" ||
-    location.pathname === "/subscription" ||
     location.pathname === "/notsignin"
   ) {
     return null;
@@ -331,18 +330,6 @@ function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
                                               "solid rgba(255, 255, 255, 0.15)",
                                           }}>
                                           Terms & Conditions
-                                        </ListItem>
-                                      </Link>
-                                      <Link
-                                        to="/subscription"
-                                        style={{ color: "white" }}>
-                                        <ListItem
-                                          style={{
-                                            height: "50px",
-                                            borderBottom:
-                                              "solid rgba(255, 255, 255, 0.15)",
-                                          }}>
-                                          Subscription
                                         </ListItem>
                                       </Link>
 
@@ -704,19 +691,6 @@ function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
                                     Terms & Conditions
                                   </ListItem>
                                 </Link>
-
-                                <NavLink
-                                  to="/subscription"
-                                  style={{ color: "white" }}>
-                                  <ListItem
-                                    style={{
-                                      height: "50px",
-                                      borderBottom:
-                                        "solid rgba(255, 255, 255, 0.15)",
-                                    }}>
-                                    Subscription
-                                  </ListItem>
-                                </NavLink>
 
                                 <ListItem
                                   style={{
