@@ -115,7 +115,7 @@ export default function Favorites({ updateSongPlayCallback }) {
         <button
           className="spbplay"
           onClick={() => {
-            updateSongPlayCallback(playlistsongs[0]?._id);
+            updateSongPlayCallback(playlistsongs?.[0]?._id);
             togglePlayPause(!isPlaying);
           }}>
           <BsFillPlayFill style={{ fontSize: "1.5rem" }} />
@@ -167,8 +167,8 @@ export default function Favorites({ updateSongPlayCallback }) {
                       </ListItem>
                       <div style={{ minWidth: "74px", padding: "0" }}>
                         <img
-                          src={songs.thumbnail}
-                          alt={songs.title}
+                          src={songs?.thumbnail}
+                          alt={songs?.title}
                           className="imageList"
                         />
                       </div>
@@ -183,7 +183,7 @@ export default function Favorites({ updateSongPlayCallback }) {
                           textOverflow: "ellipsis",
                           whiteSpace: "nowrap",
                         }}>
-                        {songs.title}
+                        {songs?.title}
                       </ListItem>
                     </List>
                     <List className="sL">
@@ -278,8 +278,8 @@ export default function Favorites({ updateSongPlayCallback }) {
                           </ListItem>
                           <div style={{ minWidth: "74px", padding: "0" }}>
                             <img
-                              src={songs.thumbnail}
-                              alt={songs.title}
+                              src={songs?.thumbnail}
+                              alt={songs?.title}
                               className="imageList"
                             />
                           </div>
@@ -290,7 +290,7 @@ export default function Favorites({ updateSongPlayCallback }) {
                               paddingLeft: "10px",
                               fontSize: "15px",
                             }}>
-                            {songs.title}
+                            {songs?.title}
                           </ListItem>
                         </List>
                         <List className="sL">

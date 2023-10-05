@@ -84,13 +84,13 @@ export default function Artist({ setSearchItem, updateSongPlayCallback }) {
             textAlign: "center",
           }}
           component="div">
-          {artist.name}
+          {artist?.name}
         </Typography>
 
         <Typography
           style={{ color: "white", textAlign: "center" }}
           variant="body2">
-          {artist.description}
+          {artist?.description}
         </Typography>
       </CardContent>
       <CardActions style={{ display: "flex", justifyContent: "center" }}>
@@ -102,7 +102,7 @@ export default function Artist({ setSearchItem, updateSongPlayCallback }) {
             color: "black",
           }}
           onClick={() => {
-            updateSongPlayCallback(artist?.songs[0]?._id);
+            updateSongPlayCallback(artist?.songs?.[0]?._id);
             togglePlayPause(!isPlaying);
           }}>
           <PlayArrowIcon />
@@ -114,7 +114,7 @@ export default function Artist({ setSearchItem, updateSongPlayCallback }) {
             isAlbumInFavorites(artist?.songs[0]?._id) ? (
               <>
                 <Button
-                  onClick={() => addandRemoveFavItem(artist.songs[0]?._id)}>
+                  onClick={() => addandRemoveFavItem(artist?.songs[0]?._id)}>
                   <MdRemoveCircleOutline
                     style={{ color: "white", fontSize: "1.5rem" }}
                   />
@@ -123,7 +123,7 @@ export default function Artist({ setSearchItem, updateSongPlayCallback }) {
             ) : (
               <>
                 <Button
-                  onClick={() => addandRemoveFavItem(artist.songs[0]?._id)}>
+                  onClick={() => addandRemoveFavItem(artist?.songs[0]?._id)}>
                   <AddIcon style={{ color: "white" }} />
                 </Button>
               </>
@@ -196,7 +196,7 @@ export default function Artist({ setSearchItem, updateSongPlayCallback }) {
               isAlbumInFavorites(artist?.songs[0]?._id) ? (
                 <>
                   <Button
-                    onClick={() => addandRemoveFavItem(artist.songs[0]?._id)}>
+                    onClick={() => addandRemoveFavItem(artist?.songs[0]?._id)}>
                     <MdRemoveCircleOutline
                       style={{ color: "white", fontSize: "1.5rem" }}
                     />
@@ -205,7 +205,7 @@ export default function Artist({ setSearchItem, updateSongPlayCallback }) {
               ) : (
                 <>
                   <Button
-                    onClick={() => addandRemoveFavItem(artist.songs[0]?._id)}>
+                    onClick={() => addandRemoveFavItem(artist?.songs[0]?._id)}>
                     <AddIcon style={{ color: "white" }} />
                   </Button>
                 </>
@@ -237,7 +237,7 @@ export default function Artist({ setSearchItem, updateSongPlayCallback }) {
         <>
           <div
             style={{
-              backgroundImage: `url(${artist.image})`,
+              backgroundImage: `url(${artist?.image})`,
               backgroundRepeat: "no-repeat",
               backgroundSize: "contain",
               backgroundPosition: "center",
@@ -247,7 +247,7 @@ export default function Artist({ setSearchItem, updateSongPlayCallback }) {
               marginTop: "-7rem",
             }}></div>
           <div className="pI">
-            <img src={artist.image} className="image" alt={artist.title} />
+            <img src={artist?.image} className="image" alt={artist?.title} />
             <div className="iD">{cardResponsive}</div>
           </div>
 
@@ -299,7 +299,7 @@ export default function Artist({ setSearchItem, updateSongPlayCallback }) {
                           color: "white",
                         }}
                         onClick={() => {
-                          updateSongPlayCallback(songs._id);
+                          updateSongPlayCallback(songs?._id);
                           togglePlayPause(!isPlaying);
                         }}>
                         <PlayArrowIcon />
@@ -364,7 +364,7 @@ export default function Artist({ setSearchItem, updateSongPlayCallback }) {
             <>
               <div
                 style={{
-                  backgroundImage: `url(${artist.image})`,
+                  backgroundImage: `url(${artist?.image})`,
                   backgroundRepeat: "no-repeat",
                   backgroundSize: "cover",
                   backgroundPosition: "center",
@@ -374,8 +374,8 @@ export default function Artist({ setSearchItem, updateSongPlayCallback }) {
                   marginTop: "1rem",
                 }}></div>
               <img
-                src={artist.image}
-                alt={artist.title}
+                src={artist?.image}
+                alt={artist?.title}
                 className="pI imgP playlistMainI"
               />
               <div className="pI playlistMainI">
@@ -404,8 +404,8 @@ export default function Artist({ setSearchItem, updateSongPlayCallback }) {
                         </ListItem>
                         <div style={{ minWidth: "74px", padding: "0" }}>
                           <img
-                            src={songs.thumbnail}
-                            alt={songs.title}
+                            src={songs?.thumbnail}
+                            alt={songs?.title}
                             className="imageList"
                           />
                         </div>
@@ -420,7 +420,7 @@ export default function Artist({ setSearchItem, updateSongPlayCallback }) {
                             textOverflow: "ellipsis",
                             whiteSpace: "nowrap",
                           }}>
-                          {songs.title}
+                          {songs?.title}
                         </ListItem>
                       </List>
                       <List className="sL">
@@ -431,7 +431,7 @@ export default function Artist({ setSearchItem, updateSongPlayCallback }) {
                               color: "white",
                             }}
                             onClick={() => {
-                              updateSongPlayCallback(songs._id);
+                              updateSongPlayCallback(songs?._id);
                               togglePlayPause(!isPlaying);
                             }}>
                             <PlayArrowIcon />
