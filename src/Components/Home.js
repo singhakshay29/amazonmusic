@@ -97,13 +97,15 @@ const Home = ({ setSearchItem, updateSongPlayCallback }) => {
         margin: "6rem 0 0 1rem",
         display: "flex",
         flexDirection: "column",
+
+        marginBottom: "8rem",
       }}>
       <div
         style={{
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
-          margin: "0 1rem 0 1rem", //new
+          margin: "0 1rem 0 1rem",
         }}>
         <Typography
           sx={{ fontWeight: "700", fontSize: "22px", paddingTop: "10px" }}

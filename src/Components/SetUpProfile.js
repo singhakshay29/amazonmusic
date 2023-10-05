@@ -52,9 +52,16 @@ export default function SetUpProfile() {
           height: "37rem",
           position: "absolute",
           marginTop: "5rem",
+
           top: 0,
         }}></div>
-      <Container sx={{ display: "flex", justifyContent: "center" }}>
+      <Container
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+
+          marginBottom: "10rem",
+        }}>
         <Container
           sx={{
             width: "400px",
