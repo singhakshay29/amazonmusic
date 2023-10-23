@@ -1,53 +1,34 @@
-import {
-  List,
-  Button,
-  ListItem,
-  Typography,
-  CardActions,
-  CardContent,
-} from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import React, { useState, useEffect, useContext } from "react";
-import { Link, useParams } from "react-router-dom";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import { BsFillPlayFill } from "react-icons/bs";
-import AuthContext from "../AuthContex";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
-import DataContext from "../DataContext";
-import { MdRemoveCircleOutline } from "react-icons/md";
+import ListsOfSongs from "./ListsOfSongs";
+import HeroSectionRes from "./HeroSectionRes";
+import HeroSection from "./HeroSection";
+import request from "../request";
 
 function Playlist({ updateSongPlayCallback, setSearchItem }) {
-  const { id } = useParams();
+  const location = useLocation();
+  const { data } = location.state;
   const [loder, setLoader] = useState(true);
   const [songsList, setSongsList] = useState({});
-  const { signSuccess } = useContext(AuthContext);
-  const { isPlaying, togglePlayPause, addandRemoveFavItem, favoritesId } =
-    useContext(DataContext);
   const [playlistsongs, setplaylistsongs] = useState([]);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 880);
-
   async function getTheDeatails() {
-    const response = await fetch(
-      `https://academics.newtonschool.co/api/v1/music/album/${id}`,
-      {
-        headers: {
-          projectId: "8jf3b15onzua",
-        },
-      }
-    );
-    const data = await response.json();
-    setSongsList(data?.data);
-    const songsArray = data.data?.songs;
+    const baseUrl = request.fetchAlbumId + data._id;
+    const response = await fetch(baseUrl, {
+      headers: {
+        projectId: "8jf3b15onzua",
+      },
+    });
+    const result = await response.json();
+    setSongsList(result?.data);
+    const songsArray = result.data?.songs;
     setplaylistsongs(songsArray);
     setTimeout(() => {
       setLoader(false);
     }, 700);
   }
-
-  const isAlbumInFavorites = (songId) => {
-    return favoritesId.includes(songId);
-  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -65,341 +46,55 @@ function Playlist({ updateSongPlayCallback, setSearchItem }) {
     // eslint-disable-next-line
   }, []);
 
-  const card = (
-    <React.Fragment>
-      <div
-        style={{
-          marginLeft: "25rem",
-          maxWidth: "60%",
-          height: "10px",
-        }}>
-        <Typography
-          sx={{
-            fontWeight: "900",
-            fontSize: "1rem",
-            padding: 0,
-          }}
-          color="rgb(37, 209, 218)"
-          textTransform={"uppercase"}
-          gutterBottom>
-          Playlist
-        </Typography>
-        <Typography
-          variant="h4"
-          sx={{
-            color: "white",
-            fontFamily: "Gabarito",
-            fontSize: "5rem",
-            overflow: "hidden",
-            maxHeight: "19rem",
-          }}
-          className="font"
-          component="div">
-          {songsList?.title}
-        </Typography>
-        <Typography
-          sx={{
-            marginTop: "2rem",
-            fontWeight: "500",
-            fontSize: "1.1rem",
-          }}>
-          {songsList?.description}
-        </Typography>
-        <CardActions>
-          <button
-            className="spbplay"
-            onClick={() => {
-              updateSongPlayCallback(songsList?.songs[0]?._id);
-              togglePlayPause(!isPlaying);
-            }}>
-            <BsFillPlayFill
-              onClick={() => {
-                updateSongPlayCallback(songsList?.songs[0]?._id);
-                togglePlayPause(!isPlaying);
-              }}
-              style={{ fontSize: "1.5rem" }}
-            />
-            Play
-          </button>
-          {signSuccess ? (
-            <>
-              {songsList?.songs?.[0]?._id &&
-              isAlbumInFavorites(songsList?.songs?.[0]?._id) ? (
-                <>
-                  <Button
-                    onClick={() =>
-                      addandRemoveFavItem(songsList.songs[0]?._id)
-                    }>
-                    <MdRemoveCircleOutline
-                      style={{ color: "white", fontSize: "1.5rem" }}
-                    />
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Button
-                    onClick={() =>
-                      addandRemoveFavItem(songsList.songs[0]?._id)
-                    }>
-                    <AddIcon style={{ color: "white" }} />
-                  </Button>
-                </>
-              )}
-            </>
-          ) : (
-            <Link to="/notsignin">
-              <Button>
-                <AddIcon
-                  style={{
-                    color: "white",
-                    marginBottom: "10px",
-                    "&:hover": {
-                      backgroundColor: "#a8edf0",
-                    },
-                  }}
-                />
-              </Button>
-            </Link>
-          )}
-        </CardActions>
-      </div>
-    </React.Fragment>
-  );
-
-  const cardResponsive = (
-    <React.Fragment>
-      <CardContent>
-        <Typography
-          sx={{ fontWeight: "bold", textAlign: "center" }}
-          color="rgb(37, 209, 218)"
-          textTransform={"uppercase"}
-          gutterBottom>
-          Playlist
-        </Typography>
-        <Typography
-          variant="h4"
-          sx={{
-            fontWeight: "bold",
-            color: "white",
-            flexWrap: "wrap",
-            textAlign: "center",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            boxSizing: "border-box",
-            whiteSpace: "nowrap",
-          }}
-          component="div">
-          {songsList?.title}
-        </Typography>
-
-        <Typography
-          style={{ color: "white", textAlign: "center" }}
-          variant="body2">
-          {songsList?.description}
-        </Typography>
-      </CardContent>
-      <CardActions style={{ display: "flex", justifyContent: "center" }}>
-        <Button
-          sx={{
-            background: "rgb(37, 209, 218)",
-            borderRadius: "20px",
-            width: "80px",
-            color: "black",
-          }}
-          onClick={() => {
-            updateSongPlayCallback(songsList?.songs[0]?._id);
-            togglePlayPause(!isPlaying);
-          }}>
-          <PlayArrowIcon
-            onClick={() => {
-              updateSongPlayCallback(songsList?.songs[0]?._id);
-              togglePlayPause(!isPlaying);
-            }}
-          />
-          Play
-        </Button>
-        {signSuccess ? (
-          <>
-            {songsList?.songs?.[0]?._id &&
-            isAlbumInFavorites(songsList?.songs?.[0]?._id) ? (
-              <>
-                <Button
-                  onClick={() => addandRemoveFavItem(songsList.songs[0]?._id)}>
-                  <MdRemoveCircleOutline
-                    style={{ color: "white", fontSize: "1.5rem" }}
-                  />
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button
-                  onClick={() => addandRemoveFavItem(songsList.songs[0]?._id)}>
-                  <AddIcon style={{ color: "white" }} />
-                </Button>
-              </>
-            )}
-          </>
-        ) : (
-          <Link to="/notsignin">
-            <Button>
-              <AddIcon style={{ color: "white" }} />
-            </Button>
-          </Link>
-        )}
-      </CardActions>
-    </React.Fragment>
-  );
-
   return (
     <>
-      {isSmallScreen ? (
+      {loder ? (
         <>
-          <div
-            style={{
-              backgroundImage: `url(${songsList.image})`,
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "contain",
-              backgroundPosition: "center",
-              width: "100%",
-              height: "750px",
-              filter: "blur(10px)",
-              marginTop: "-7rem",
-            }}></div>
-          <div className="pI">
-            <img
-              src={songsList.image}
-              className="image"
-              alt={songsList.title}
-            />
-            <div className="iD">{cardResponsive}</div>
-          </div>
-
-          <div
-            style={{
-              marginTop: "10rem",
-              width: "100%",
-              marginBottom: "10rem",
-            }}>
-            {playlistsongs.length > 0 &&
-              playlistsongs.map((songs, index) => (
-                <List key={index} className="listDisplay">
-                  <List className="sL">
-                    <ListItem
-                      sx={{
-                        minWidth: "20px",
-                        fontSize: "17px",
-                        color: "gray",
-                        paddingX: "15px",
-                      }}>
-                      {index + 1}
-                    </ListItem>
-                    <div style={{ minWidth: "74px", padding: "0" }}>
-                      <img
-                        src={songs.thumbnail}
-                        alt={songs.title}
-                        className="imageList"
-                      />
-                    </div>
-                    <ListItem
-                      sx={{
-                        minWidth: "90px",
-                        display: "flex",
-                        paddingLeft: "10px",
-                        overflow: "hidden",
-                        fontSize: "15px",
-                        boxSizing: "border-box",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
-                      }}>
-                      {songs.title}
-                    </ListItem>
-                  </List>
-                  <List className="sL">
-                    <ListItem sx={{ minWidth: "50px" }}>
-                      <Button
-                        sx={{
-                          borderRadius: "20px",
-                          color: "white",
-                        }}
-                        onClick={() => {
-                          updateSongPlayCallback(songs?._id);
-                          togglePlayPause(!isPlaying);
-                        }}>
-                        <PlayArrowIcon
-                          onClick={() => {
-                            updateSongPlayCallback(songs?._id);
-                            togglePlayPause(!isPlaying);
-                          }}
-                        />
-                        Play
-                      </Button>
-                    </ListItem>
-                    <ListItem sx={{ minWidth: "30px" }}>
-                      {signSuccess ? (
-                        <>
-                          {isAlbumInFavorites(songs?._id) ? (
-                            <>
-                              <Button
-                                onClick={() => addandRemoveFavItem(songs?._id)}>
-                                <MdRemoveCircleOutline
-                                  style={{ color: "white", fontSize: "1.5rem" }}
-                                />
-                              </Button>
-                            </>
-                          ) : (
-                            <>
-                              <Button
-                                onClick={() => addandRemoveFavItem(songs?._id)}>
-                                <AddIcon style={{ color: "white" }} />
-                              </Button>
-                            </>
-                          )}
-                        </>
-                      ) : (
-                        <Link to="/notsignin">
-                          <Button
-                            sx={{
-                              borderRadius: "20px",
-                              color: "white",
-                            }}>
-                            <AddIcon style={{ color: "white" }} />
-                          </Button>
-                        </Link>
-                      )}
-                    </ListItem>
-                  </List>
-                </List>
-              ))}
-          </div>
+          <Box className="loderbox">
+            <CircularProgress sx={{ color: "rgb(37, 209, 218)" }} />
+          </Box>
         </>
       ) : (
         <>
-          {loder ? (
+          {isSmallScreen ? (
             <>
-              <Box
-                sx={{
-                  display: "flex",
-                  width: "100%",
-                  height: "40rem",
-                  marginTop: "3rem",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}>
-                <CircularProgress sx={{ color: "rgb(37, 209, 218)" }} />
-              </Box>
+              <div
+                className="ad1"
+                style={{
+                  backgroundImage: `url(${songsList?.image})`,
+                }}></div>
+              <div className="pI">
+                <img
+                  src={songsList?.image}
+                  className="image"
+                  alt={songsList?.title}
+                />
+                <div className="iD">
+                  <HeroSectionRes
+                    name="Playlist"
+                    data={songsList}
+                    updateSongPlayCallback={updateSongPlayCallback}
+                  />
+                </div>
+              </div>
+
+              <div className="ad2">
+                {playlistsongs.length > 0 &&
+                  playlistsongs.map((songs, index) => (
+                    <ListsOfSongs
+                      songs={songs}
+                      index={index}
+                      updateSongPlayCallback={updateSongPlayCallback}
+                    />
+                  ))}
+              </div>
             </>
           ) : (
             <>
               <div
+                className="ad3"
                 style={{
                   backgroundImage: `url(${songsList?.image})`,
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  width: "100%",
-                  height: "40rem",
-                  filter: "blur(10px)",
-                  marginTop: "1rem",
                 }}></div>
               <img
                 src={songsList?.image}
@@ -407,13 +102,12 @@ function Playlist({ updateSongPlayCallback, setSearchItem }) {
                 className="pI imgP playlistMainI"
               />
               <div className="pI playlistMainI">
-                <div
-                  style={{
-                    background: "transparent",
-                    boxShadow: "none",
-                    marginLeft: "2rem",
-                  }}>
-                  {card}
+                <div className="ad4">
+                  <HeroSection
+                    name="Playlist"
+                    data={songsList}
+                    updateSongPlayCallback={updateSongPlayCallback}
+                  />
                 </div>
               </div>
               <div
@@ -423,96 +117,11 @@ function Playlist({ updateSongPlayCallback, setSearchItem }) {
                 }}>
                 {playlistsongs?.length > 0 &&
                   playlistsongs?.map((songs, index) => (
-                    <List key={index} className="listDisplay">
-                      <List className="sL">
-                        <ListItem
-                          sx={{
-                            minWidth: "20px",
-                            fontSize: "17px",
-                            color: "gray",
-                            paddingX: "15px",
-                          }}>
-                          {index + 1}
-                        </ListItem>
-                        <div style={{ minWidth: "74px", padding: "0" }}>
-                          <img
-                            src={songs.thumbnail}
-                            alt={songs.title}
-                            className="imageList"
-                          />
-                        </div>
-                        <ListItem
-                          sx={{
-                            minWidth: "190px",
-                            display: "flex",
-                            paddingLeft: "10px",
-                            fontSize: "15px",
-                          }}>
-                          {songs.title}
-                        </ListItem>
-                      </List>
-                      <List className="sL">
-                        <ListItem sx={{ minWidth: "50px" }}>
-                          <Button
-                            sx={{
-                              borderRadius: "20px",
-                              color: "white",
-                            }}
-                            onClick={() => {
-                              updateSongPlayCallback(songs._id);
-                              togglePlayPause(!isPlaying);
-                            }}>
-                            <PlayArrowIcon
-                              onClick={() => {
-                                updateSongPlayCallback(songs._id);
-                                togglePlayPause(!isPlaying);
-                              }}
-                            />
-                            Play
-                          </Button>
-                        </ListItem>
-                        <ListItem sx={{ minWidth: "30px" }}>
-                          {signSuccess ? (
-                            <>
-                              {isAlbumInFavorites(songs?._id) ? (
-                                <>
-                                  <Button
-                                    onClick={() =>
-                                      addandRemoveFavItem(songs?._id)
-                                    }>
-                                    <MdRemoveCircleOutline
-                                      style={{
-                                        color: "white",
-                                        fontSize: "1.5rem",
-                                      }}
-                                    />
-                                  </Button>
-                                </>
-                              ) : (
-                                <>
-                                  <Button
-                                    onClick={() =>
-                                      addandRemoveFavItem(songs?._id)
-                                    }>
-                                    <AddIcon style={{ color: "white" }} />
-                                  </Button>
-                                </>
-                              )}
-                            </>
-                          ) : (
-                            <Link to="/notsignin">
-                              <Button
-                                sx={{
-                                  borderRadius: "20px",
-                                  color: "white",
-                                }}>
-                                <AddIcon style={{ color: "white" }} />
-                              </Button>
-                            </Link>
-                          )}
-                        </ListItem>
-                      </List>
-                    </List>
+                    <ListsOfSongs
+                      songs={songs}
+                      index={index}
+                      updateSongPlayCallback={updateSongPlayCallback}
+                    />
                   ))}
               </div>
             </>

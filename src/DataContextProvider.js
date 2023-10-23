@@ -1,29 +1,6 @@
 import DataContext from "./DataContext";
 import { useEffect, useState } from "react";
 import request from "./request";
-const singersToFilter = [
-  "DIVINE",
-  "Sukhwinder Singh",
-  "Salim Merchant",
-  "K.K.",
-  "Anushka Manchanda",
-  "Alka Yagnik",
-  "Udit Narayan",
-  "Mithoon",
-  "Sonu Nigam",
-  "Shankar Mahadevan",
-  "Jubin Nautiyal",
-  "Tanishk Bagchi",
-  "Darshan Raval",
-  "Vishal-Shekhar",
-  "Shekhar Ravjiani",
-  "Arijit Singh",
-  "Sidhu Moose Wala",
-  "Hariharan",
-  "Pritam",
-  "Mohit Chauhan",
-  "Raftaar",
-];
 
 const DataContextProvider = ({ children }) => {
   const [sadData, setsadData] = useState([]);
@@ -68,7 +45,6 @@ const DataContextProvider = ({ children }) => {
           (songs) => songs.mood === "romantic"
         );
         setromanticData(filterDataRomantic);
-
         const filterDataExcited = songsArray.filter(
           (songs) => songs.mood === "excited"
         );
@@ -182,13 +158,7 @@ const DataContextProvider = ({ children }) => {
       const storedData = localStorage.getItem("artistData");
       if (storedData) {
         const parsedData = JSON.parse(storedData);
-
-        const filteredItems = parsedData.artistData.filter((item) =>
-          singersToFilter.some((name) =>
-            item.name.toLowerCase().includes(name.toLowerCase())
-          )
-        );
-        setArtist(filteredItems);
+        setArtist(parsedData.artistData);
       } else {
         const baseUrlArtist =
           "https://academics.newtonschool.co/api/v1/music/artist?limit=100";
@@ -200,10 +170,8 @@ const DataContextProvider = ({ children }) => {
         });
         const data = await response.json();
         const artistDataSet = data.data;
-        const filteredItems = artistDataSet.filter((item) =>
-          singersToFilter.includes(item.name)
-        );
-        setArtist(filteredItems);
+        console.log(artistDataSet);
+        setArtist(artistDataSet);
         localStorage.setItem(
           "artistData",
           JSON.stringify({
@@ -282,8 +250,3 @@ const DataContextProvider = ({ children }) => {
   );
 };
 export default DataContextProvider;
-
-//Artist,
-//Favorites,
-//Playlist,
-//SearchAlbum

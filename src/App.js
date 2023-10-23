@@ -14,17 +14,17 @@ import Playlist from "./Components/Playlist";
 import NotSignIn from "./Components/NotSignIn";
 import Favorites from "./Components/Favorites";
 import SearchPage from "./Components/SearchPage";
+import ComingSoon from "./Components/ComingSoon";
 import SearchAlbum from "./Components/SearchAlbum";
 import SetUpProfile from "./Components/SetUpProfile";
 import AuthContextProvider from "./AuthContexProvider";
+import DataContextProvider from "./DataContextProvider";
 import NoResultsFound from "./Components/NoResultsFound";
 import TrendingPlaylist from "./Components/TrendingPlaylist";
 import SearchComponents from "./Components/SearchComponents";
 import ShowSearchResults from "./Components/ShowSearchResults";
 import MusicPlayerComponents from "./Components/MusicPlayerComponents";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import ComingSoon from "./Components/ComingSoon";
-import DataContextProvider from "./DataContextProvider";
 
 function App() {
   const [songPlayId, setSongPlayId] = useState("");
@@ -52,14 +52,19 @@ function App() {
               handleInputValueToSearch={handleInputValueToSearch}
             />
             <Routes>
+              <Route path="signin" element={<SignIn />} />
+              <Route path="signup" element={<SignUp />} />
               <Route path="searchpage" element={<SearchPage />} />
               <Route path="gethelp" element={<GetHelp />} />
               <Route path="notsignin" element={<NotSignIn />} />
+              <Route path="term" element={<Term />} />
+              <Route path="setup" element={<SetUpProfile />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="comingSoon" element={<ComingSoon />} />
               <Route
                 path="noresultfound"
                 element={<NoResultsFound searchItem={searchItem} />}
               />
-
               <Route
                 path="searchcomponents"
                 element={<SearchComponents searchItem={searchItem} />}
@@ -81,7 +86,7 @@ function App() {
                 }
               />
               <Route
-                path="playlist/:id"
+                path="playlist"
                 element={
                   <Playlist
                     setSearchItem={setSearchItem}
@@ -89,8 +94,7 @@ function App() {
                   />
                 }
               />
-              <Route path="signin" element={<SignIn />} />
-              <Route path="signup" element={<SignUp />} />
+
               <Route
                 path="showsearchresults"
                 element={<ShowSearchResults searchItem={searchItem} />}
@@ -128,14 +132,11 @@ function App() {
                   />
                 }
               />
-              <Route path="term" element={<Term />} />
-              <Route path="setup" element={<SetUpProfile />} />
-              <Route path="profile" element={<Profile />} />
+
               <Route
                 path="seeall"
                 element={<SeeAll updateSongPlayCallback={updateSongPlayId} />}
               />
-              <Route path="comingSoon" element={<ComingSoon />} />
             </Routes>
           </Router>
         </DataContextProvider>

@@ -5,26 +5,8 @@ import comingsoon from "../assests/comingsoon.jpg";
 export default function ComingSoon() {
   return (
     <>
-      <div
-        style={{
-          height: "100vh",
-          justifyContent: "center",
-          alignItems: "center",
-          display: "flex",
-        }}>
-        <div
-          style={{
-            backgroundColor: "rgba(41, 37, 45, 0.6)",
-            height: "400px",
-            width: "100%",
-
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: 0,
-            margin: 0,
-          }}>
+      <div className="cd1">
+        <div className="cd2">
           <Card
             style={{
               backgroundColor: "transparent",
@@ -33,14 +15,7 @@ export default function ComingSoon() {
               marginTop: -26,
               padding: 0,
             }}>
-            <img
-              src={comingsoon}
-              alt="comingsoon"
-              style={{
-                width: "450px",
-                height: "250px",
-              }}
-            />
+            <img src={comingsoon} alt="comingsoon" className="cimg" />
           </Card>
           <Box
             sx={{

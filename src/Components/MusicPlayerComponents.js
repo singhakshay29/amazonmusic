@@ -6,6 +6,7 @@ import {
   CardContent,
   ListItem,
 } from "@mui/material";
+import { useLocation } from "react-router-dom";
 import PauseIcon from "@mui/icons-material/Pause";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
@@ -13,7 +14,6 @@ import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import React, { useEffect, useState, memo, useContext, useRef } from "react";
-import { useLocation } from "react-router-dom";
 import DataContext from "../DataContext";
 
 export default memo(function MusicPlayerComponents({ songPlayId }) {
@@ -23,9 +23,7 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
   const [isMute, setIsMute] = useState(false);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 660);
-
   const { setIsPlaying, isPlaying } = useContext(DataContext);
-
   async function getTheDeatails(sid, sIndex = null) {
     try {
       const storedData = localStorage.getItem("musicData");
@@ -193,19 +191,7 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
     <>
       {isSmallScreen ? (
         <>
-          <div
-            style={{
-              width: "100vw",
-              height: "15vh",
-              backgroundColor: "rgba(15,17,17,.6)",
-              display: "flex",
-              flexDirection: "row",
-              bottom: 0,
-              position: "fixed",
-              zIndex: 9,
-              backdropFilter: "blur(30px)",
-              flexGrow: "1",
-            }}>
+          <div className="mpd1">
             <ListItem sx={{ padding: 0, maxWidth: 120 }}>
               <img
                 src={song[0]?.thumbnail}
@@ -272,20 +258,7 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
         </>
       ) : (
         <>
-          <div
-            style={{
-              width: "100vw",
-              minHeight: "15vh",
-              backgroundColor: "rgba(15,17,17,.6)",
-              display: "flex",
-              flexDirection: "row",
-              margin: "1rem 0 0 0",
-              bottom: 0,
-              position: "fixed",
-              zIndex: 9,
-              backdropFilter: "blur(30px)",
-              flexGrow: "1",
-            }}>
+          <div className="mpd1">
             <ListItem sx={{ maxWidth: 130 }}>
               <img
                 src={song[0]?.thumbnail}
@@ -315,16 +288,6 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
                 maxWidth: 800,
               }}>
               <CardActions>
-                {/* <Button
-                sx={{
-                  background: "transparent",
-                  borderRadius: "20px",
-                  width: "80px",
-                  color: "white",
-                }}
-                onClick={playLoopSong}>
-                <LoopIcon />
-              </Button> */}
                 <Button
                   sx={{
                     background: "transparent",
@@ -353,14 +316,6 @@ export default memo(function MusicPlayerComponents({ songPlayId }) {
                   onClick={playNextSong}>
                   <SkipNextIcon />
                 </Button>
-                {/* <Button
-                sx={{
-                  background: "transparent",
-                  borderRadius: "20px",
-                  color: "white",
-                }}>
-                <ShuffleSharpIcon />
-              </Button> */}
               </CardActions>
             </ListItem>
             <ListItem sx={{ maxWidth: 200 }}>

@@ -575,8 +575,9 @@ function Navbar({ searchItem, handleTextToSearch, handleInputValueToSearch }) {
                           style={{
                             padding: "1px",
                             background: "none",
-                          }}>
-                          <SearchIcon onClick={handleInputValueToSearch} />
+                          }}
+                          onClick={handleInputValueToSearch}>
+                          <SearchIcon />
                         </IconButton>
                       </Container>
                     </>

@@ -5,5 +5,7 @@ const request = {
   fetchAlbum: "https://academics.newtonschool.co/api/v1/music/album?limit=100",
   fetchArtist:
     "https://academics.newtonschool.co/api/v1/music/artist?limit=100",
+  fetchArtistId: "https://academics.newtonschool.co/api/v1/music/artist/",
+  fetchAlbumId: "https://academics.newtonschool.co/api/v1/music/album/",
 };
 export default request;

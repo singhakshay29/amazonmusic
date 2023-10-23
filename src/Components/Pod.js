@@ -1,13 +1,10 @@
-import { Button, Typography, MobileStepper } from "@mui/material";
+import { Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import CardComponent from "./CardComponent";
-import { useTheme } from "@mui/material/styles";
-import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import { Link, useLocation } from "react-router-dom";
+import HeadingComponent from "./HeadingComponent";
 
-export default function Pod({ setSearchItem, updateSongPlayCallback }) {
-  const theme = useTheme();
+export default function Pod({ updateSongPlayCallback }) {
   const location = useLocation();
   const [romanticData, setromanticData] = useState([]);
   const [currentDataIndexRomantic, setCurrentDataIndexRomantic] = useState(0);
@@ -49,75 +46,14 @@ export default function Pod({ setSearchItem, updateSongPlayCallback }) {
 
   return (
     <>
-      <div
-        style={{
-          margin: "6rem 0 0 1rem",
-          display: "flex",
-          flexDirection: "column",
-          marginBottom: "8rem",
-        }}>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            margin: "2rem 3rem 0rem 1rem",
-          }}>
-          <Typography
-            sx={{
-              fontWeight: "700",
-              fontSize: "22px",
-              textTransform: "capitalize",
-            }}
-            variant="h4">
-            {mood ? mood : "Most Popular Podacast"}
-          </Typography>
-          <MobileStepper
-            variant="d"
-            steps={6}
-            position="static"
-            activeStep={currentDataIndexRomantic}
-            sx={{ maxWidth: 100, flexGrow: 1 }}
-            style={{ background: "transparent" }}
-            nextButton={
-              <Button
-                size="small"
-                onClick={handleNextR}
-                disabled={currentDataIndexRomantic === 15}
-                style={{
-                  color: currentDataIndexRomantic === 15 ? "grey" : "white",
-                }}>
-                {theme.direction === "rtl" ? (
-                  <KeyboardArrowLeft />
-                ) : (
-                  <KeyboardArrowRight />
-                )}
-              </Button>
-            }
-            backButton={
-              <Button
-                size="small"
-                onClick={handleBackR}
-                disabled={currentDataIndexRomantic === 0}
-                style={{
-                  color: currentDataIndexRomantic === 0 ? "grey" : "white",
-                }}>
-                {theme.direction === "rtl" ? (
-                  <KeyboardArrowRight />
-                ) : (
-                  <KeyboardArrowLeft />
-                )}
-              </Button>
-            }
-          />
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            overflow: "hidden",
-            marginTop: "2rem",
-          }}>
+      <div className="hd1">
+        <HeadingComponent
+          heading={mood ? mood : "Most Popular Podacast"}
+          handleNext={handleNextR}
+          handleBack={handleBackR}
+          currentData={currentDataIndexRomantic}
+        />
+        <div className="hd3">
           {romanticData.length > 0 &&
             romanticData
               .slice(currentDataIndexRomantic, currentDataIndexRomantic + 10)
@@ -144,8 +80,8 @@ export default function Pod({ setSearchItem, updateSongPlayCallback }) {
             <button className="spb ">Sports</button>
             <button className="spb ">News</button>
             <button className="spb ">Comedy</button>
-            <button className=" spb">True Crime</button>
-            <button className=" spb">Health & fitness</button>
+            <button className="spb ">True Crime</button>
+            <button className="spb ">Health & fitness</button>
             <button className="spb ">Technology</button>
             <button className="spb ">Government</button>
             <button className="spb ">Education</button>

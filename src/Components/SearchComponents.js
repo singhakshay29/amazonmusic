@@ -22,15 +22,6 @@ export default function SearchComponents({ searchItem }) {
       );
       setArtist(filteredResultsArtist);
 
-      // const filteredResultsAlbum = parsedDataAlbum.albumData.filter((item) => {
-      //   const filterArraysArtist = item.artists.filter((artistItem) => {
-      //     return artistItem.name
-      //       .toLowerCase()
-      //       .includes(searchItem.toLowerCase());
-      //   });
-      //   return filterArraysArtist.length > 0;
-      // });
-
       const filteredResultsAlbumByName = parsedDataAlbum.albumData.filter(
         (item) => {
           return item.title.toLowerCase().includes(searchItem.toLowerCase());
@@ -45,26 +36,10 @@ export default function SearchComponents({ searchItem }) {
     if (searchItem) {
       getTheDetails();
     }
-    // setSearchHistory((prevHistory) => {
-    //   if (searchItem && !prevHistory.includes(searchItem.toLowerCase())) {
-    //     return [...prevHistory, searchItem.toLowerCase()];
-    //   }
-    //   return prevHistory;
-    // });
   }, [searchItem]);
 
   return (
     <Container sx={{ mt: "6rem" }}>
-      {/* {searchHistory.length > 0 && (
-        <div>
-          <h3>Search History:</h3>
-          <ul>
-            {searchHistory.map((query, index) => (
-              <li key={index}>{query}</li>
-            ))}
-          </ul>
-        </div>
-      )} */}
       <Box sx={{ width: "100%", maxWidth: 150, m: "0.2rem 0.2rem" }}>
         <Typography style={{ fontSize: "24px", lineHeight: "88px" }}>
           Suggestions
@@ -97,7 +72,7 @@ export default function SearchComponents({ searchItem }) {
               </Link>
             ))}
             {searchResultsAlbum.map((result) => (
-              <Link to={`/playlist/${result._id}`}>
+              <Link to="/playlist" state={{ data: result }}>
                 <List
                   className="listItem"
                   style={{

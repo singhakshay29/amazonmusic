@@ -91,19 +91,6 @@ body {
 }
 
 .dropNav {
-  /* display: flex;
-  text-decoration: none;
-  list-style-type: none;
-  cursor: pointer;
-  justify-content: space-around;
-  justify-items: start;
-  align-content: flex-start;
-  align-items: center;
-  /* width: 580px;
-  height: 400px; */
-  /* max-width: 1600px; */
-  /* padding-inline-end: 0;
-  padding-inline-start: 20px; */
   box-sizing: border-box;
   border-bottom: solid rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(30px);
@@ -168,7 +155,6 @@ body {
 }
 
 .nl1 {
-  /* margin-inline-end: 5px; */
   margin-top: 9px;
 }
 .nl2 {
@@ -202,25 +188,8 @@ body {
   position: absolute;
   padding: 20px 0;
   border-radius: 8px;
-
-  /* background-color: rgba(15, 17, 17, 0.3); */
-  border-radius: 8px;
   z-index: 10;
-  /* background: "rgba(15, 17, 17, 0.7)", */
-  /* backdrop-filter: blur(50px); */
-  /* background-color: aqua; */
 }
-/* .d1 {
-  position: absolute;
-  border-radius: 8px;
-  box-shadow: 5px 5px 5px #000;
-  border: rgba(255, 255, 255, 0.15) 1px solid;
-  z-index: 20;
-  width: auto;
-  display: flex;
-  flex-flow: column;
-  background-color: green;
-} */
 .d1l1 {
   padding-inline-start: 20px;
   padding-inline-end: 20px;
@@ -228,8 +197,6 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: start;
-  /* backdrop-filter: blur(30px); */
-  /* background-color: rgba(15, 17, 17, 0.7); */
   font-size: 20px;
   padding-bottom: 10px;
 }
@@ -333,24 +300,8 @@ body {
   border-radius: 8px;
   z-index: 10;
   width: 250px;
-
-  /* max-width: 350px;
-  min-width: 279px; */
 }
-/* ;
-background-color: rgba(15, 17, 17, 0.7); */
-/* .du1 {
-  position: absolute;
-  border-radius: 8px;
-  border: rgba(255, 255, 255, 0.15) 1px solid;
-  z-index: 20;
-  width: auto;
-  flex-flow: column;
-  
-} */
-/* background-color: green; */
-/* display: flex; */
-/* box-shadow: 5px 5px 5px #000; */
+
 .l2 {
   margin-left: 10px;
 }
@@ -360,9 +311,6 @@ background-color: rgba(15, 17, 17, 0.7); */
   background-color: rgba(0, 0, 0, 0.2);
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.16);
   font-size: 18px;
-  /* padding: 5px;
-    margin-left: 16%;
-    margin-top: 1%; */
   cursor: pointer;
 }
 .w {
@@ -436,13 +384,107 @@ background-color: rgba(15, 17, 17, 0.7); */
 }
 .fade-out {
   visibility: visible;
-  /* transition: width 2s linear 1s; */
   background-color: "red";
   transition: width 0.5s ease in out;
 }
 
-/* Fade in */
 .fade-in {
   visibility: hidden;
   transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+.hd1 {
+  padding: 0;
+  margin: 6rem 0 0 1rem;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8rem;
+}
+.hd2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0 1rem 0 1rem;
+}
+.hd3 {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+.hcd2 {
+  display: flex;
+  flex-direction: row;
+  max-width: 18rem;
+  justify-content: space-between;
+}
+
+.ad1 {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  width: 100%;
+  height: 750px;
+  filter: blur(10px);
+  margin-top: -7rem;
+}
+.ad2 {
+  margin-top: 10rem;
+  margin-bottom: 10rem;
+  width: 100%;
+}
+.ad3 {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 40rem;
+  filter: blur(10px);
+  margin-top: 1rem;
+}
+.ad4 {
+  background: transparent;
+  box-shadow: none;
+  margin-left: 2rem;
+}
+.cd1 {
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+.cd2 {
+  height: 400px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+
+  background-color: rgba(41, 37, 45, 0.6);
+}
+.cimg {
+  width: 450px;
+  height: 250px;
+}
+.loderbox {
+  display: flex;
+  width: 100%;
+  height: 40rem;
+  margin-top: 3rem;
+  align-items: center;
+  justify-content: center;
+}
+.mpd1 {
+  width: 100vw;
+  height: 15vh;
+  background-color: rgba(15, 17, 17, 0.6);
+  display: flex;
+  flex-direction: row;
+  bottom: 0;
+  position: fixed;
+  z-index: 9;
+  backdrop-filter: blur(30px);
+  flex-grow: 1;
 }
